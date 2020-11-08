@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import FavBadge from "../FavBadge";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { selectCharacter } from "../../actions/index";
 
 function CharacterRow({ characters, characterId, selectCharacter }) {
