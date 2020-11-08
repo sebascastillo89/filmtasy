@@ -2,7 +2,6 @@ const initialState = {
   errors: [],
   films: {
     isFetching: false,
-    isFailed: false,
     favourites: [],
     items: null,
   },
@@ -10,7 +9,6 @@ const initialState = {
     selectedFilm: null,
     selectedCharacter: null,
     isLoading: false,
-    isFailed: false,
     characters: [],
   },
   characters: [],
@@ -18,6 +16,13 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   const RESET_ERROR = "RESET_ERROR";
+  const FETCH_FILMS_REQUEST = "FETCH_FILMS_REQUEST";
+  const FETCH_FILMS_SUCCESS = "FETCH_FILMS_SUCCESS";
+  const FETCH_FILMS_FAILURE = "FETCH_FILMS_FAILURE";
+  const SKIP_FETCH_CHARACTER = "SKIP_FETCH_CHARACTER";
+  const FETCH_CHARACTER_REQUEST = "FETCH_CHARACTER_REQUEST";
+  const FETCH_CHARACTER_SUCCESS = "FETCH_CHARACTER_SUCCESS";
+  const FETCH_CHARACTER_FAILURE = "FETCH_CHARACTER_FAILURE";
 
   switch (action.type) {
     case RESET_ERROR:
@@ -27,34 +32,102 @@ export default function reducer(state = initialState, action) {
         ...state,
         errors: newErrorList,
       };
-    case "FETCH_FILMS_REQUEST":
+    case FETCH_FILMS_REQUEST:
       return {
         ...state,
         films: {
           ...state.films,
           isFetching: true,
-          isFailed: false,
         },
       };
-    case "FETCH_FILMS_SUCCESS":
+    case FETCH_FILMS_SUCCESS:
       return {
         ...state,
         films: {
           ...state.films,
           isFetching: false,
-          isFailed: false,
           items: action.payload.films,
         },
       };
-    case "FETCH_FILMS_FAILURE":
+    case FETCH_FILMS_FAILURE:
       return {
         ...state,
         errors: [...state.errors, action.payload.errorMessage],
         films: {
           ...state.films,
           isFetching: false,
-          isFailed: true,
-          items: [],
+          items: null,
+        },
+      };
+    case SKIP_FETCH_CHARACTER:
+      const newCharList = state.card.characters;
+      newCharList.splice(state.card.characters.indexOf(action.payload), 1);
+      return {
+        ...state,
+        card: {
+          ...state.card,
+          characters: newCharList,
+          isLoading: newCharList.length > 0,
+        },
+      };
+    case FETCH_CHARACTER_REQUEST:
+      return {
+        ...state,
+        characters: {
+          ...state.characters,
+          [action.payload]: {
+            isFetching: true,
+          },
+        },
+      };
+    case FETCH_CHARACTER_SUCCESS:
+      const charsBeforeFetch = state.card.characters;
+      charsBeforeFetch.splice(
+        charsBeforeFetch.indexOf(action.payload.characterId),
+        1
+      );
+      return {
+        ...state,
+        card: {
+          ...state.card,
+          characters: charsBeforeFetch,
+          isLoading: charsBeforeFetch.length > 0,
+        },
+        characters: {
+          ...state.characters,
+          [action.payload.characterId]: {
+            isFetching: false,
+            isFailed: false,
+            item: action.payload.character,
+          },
+        },
+      };
+    case FETCH_CHARACTER_FAILURE:
+      const charsBeforeFailure = state.card.characters;
+      charsBeforeFailure.splice(
+        charsBeforeFailure.indexOf(action.payload.characterId),
+        1
+      );
+
+      const errorBeforeFailure = [...state.errors];
+      if (!state.errors.includes(action.payload.errorMessage)) {
+        errorBeforeFailure.push(action.payload.errorMessage);
+      }
+
+      return {
+        ...state,
+        errors: errorBeforeFailure,
+        card: {
+          ...state.card,
+          characters: charsBeforeFailure,
+          isLoading: charsBeforeFailure.length > 0,
+        },
+        characters: {
+          ...state.characters,
+          [action.payload.characterId]: {
+            isFetching: false,
+            isFailed: true,
+          },
         },
       };
     case "SAVE_FAVOURITE_FILM":
@@ -68,11 +141,10 @@ export default function reducer(state = initialState, action) {
         },
       };
     case "REMOVE_FAVOURITE_FILM":
-      console.log("REMOVE_FAVOURITE_FILM " + action.payload.index);
       const newFavourites = [...state.films.favourites];
-      console.log("REMOVE_FAVOURITE_FILM before: " + newFavourites);
-      newFavourites.splice(action.payload.index, 1);
-      console.log("REMOVE_FAVOURITE_FILM after: " + newFavourites);
+      const index = newFavourites.indexOf(action.payload.index);
+      newFavourites.splice(index, 1);
+
       return {
         ...state,
         films: {
@@ -153,61 +225,7 @@ export default function reducer(state = initialState, action) {
           isFailed: true,
         },
       };
-    case "FETCH_CHARACTER_REQUEST":
-      return {
-        ...state,
-        characters: {
-          ...state.characters,
-          [action.payload]: {
-            isFetching: true,
-            isFailed: false,
-          },
-        },
-      };
-    case "FETCH_CHARACTER_SKIPPED":
-      const newCharList = state.card.characters;
-      newCharList.splice(state.card.characters.indexOf(action.payload), 1);
-      return {
-        ...state,
-        card: {
-          ...state.card,
-          characters: newCharList,
-          isLoading: newCharList.length > 0,
-        },
-      };
-    case "FETCH_CHARACTER_SUCCESS":
-      const newCharList1 = state.card.characters;
-      newCharList1.splice(
-        state.card.characters.indexOf(action.payload.characterId),
-        1
-      );
-      return {
-        ...state,
-        card: {
-          ...state.card,
-          characters: newCharList1,
-          isLoading: newCharList1.length > 0,
-        },
-        characters: {
-          ...state.characters,
-          [action.payload.characterId]: {
-            isFetching: false,
-            isFailed: false,
-            item: action.payload.character,
-          },
-        },
-      };
-    case "FETCH_CHARACTER_FAILURE":
-      return {
-        ...state,
-        characters: {
-          ...state.characters,
-          [action.payload.characterId]: {
-            isFetching: false,
-            isFailed: true,
-          },
-        },
-      };
+
     default: {
       return state;
     }

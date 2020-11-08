@@ -1,8 +1,9 @@
 import React from "react";
 import CharacterList from "./CharacterList";
 import { connect } from "react-redux";
-import { Card, Spinner, Button } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import FavBadge from "../FavBadge";
+import Spinner from "../Spinner";
 import {
   saveFilmAsFavourite,
   removeFilmFromFavourite,
@@ -14,13 +15,7 @@ function FilmData({ films, card, saveAsFav, removeFromFav }) {
   };
 
   if (card.isLoading) {
-    return (
-      <Spinner animation="border" role="status">
-        <span className="sr-only">Loading...</span>
-      </Spinner>
-    );
-  } else if (card.selectedFilm === null) {
-    return null;
+    return <Spinner />;
   } else {
     const film = films.items[card.selectedFilm];
     const fav = films.favourites.includes(card.selectedFilm);

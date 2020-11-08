@@ -1,35 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import FilmRow from "./FilmRow";
-import { ListGroup, Spinner } from "react-bootstrap";
+import Spinner from "../Spinner";
 
 function FilmList({ films }) {
-  if (films.isFailed) {
+  if (films.isFetching) {
+    return <Spinner />;
+  } else if (!films.items) {
     return null;
-  } else if (films.isFetching || !films.items) {
-    return (
-      <Spinner animation="border" role="status">
-        <span className="sr-only">Loading...</span>
-      </Spinner>
-    );
   } else {
-    const listGroups = films.items.map((film, filmIndex) => {
-      const filmTitle =
-        "(" + film.release_date.substring(0, 4) + ") " + film.title;
-      return <FilmRow key={filmIndex} index={filmIndex} title={filmTitle} />;
+    return films.items.map((film, filmIndex) => {
+      return <FilmRow key={filmIndex} index={filmIndex} />;
     });
-
-    return (
-      <div>
-        <p>There are {films.items.length} films:</p>
-        <ListGroup
-          style={{ width: "30%", float: "left" }}
-          defaultActiveKey="#link1"
-        >
-          {listGroups}
-        </ListGroup>
-      </div>
-    );
   }
 }
 

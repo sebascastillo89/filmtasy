@@ -1,11 +1,14 @@
 import React from "react";
-import FavBadge from "../FavBadge";
 import { connect } from "react-redux";
 import { ListGroup } from "react-bootstrap";
+import FavBadge from "../FavBadge";
 import { selectFilm } from "../../actions/index";
 
-function FilmRow({ index, title, selectFilm, films }) {
-  const fav = films.favourites.includes(index);
+function FilmRow({ index, films, selectFilm }) {
+  const film = films.items[index];
+  const releaseYear = new Date(film.release_date).getFullYear();
+  const rowTitle = `(${releaseYear}) ${film.title} `;
+  const isFav = films.favourites.includes(index);
   return (
     <ListGroup.Item
       action
@@ -13,8 +16,8 @@ function FilmRow({ index, title, selectFilm, films }) {
       key={index}
       onClick={(e) => selectFilm(index)}
     >
-      {title}
-      {fav ? <FavBadge /> : null}
+      {rowTitle}
+      {isFav ? <FavBadge /> : null}
     </ListGroup.Item>
   );
 }

@@ -1,7 +1,7 @@
 import { React, useEffect } from "react";
 import TitleBox from "./components/TitleBox";
 import ErrorBox from "./components/ErrorBox";
-import FilmList from "./components/films/FilmList";
+import FilmContainer from "./components/films/FilmContainer";
 import Card from "./components/card/Card";
 import { fetchFilms } from "./actions/index";
 import { connect } from "react-redux";
@@ -15,7 +15,7 @@ function App({ fetchFilms }) {
     <div className="App">
       <TitleBox />
       <ErrorBox />
-      <FilmList />
+      <FilmContainer />
       <Card />
     </div>
   );

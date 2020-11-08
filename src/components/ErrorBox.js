@@ -11,7 +11,6 @@ function ErrorBox({ errors, resetError }) {
       </Alert>
     );
   });
-
   return <div>{alerts}</div>;
 }
 
