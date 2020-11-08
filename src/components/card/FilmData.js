@@ -2,6 +2,7 @@ import React from "react";
 import CharacterList from "./CharacterList";
 import { connect } from "react-redux";
 import { Card, Spinner, Button } from "react-bootstrap";
+import FavBadge from "../FavBadge";
 import {
   saveFilmAsFavourite,
   removeFilmFromFavourite,
