@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Card, Badge, Button } from "react-bootstrap";
+import FavBadge from "../FavBadge";
+import { Card, Button } from "react-bootstrap";
 import {
   saveCharacterAsFavourite,
   removeCharacterFromFavourite,
@@ -26,12 +27,7 @@ function CharacterData({
     <Card style={{ width: "50%" }}>
       <Card.Body>
         <Card.Title>
-          {character.name}{" "}
-          {fav ? (
-            <Badge pill variant="warning">
-              Favourite
-            </Badge>
-          ) : null}
+          {character.name} {fav ? <FavBadge /> : null}
         </Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
           {character.gender}

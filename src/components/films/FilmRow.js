@@ -1,9 +1,11 @@
 import React from "react";
+import FavBadge from "../FavBadge";
 import { connect } from "react-redux";
 import { ListGroup } from "react-bootstrap";
 import { selectFilm } from "../../actions/index";
 
 function FilmRow({ index, title, selectFilm, films }) {
+  const fav = films.favourites.includes(index);
   return (
     <ListGroup.Item
       action
@@ -12,6 +14,7 @@ function FilmRow({ index, title, selectFilm, films }) {
       onClick={(e) => selectFilm(index)}
     >
       {title}
+      {fav ? <FavBadge /> : null}
     </ListGroup.Item>
   );
 }

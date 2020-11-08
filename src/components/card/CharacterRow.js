@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Card, Badge, Button } from "react-bootstrap";
+import FavBadge from "../FavBadge";
+import { Card, Button } from "react-bootstrap";
 import { selectCharacter } from "../../actions/index";
 
 function CharacterRow({ characters, characterId, selectCharacter }) {
@@ -11,11 +12,7 @@ function CharacterRow({ characters, characterId, selectCharacter }) {
       <li>
         <Card.Link onClick={() => selectCharacter(characterId)}>
           {characters[characterId].item.name}{" "}
-          {characters[characterId].isFavourite ? (
-            <Badge pill variant="warning">
-              Favourite
-            </Badge>
-          ) : null}
+          {characters[characterId].isFavourite ? <FavBadge /> : null}
         </Card.Link>
       </li>
     );

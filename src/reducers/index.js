@@ -68,8 +68,11 @@ export default function reducer(state = initialState, action) {
         },
       };
     case "REMOVE_FAVOURITE_FILM":
+      console.log("REMOVE_FAVOURITE_FILM " + action.payload.index);
       const newFavourites = [...state.films.favourites];
-      newFavourites.splice(newFavourites.indexOf(action.payload.index, 1));
+      console.log("REMOVE_FAVOURITE_FILM before: " + newFavourites);
+      newFavourites.splice(action.payload.index, 1);
+      console.log("REMOVE_FAVOURITE_FILM after: " + newFavourites);
       return {
         ...state,
         films: {
@@ -111,6 +114,7 @@ export default function reducer(state = initialState, action) {
         card: {
           ...state.card,
           selectedFilm: action.payload,
+          selectedCharacter: null,
           characters: charactersIds,
           isLoading: true,
         },

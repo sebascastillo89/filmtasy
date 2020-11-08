@@ -22,7 +22,10 @@ function FilmList({ films }) {
     return (
       <div>
         <p>There are {films.items.length} films:</p>
-        <ListGroup style={{ width: "30%" }} defaultActiveKey="#link1">
+        <ListGroup
+          style={{ width: "30%", float: "left" }}
+          defaultActiveKey="#link1"
+        >
           {listGroups}
         </ListGroup>
       </div>

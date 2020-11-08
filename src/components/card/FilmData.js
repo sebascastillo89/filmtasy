@@ -1,7 +1,7 @@
 import React from "react";
 import CharacterList from "./CharacterList";
 import { connect } from "react-redux";
-import { Card, Spinner, Badge, Button } from "react-bootstrap";
+import { Card, Spinner, Button } from "react-bootstrap";
 import {
   saveFilmAsFavourite,
   removeFilmFromFavourite,
@@ -27,12 +27,7 @@ function FilmData({ films, card, saveAsFav, removeFromFav }) {
       <Card style={{ width: "50%" }}>
         <Card.Body>
           <Card.Title>
-            {film.title}{" "}
-            {fav ? (
-              <Badge pill variant="warning">
-                Favourite
-              </Badge>
-            ) : null}
+            {film.title} {fav ? <FavBadge /> : null}
           </Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
             Episode {film.episode_id}
