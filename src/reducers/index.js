@@ -8,6 +8,7 @@ const initialState = {
   },
   card: {
     selectedFilm: null,
+    selectedCharacter: null,
     isLoading: false,
     isFailed: false,
     characters: [],
@@ -76,6 +77,26 @@ export default function reducer(state = initialState, action) {
           favourites: newFavourites,
         },
       };
+    case "SAVE_FAVOURITE_CHARACTER":
+      const updatedCharacter = state.characters[action.payload.index];
+      updatedCharacter.isFavourite = true;
+      return {
+        ...state,
+        characters: {
+          ...state.characters,
+          [action.payload.index]: updatedCharacter,
+        },
+      };
+    case "REMOVE_FAVOURITE_CHARACTER":
+      const updatedCharacter2 = state.characters[action.payload.index];
+      updatedCharacter2.isFavourite = false;
+      return {
+        ...state,
+        characters: {
+          ...state.characters,
+          [action.payload.index]: updatedCharacter2,
+        },
+      };
     case "SELECT_FILM_REQUEST":
       const filmCharacters = state.films.items[action.payload].characters;
       const charactersIds = filmCharacters.map((character) => {
@@ -101,6 +122,22 @@ export default function reducer(state = initialState, action) {
           ...state.card,
           isLoading: false,
           isFailed: false,
+        },
+      };
+    case "SELECT_CHARACTER":
+      return {
+        ...state,
+        card: {
+          ...state.card,
+          selectedCharacter: action.payload.index,
+        },
+      };
+    case "UNSELECT_CHARACTER":
+      return {
+        ...state,
+        card: {
+          ...state.card,
+          selectedCharacter: null,
         },
       };
     case "SELECT_FILM_FAILURE":

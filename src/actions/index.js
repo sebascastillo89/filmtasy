@@ -32,6 +32,17 @@ export const removeFilmFromFavourite = (index) => ({
   payload: { index: index },
 });
 
+// FAVOURITE CHARACTERS
+export const saveCharacterAsFavourite = (index) => ({
+  type: "SAVE_FAVOURITE_CHARACTER",
+  payload: { index: index },
+});
+
+export const removeCharacterFromFavourite = (index) => ({
+  type: "REMOVE_FAVOURITE_CHARACTER",
+  payload: { index: index },
+});
+
 // FETCHING CHARACTERS
 export const fetchCharacterRequest = (characterId) => ({
   type: "FETCH_CHARACTER_REQUEST",
@@ -57,6 +68,16 @@ export const fetchCharacterFailure = (error) => ({
 export const selectFilmRequest = (filmIndex) => ({
   type: "SELECT_FILM_REQUEST",
   payload: filmIndex,
+});
+
+// SELECTING FILM
+export const selectCharacter = (characterIdex) => ({
+  type: "SELECT_CHARACTER",
+  payload: { index: characterIdex },
+});
+
+export const unselectCharacter = () => ({
+  type: "UNSELECT_CHARACTER",
 });
 
 // THUNK ACTION FOR FILMS
