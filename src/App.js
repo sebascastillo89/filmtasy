@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { React, useEffect } from "react";
+import TitleBox from "./components/TitleBox";
+import ErrorBox from "./components/ErrorBox";
+import FilmList from "./components/films/FilmList";
+import FilmCard from "./components/filmCard/FilmCard";
+import { fetchFilms } from "./actions/index";
+import { connect } from "react-redux";
 
-function App() {
+function App({ fetchFilms }) {
+  useEffect(() => {
+    fetchFilms();
+  }, [fetchFilms]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TitleBox />
+      <ErrorBox />
+      <FilmList />
+      <FilmCard />
     </div>
   );
 }
 
-export default App;
+// Redux
+const mapStateToProps = (state) => {
+  return state;
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchFilms: () => dispatch(fetchFilms()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
