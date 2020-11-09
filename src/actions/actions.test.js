@@ -14,7 +14,6 @@ import {
   removeCharacterFromFavourite,
   selectCharacter,
   unselectCharacter,
-  fetchFilms,
 } from "./index";
 
 describe("Actions", () => {
