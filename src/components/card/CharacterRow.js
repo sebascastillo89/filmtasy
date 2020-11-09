@@ -5,7 +5,6 @@ import { Card } from "react-bootstrap";
 import { selectCharacter } from "../../actions/index";
 
 function CharacterRow({ characters, characterId, selectCharacter }) {
-  console.log("CharacterRow: " + characterId);
   if (!characters[characterId] || !characters[characterId].item) {
     return null;
   } else {

@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const GET_FILMS_URI = "https://swapi.dev/api/films";
 const GET_CHARACTER_URI = "https://swapi.dev/api/people/";
 
@@ -85,17 +87,14 @@ export const unselectCharacter = () => ({
 export function fetchFilms() {
   return function (dispatch) {
     dispatch(fetchFilmsRequest());
-
-    return fetch(GET_FILMS_URI)
-      .then((response) => response.json())
-      .then(
-        (json) => {
-          dispatch(fetchFilmsSuccess(json.results));
-        },
-        (error) => {
-          dispatch(fetchFilmsFailure("Ups! There was an error loading films"));
-        }
-      );
+    return axios.get(GET_FILMS_URI).then(
+      (json) => {
+        dispatch(fetchFilmsSuccess(json.data.results));
+      },
+      (error) => {
+        dispatch(fetchFilmsFailure("Ups! There was an error loading films"));
+      }
+    );
   };
 }
 
@@ -121,17 +120,15 @@ export function fetchCharacter(characterId) {
   return function (dispatch) {
     dispatch(fetchCharacterRequest(characterId));
 
-    return fetch(GET_CHARACTER_URI + characterId)
-      .then((response) => response.json())
-      .then(
-        (json) => {
-          dispatch(fetchCharacterSuccess(characterId, json));
-        },
-        (error) => {
-          dispatch(
-            fetchCharacterFailure("Ups! There was an error loading characters")
-          );
-        }
-      );
+    return axios.get(GET_CHARACTER_URI + characterId).then(
+      (json) => {
+        dispatch(fetchCharacterSuccess(characterId, json.data));
+      },
+      (error) => {
+        dispatch(
+          fetchCharacterFailure("Ups! There was an error loading characters")
+        );
+      }
+    );
   };
 }
