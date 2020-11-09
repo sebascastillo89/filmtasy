@@ -24,11 +24,6 @@ export const selectFilmRequest = (filmIndex) => ({
   payload: filmIndex,
 });
 
-export const skipFetchCharacter = (characterId) => ({
-  type: "SKIP_FETCH_CHARACTER",
-  payload: characterId,
-});
-
 // FETCHING CHARACTERS
 export const fetchCharacterRequest = (characterId) => ({
   type: "FETCH_CHARACTER_REQUEST",
@@ -43,6 +38,11 @@ export const fetchCharacterSuccess = (characterId, json) => ({
 export const fetchCharacterFailure = (error) => ({
   type: "FETCH_CHARACTER_FAILURE",
   payload: { errorMessage: error },
+});
+
+export const skipFetchCharacter = (characterId) => ({
+  type: "SKIP_FETCH_CHARACTER",
+  payload: characterId,
 });
 //PENDING TO REFACTOR
 
