@@ -1,7 +1,4 @@
 import React from "react";
-import { ListGroup } from "react-bootstrap";
-import FilmList from "./FilmList";
-import FilmsCarousel from "./FilmsCarousel";
 import FilmsCardContainer from "./FilmsCardContainer";
 function FilmContainer() {
   /*return (
