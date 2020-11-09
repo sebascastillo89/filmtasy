@@ -1,4 +1,5 @@
 import { React, useEffect } from "react";
+import "./App.css";
 import TitleBox from "./components/TitleBox";
 import ErrorBox from "./components/ErrorBox";
 import FilmContainer from "./components/films/FilmContainer";
