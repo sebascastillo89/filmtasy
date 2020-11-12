@@ -18,9 +18,8 @@ export const fetchAllFilmsSuccess = (json) => ({
   payload: { films: json },
 });
 
-export const fetchAllFilmsFailure = (error) => ({
+export const fetchAllFilmsFailure = () => ({
   type: "FETCH_ALL_FILMS_FAILURE",
-  payload: { errorMessage: error },
 });
 
 // FETCHING SINGLE FILMS
@@ -34,14 +33,22 @@ export const skipFetchFilm = (filmId) => ({
   payload: { filmId: filmId },
 });
 
-export const fetchFilmSuccess = (json) => ({
+export const fetchFilmSuccess = () => ({
   type: "FETCH_FILM_SUCCESS",
+});
+
+export const addFilm = (json) => ({
+  type: "ADD_FILM",
   payload: { film: json },
 });
 
-export const fetchFilmFailure = (error) => ({
+export const addCharacter = (id, json) => ({
+  type: "ADD_CHARACTER",
+  payload: { characterId: id, character: json },
+});
+
+export const fetchFilmFailure = () => ({
   type: "FETCH_FILM_FAILURE",
-  payload: { errorMessage: error },
 });
 
 // SELECTING FILM
@@ -66,9 +73,9 @@ export const fetchFilmCharacterSuccess = (characterId, json) => ({
   payload: { characterId: characterId, character: json },
 });
 
-export const fetchCharacterSuccess = (characterId, json) => ({
+export const fetchCharacterSuccess = (characterId) => ({
   type: "FETCH_CHARACTER_SUCCESS",
-  payload: { characterId: characterId, character: json },
+  payload: { characterId: characterId },
 });
 
 export const fetchFilmCharacterFailure = (error) => ({
@@ -143,9 +150,8 @@ export function fetchAllFilms() {
           dispatch(fetchAllFilmsSuccess(json.data.results));
         },
         (error) => {
-          dispatch(
-            fetchAllFilmsFailure("Ups! There was an error loading films")
-          );
+          //TODO llamar tambien al reducer de errores
+          dispatch(fetchAllFilmsFailure());
         }
       );
     }
@@ -166,10 +172,12 @@ export function fetchFilm(filmId) {
       console.log("GET SINGLE FILM");
       return axios.get(GET_FILMS_URI + filmId).then(
         (json) => {
-          dispatch(fetchFilmSuccess(json.data));
+          dispatch(fetchFilmSuccess());
+          dispatch(addFilm(json.data));
         },
         (error) => {
-          dispatch(fetchFilmFailure("Ups! There was an error loading films"));
+          //TODO call error reducer
+          dispatch(fetchFilmFailure());
         }
       );
     }
@@ -206,6 +214,7 @@ export function fetchFilmCharacter(characterId) {
           dispatch(checkFilmCharacters());
         },
         (error) => {
+          //TODO call error reducer
           dispatch(
             fetchFilmCharacterFailure(
               "Ups! There was an error loading character"
@@ -233,9 +242,11 @@ export function fetchCharacter(characterId) {
       console.log("GET SINGLE CHARACTER");
       axios.get(GET_CHARACTER_URI + characterId).then(
         (json) => {
-          dispatch(fetchCharacterSuccess(charId, json.data));
+          dispatch(fetchCharacterSuccess(charId));
+          dispatch(addCharacter(characterId, json.data));
         },
         (error) => {
+          //TODO call error reducer
           dispatch(
             fetchCharacterFailure("Ups! There was an error loading character")
           );

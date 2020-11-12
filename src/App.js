@@ -2,11 +2,11 @@ import React from "react";
 import "./App.css";
 import TitleBox from "./components/TitleBox";
 import ErrorBox from "./components/ErrorBox";
-import FilmsBoard from "./components/films/FilmsBoard";
-import FilmCard from "./components/films/FilmCard";
-import CharacterCard from "./components/characters/CharacterCard";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Films from "./pages/Films";
+import Film from "./pages/Film";
+import Character from "./pages/Character";
 
 function App() {
   return (
@@ -26,13 +26,13 @@ function App() {
           </Link>
           <Switch>
             <Route exact path="/">
-              <FilmsBoard />
+              <Films />
             </Route>
             <Route exact path="/films/:id">
-              <FilmCard />
+              <Film />
             </Route>
             <Route exact path="/characters/:id">
-              <CharacterCard />
+              <Character />
             </Route>
           </Switch>
         </div>

@@ -1,41 +1,14 @@
-import { React, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
 import { connect } from "react-redux";
 import FavBadge from "../FavBadge";
 import { Card, Button } from "react-bootstrap";
-import Spinner from "../Spinner";
-import {
-  saveCharacterAsFavourite,
-  removeCharacterFromFavourite,
-  fetchCharacter,
-} from "../../store/actions";
 
-function CharacterCard({
-  currentCharacter,
-  characters,
-  saveAsFav,
-  removeFromFav,
-  getCharacter,
-}) {
-  let { id } = useParams();
-  const characterId = parseInt(id);
+function CharacterCard({ characterId, characters }) {
+  const character = characters.find((cobj) => cobj.id === characterId);
 
-  useEffect(() => {
-    getCharacter(id);
-  }, [characters]);
-
-  const onFavouriteClick = (fav) => {
-    !fav ? saveAsFav(id) : removeFromFav(id);
-  };
-
-  const isCurrentCharacter = currentCharacter.id === parseInt(characterId);
-
-  if (!isCurrentCharacter || currentCharacter.isFetching) {
-    return <Spinner />;
+  if (!character || !character.item) {
+    return null;
   } else {
-    const character = characters.find(
-      (obj) => obj.id === parseInt(characterId)
-    );
     const fav = false;
     return (
       <Card style={{ width: "50%" }}>
@@ -69,7 +42,7 @@ function CharacterCard({
           </Button>
           <Button
             variant={fav ? "dark" : "warning"}
-            onClick={() => onFavouriteClick(fav)}
+            onClick={() => console.log("FAV CHAR")}
           >
             {fav ? "Remove from favourites" : "Add to favourites"}
           </Button>
@@ -82,18 +55,8 @@ function CharacterCard({
 // Redux
 const mapStateToProps = (state) => {
   return {
-    card: state.card,
     characters: state.characters,
-    currentCharacter: state.currentCharacter,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    saveAsFav: (index) => dispatch(saveCharacterAsFavourite(index)),
-    removeFromFav: (index) => dispatch(removeCharacterFromFavourite(index)),
-    getCharacter: (index) => dispatch(fetchCharacter(index)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CharacterCard);
+export default connect(mapStateToProps)(CharacterCard);
