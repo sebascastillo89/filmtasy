@@ -1,6 +1,5 @@
 import { React, useEffect } from "react";
 import { connect } from "react-redux";
-import CharacterRow from "./CharacterLinkedName";
 import * as FilmsHelper from "../films/FilmsHelper";
 import Spinner from "../Spinner";
 import { fetchCharacters } from "../../store/actions";

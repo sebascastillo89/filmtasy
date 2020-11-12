@@ -1,5 +1,11 @@
 import * as CharacterHelper from "../characters/CharacterHelper";
 
+export function getIdFromUrl(filmUrl) {
+  return parseInt(
+    filmUrl.substring(filmUrl.indexOf("films/") + 6, filmUrl.lastIndexOf("/")) //TODO validar parse int
+  );
+}
+
 export function mapJsonToFilms(response) {
   return response.map((film) => {
     return {
@@ -23,12 +29,6 @@ export function getCharactersIds(film) {
     return CharacterHelper.getIdFromUrl(character);
   });
   return characters;
-}
-
-export function getIdFromUrl(filmUrl) {
-  return parseInt(
-    filmUrl.substring(filmUrl.indexOf("films/") + 6, filmUrl.lastIndexOf("/")) //TODO validar parse int
-  );
 }
 
 export function getSubtitle(film) {

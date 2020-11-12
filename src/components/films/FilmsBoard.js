@@ -18,7 +18,6 @@ function FilmsBoard({ films, getFilms }) {
       return null; //TODO Bast ¿que pintamos?
     } else {
       const cards = films.items.map((film) => {
-        const year = new Date(film.release_date).getFullYear();
         return (
           <FilmSmallCard
             key={film.title}

@@ -19,6 +19,7 @@ function CharacterCard({
 }) {
   let { id } = useParams();
   const characterId = parseInt(id);
+
   useEffect(() => {
     getCharacter(id);
   }, [characters]);
