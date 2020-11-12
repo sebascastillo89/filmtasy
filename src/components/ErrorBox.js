@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Alert } from "react-bootstrap";
-import { resetError } from "../actions/index";
+import { resetError } from "../store/actions";
 
 function ErrorBox({ errors, resetError }) {
   const alerts = errors.map((error, index) => {

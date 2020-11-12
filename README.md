@@ -24,6 +24,7 @@ Once installed, in the project directory, you can run:
 Filmtasy was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and use following tools:
 
 - [Yarn](https://yarnpkg.com/) as package manager.
+- [React-Router-Dom](https://reactrouter.com/web/guides/quick-start) as client-side routing.
 - [Redux](https://redux.js.org/) as state container.
 - [Redux-Thunk](https://github.com/reduxjs/redux-thunk) as middleware for basic Redux side effects logic
 - [React-Bootstrap](https://react-bootstrap.github.io/) as CSS Framework
