@@ -8,9 +8,9 @@ const initialState = {
 
 export default function films(state = initialState, action) {
   const FETCH_ALL_FILMS_REQUEST = "FETCH_ALL_FILMS_REQUEST";
-  const FETCH_ALL_FILMS_SUCCESS = "FETCH_ALL_FILMS_SUCCESS";
-  const FETCH_ALL_FILMS_FAILURE = "FETCH_ALL_FILMS_FAILURE";
-  const SKIP_FETCH_ALL_FILMS = "SKIP_FETCH_ALL_FILMS";
+  const FETCH_ALL_FILMS_OK = "FETCH_ALL_FILMS_OK";
+  const FETCH_ALL_FILMS_ERROR = "FETCH_ALL_FILMS_ERROR";
+  const FETCH_ALL_FILMS_SKIP = "FETCH_ALL_FILMS_SKIP";
   const ADD_FILM = "ADD_FILM";
 
   switch (action.type) {
@@ -19,21 +19,21 @@ export default function films(state = initialState, action) {
         ...state,
         isFetching: true,
       };
-    case FETCH_ALL_FILMS_SUCCESS:
+    case FETCH_ALL_FILMS_OK:
       return {
         ...state,
         isFetching: false,
         isCached: true,
         items: FilmsHelper.mapJsonToFilms(action.payload.films),
       };
-    case FETCH_ALL_FILMS_FAILURE:
+    case FETCH_ALL_FILMS_ERROR:
       return {
         ...state,
         isFetching: false,
         isCached: false,
         items: [],
       };
-    case SKIP_FETCH_ALL_FILMS:
+    case FETCH_ALL_FILMS_SKIP:
       return {
         ...state,
         isFetching: false,

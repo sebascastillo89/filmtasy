@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../components/Spinner";
 import FilmCard from "../components/films/FilmCard";
-import { fetchFilm } from "../store/actions";
+import { fetchFilm } from "../store/actions/index";
 
 function Film({ currentFilm, getFilm }) {
   let { id } = useParams();
@@ -13,8 +13,7 @@ function Film({ currentFilm, getFilm }) {
     getFilm(filmId);
   }, []);
 
-  const isCurrentFilm = currentFilm.id === filmId;
-  if (!isCurrentFilm || currentFilm.isFetching) {
+  if (currentFilm.id != filmId || currentFilm.isFetching) {
     return <Spinner />;
   } else {
     return <FilmCard filmId={filmId} />;

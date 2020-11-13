@@ -8,27 +8,24 @@ export function getIdFromUrl(filmUrl) {
 
 export function mapJsonToFilms(response) {
   return response.map((film) => {
-    return {
-      id: this.getIdFromUrl(film.url),
-      ...film,
-      coverImage: this.getCoverImage(film.episode_id),
-    };
+    return mapJsonToFilm(film);
   });
 }
 
-export function mapJsonToFilm(response) {
+export function mapJsonToFilm(film) {
   return {
-    id: this.getIdFromUrl(response.url),
-    ...response,
-    coverImage: this.getCoverImage(response.episode_id),
+    id: getIdFromUrl(film.url),
+    title: film.title,
+    episode_id: film.episode_id,
+    opening_crawl: film.opening_crawl,
+    director: film.director,
+    producer: film.producer,
+    release_date: film.release_date,
+    coverImage: getCoverImage(film.episode_id),
+    characters: film.characters.map((characterUrl) => {
+      return CharacterHelper.getIdFromUrl(characterUrl);
+    }),
   };
-}
-
-export function getCharactersIds(film) {
-  const characters = film.characters.map((character) => {
-    return CharacterHelper.getIdFromUrl(character);
-  });
-  return characters;
 }
 
 export function getSubtitle(film) {

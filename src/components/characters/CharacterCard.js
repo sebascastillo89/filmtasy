@@ -2,12 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import FavBadge from "../FavBadge";
 import { Card, Button } from "react-bootstrap";
+import NotFound from "../NotFound";
 
 function CharacterCard({ characterId, characters }) {
   const character = characters.find((cobj) => cobj.id === characterId);
 
   if (!character || !character.item) {
-    return null;
+    return <NotFound />;
   } else {
     const fav = false;
     return (

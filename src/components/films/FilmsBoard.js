@@ -15,7 +15,7 @@ function FilmsBoard({ films }) {
           title={film.title}
           subtitle={FilmsHelper.getSubtitle(film)}
           src={film.coverImage}
-          id={FilmsHelper.getIdFromUrl(film.url)}
+          id={film.id}
         ></FilmSmallCard>
       );
     });

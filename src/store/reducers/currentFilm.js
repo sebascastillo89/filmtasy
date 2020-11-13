@@ -6,9 +6,9 @@ const initialState = {
 
 export default function currentFilm(state = initialState, action) {
   const FETCH_FILM_REQUEST = "FETCH_FILM_REQUEST";
-  const FETCH_FILM_SUCCESS = "FETCH_FILM_SUCCESS";
-  const FETCH_FILM_FAILURE = "FETCH_FILM_FAILURE";
-  const SKIP_FETCH_FILM = "SKIP_FETCH_FILM";
+  const FETCH_FILM_OK = "FETCH_FILM_OK";
+  const FETCH_FILM_ERROR = "FETCH_FILM_ERROR";
+  const FETCH_FILM_SKIP = "FETCH_FILM_SKIP";
   const FETCH_FILM_CHARACTERS_SUCCESS = "FETCH_FILM_CHARACTERS_SUCCESS";
 
   switch (action.type) {
@@ -19,19 +19,18 @@ export default function currentFilm(state = initialState, action) {
         isFetchingFilm: true,
         isFetchingCharacters: true,
       };
-    case FETCH_FILM_SUCCESS:
+    case FETCH_FILM_OK:
       return {
         ...state,
         isFetchingFilm: false,
       };
-    case FETCH_FILM_FAILURE:
+    case FETCH_FILM_ERROR:
       return {
         ...state,
-        id: null,
         isFetchingFilm: false,
         isFetchingCharacters: false,
       };
-    case SKIP_FETCH_FILM:
+    case FETCH_FILM_SKIP:
       return {
         ...state,
         isFetchingFilm: false,

@@ -1,8 +1,7 @@
 import { React, useEffect } from "react";
 import { connect } from "react-redux";
-import * as FilmsHelper from "../films/FilmsHelper";
 import Spinner from "../Spinner";
-import { fetchCharacters } from "../../store/actions";
+import { fetchCharacters } from "../../store/actions/index";
 import CharacterLinkedName from "./CharacterLinkedName";
 
 function CharacterList({ currentFilm, film, getCharacters }) {
@@ -15,13 +14,12 @@ function CharacterList({ currentFilm, film, getCharacters }) {
   if (!isCurrentFilm || currentFilm.isFetchingCharacters) {
     return <Spinner />;
   } else {
-    const charactersIds = FilmsHelper.getCharactersIds(film);
-    return charactersIds.map((charId, index) => {
+    return film.characters.map((charId, index) => {
       return (
         <CharacterLinkedName
           key={index}
           characterId={charId}
-          isLast={index === charactersIds.length - 1}
+          isLast={index === film.characters.length - 1}
         />
       );
     });

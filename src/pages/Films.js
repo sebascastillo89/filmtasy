@@ -1,6 +1,6 @@
 import { React, useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchAllFilms } from "../store/actions";
+import { fetchAllFilms } from "../store/actions/index";
 import Spinner from "../components/Spinner";
 import FilmsBoard from "../components/films/FilmsBoard";
 

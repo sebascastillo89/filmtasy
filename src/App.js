@@ -11,32 +11,34 @@ import Character from "./pages/Character";
 function App() {
   return (
     <div className="App">
-      <TitleBox />
-      <ErrorBox />
-      <Router>
-        <div>
-          <Link to="/">
-            <button>Home</button>
-          </Link>
-          <Link to="/films/1">
-            <button>Films</button>
-          </Link>
-          <Link to="/characters/1">
-            <button>Characters</button>
-          </Link>
-          <Switch>
-            <Route exact path="/">
-              <Films />
-            </Route>
-            <Route exact path="/films/:id">
-              <Film />
-            </Route>
-            <Route exact path="/characters/:id">
-              <Character />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+      <center>
+        <TitleBox />
+        <ErrorBox />
+        <Router>
+          <div>
+            <Link to="/">
+              <button>Home</button>
+            </Link>
+            <Link to="/films/1">
+              <button>Films</button>
+            </Link>
+            <Link to="/characters/1">
+              <button>Characters</button>
+            </Link>
+            <Switch>
+              <Route exact path="/">
+                <Films />
+              </Route>
+              <Route exact path="/films/:id">
+                <Film />
+              </Route>
+              <Route exact path="/characters/:id">
+                <Character />
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      </center>
     </div>
   );
 }
@@ -45,9 +47,4 @@ function App() {
 const mapStateToProps = (state) => {
   return state;
 };
-
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

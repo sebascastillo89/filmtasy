@@ -1,63 +1,7 @@
 import axios from "axios";
-import * as CharactersHelper from "../components/characters/CharacterHelper";
+import * as CharactersHelper from "../../components/characters/CharacterHelper";
 
-const GET_FILMS_URI = "https://swapi.dev/api/films/";
 const GET_CHARACTER_URI = "https://swapi.dev/api/people/";
-
-// FETCHING ALL FILMS
-export const fetchAllFilmsRequest = () => ({
-  type: "FETCH_ALL_FILMS_REQUEST",
-});
-
-export const skipFetchAllFilms = () => ({
-  type: "SKIP_FETCH_ALL_FILMS",
-});
-
-export const fetchAllFilmsSuccess = (json) => ({
-  type: "FETCH_ALL_FILMS_SUCCESS",
-  payload: { films: json },
-});
-
-export const fetchAllFilmsFailure = () => ({
-  type: "FETCH_ALL_FILMS_FAILURE",
-});
-
-// FETCHING SINGLE FILMS
-export const fetchFilmRequest = (filmId) => ({
-  type: "FETCH_FILM_REQUEST",
-  payload: { filmId: filmId },
-});
-
-export const skipFetchFilm = (filmId) => ({
-  type: "SKIP_FETCH_FILM",
-  payload: { filmId: filmId },
-});
-
-export const fetchFilmSuccess = () => ({
-  type: "FETCH_FILM_SUCCESS",
-});
-
-export const addFilm = (json) => ({
-  type: "ADD_FILM",
-  payload: { film: json },
-});
-
-export const addCharacter = (id, json) => ({
-  type: "ADD_CHARACTER",
-  payload: { characterId: id, character: json },
-});
-
-export const fetchFilmFailure = () => ({
-  type: "FETCH_FILM_FAILURE",
-});
-
-// SELECTING FILM
-export const selectFilmRequest = (filmIndex) => ({
-  type: "SELECT_FILM_REQUEST",
-  payload: filmIndex,
-});
-
-// FETCHING CHARACTERS
 
 export const fetchFilmCharacterRequest = (characterId) => ({
   type: "FETCH_FILM_CHARACTER_REQUEST",
@@ -93,108 +37,24 @@ export const skipFetchCharacter = (characterId) => ({
   payload: characterId,
 });
 
+export const addCharacter = (id, json) => ({
+  type: "ADD_CHARACTER",
+  payload: { characterId: id, character: json },
+});
+
 export const fetchFilmCharactersSuccess = (filmId) => ({
   type: "FETCH_FILM_CHARACTERS_SUCCESS",
   payload: { filmId: filmId },
 });
-//PENDING TO REFACTOR
 
-export const resetError = (index) => ({
-  type: "RESET_ERROR",
-  payload: { errorIndex: index },
-});
-
-// FAVOURITE FILMS
-export const saveFilmAsFavourite = (index) => ({
-  type: "SAVE_FAVOURITE_FILM",
-  payload: { index: index },
-});
-
-export const removeFilmFromFavourite = (index) => ({
-  type: "REMOVE_FAVOURITE_FILM",
-  payload: { index: index },
-});
-
-// FAVOURITE CHARACTERS
-export const saveCharacterAsFavourite = (index) => ({
-  type: "SAVE_FAVOURITE_CHARACTER",
-  payload: { index: index },
-});
-
-export const removeCharacterFromFavourite = (index) => ({
-  type: "REMOVE_FAVOURITE_CHARACTER",
-  payload: { index: index },
-});
-
-// SELECTING CHARACTER
-export const selectCharacter = (characterIdex) => ({
-  type: "SELECT_CHARACTER",
-  payload: { index: characterIdex },
-});
-
-export const unselectCharacter = () => ({
-  type: "UNSELECT_CHARACTER",
-});
-
-// THUNK ACTION FOR FILMS
-export function fetchAllFilms() {
-  return function (dispatch, getState) {
-    dispatch(fetchAllFilmsRequest());
-
-    if (getState().films.isCached) {
-      dispatch(skipFetchAllFilms());
-    } else {
-      console.log("GET ALL FILMS");
-      return axios.get(GET_FILMS_URI).then(
-        (json) => {
-          dispatch(fetchAllFilmsSuccess(json.data.results));
-        },
-        (error) => {
-          //TODO llamar tambien al reducer de errores
-          dispatch(fetchAllFilmsFailure());
-        }
-      );
-    }
-  };
-}
-
-export function fetchFilm(filmId) {
-  return function (dispatch, getState) {
-    const id = parseInt(filmId); //TODO Test
-    dispatch(fetchFilmRequest(id));
-
-    const isCached = getState().films.isCached;
-    const film = getState().films.items.find((obj) => obj.id === id);
-
-    if (isCached || film) {
-      dispatch(skipFetchFilm(filmId));
-    } else {
-      console.log("GET SINGLE FILM");
-      return axios.get(GET_FILMS_URI + filmId).then(
-        (json) => {
-          dispatch(fetchFilmSuccess());
-          dispatch(addFilm(json.data));
-        },
-        (error) => {
-          //TODO call error reducer
-          dispatch(fetchFilmFailure());
-        }
-      );
-    }
-  };
-}
-
-// THUNK ACTION FOR CHARACTERS
+// THUNK ACTION FOR FETCH FILM CHARACTERS
 export function fetchCharacters(filmId) {
   return function (dispatch, getState) {
     const film = getState().films.items.find(
       (film) => film.id === parseInt(filmId)
     );
     film.characters.map((character) => {
-      return dispatch(
-        fetchFilmCharacter(CharactersHelper.getIdFromUrl(character)),
-        true
-      );
+      return dispatch(fetchFilmCharacter(character), true);
     });
   };
 }
@@ -267,7 +127,7 @@ export function checkFilmCharacters() {
 
       let stillFetching = false;
       for (const filmCharacter of currentFilm.characters) {
-        const characterId = CharactersHelper.getIdFromUrl(filmCharacter);
+        const characterId = filmCharacter;
         const stateCharacter = getState().characters.find(
           (obj) => obj.id === characterId
         );

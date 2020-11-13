@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../components/Spinner";
 import CharacterCard from "../components/characters/CharacterCard";
-import { fetchCharacter } from "../store/actions";
+import { fetchCharacter } from "../store/actions/index";
 
 function Character({ currentCharacter, getCharacter }) {
   let { id } = useParams();
@@ -13,8 +13,7 @@ function Character({ currentCharacter, getCharacter }) {
     getCharacter(characterId);
   }, []);
 
-  const isCurrentCharacter = currentCharacter.id === characterId;
-  if (!isCurrentCharacter || currentCharacter.isFetching) {
+  if (currentCharacter.id != characterId || currentCharacter.isFetching) {
     return <Spinner />;
   } else {
     return <CharacterCard characterId={characterId} />;

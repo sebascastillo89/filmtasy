@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import { Card, Button } from "react-bootstrap";
 import FavBadge from "../FavBadge";
 import CharacterList from "../characters/CharacterList";
+import NotFound from "../NotFound";
 import * as FilmsHelper from "./FilmsHelper";
 
 function FilmCard({ filmId, films }) {
   const film = films.items.find((fobj) => fobj.id === filmId);
 
   if (!film) {
-    return null; //TODO ??
+    return <NotFound />;
   } else {
     const fav = false;
     return (
