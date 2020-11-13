@@ -1,5 +1,4 @@
 import axios from "axios";
-import * as CharactersHelper from "../../components/characters/CharacterHelper";
 
 const GET_CHARACTER_URI = "https://swapi.dev/api/people/";
 

@@ -1,10 +1,10 @@
 import { React } from "react";
 import { connect } from "react-redux";
-import { Card, Button } from "react-bootstrap";
-import FavBadge from "../FavBadge";
+import { Card } from "react-bootstrap";
 import CharacterList from "../characters/CharacterList";
 import NotFound from "../NotFound";
 import * as FilmsHelper from "./FilmsHelper";
+import FavStar from "../favs/FavStar";
 
 function FilmCard({ filmId, films }) {
   const film = films.items.find((fobj) => fobj.id === filmId);
@@ -12,42 +12,34 @@ function FilmCard({ filmId, films }) {
   if (!film) {
     return <NotFound />;
   } else {
-    const fav = false;
     return (
-      <center>
-        <Card style={{ width: "75%" }}>
-          <Card.Body>
-            <Card.Img variant="top" src={film.coverImage} />
-            <Card.Title>
-              {film.title} {fav ? <FavBadge /> : null}
-            </Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              {FilmsHelper.getSubtitle(film)}
-            </Card.Subtitle>
-            <Card.Text>{film.opening_crawl}</Card.Text>
-            <Card.Text>
-              <b>Release date:</b> {film.release_date}
-            </Card.Text>
-            <Card.Text>
-              <b>Director:</b> {film.director}
-            </Card.Text>
-            <Card.Text>
-              <b>Producer:</b> {film.producer}
-            </Card.Text>
-            <Card.Text>
-              <b>Characters ({film.characters.length}):</b>
-            </Card.Text>
-            <CharacterList film={film} />
-            <br />
-            <Button
-              variant={fav ? "dark" : "warning"}
-              onClick={() => console.log("FAV FILM")}
-            >
-              {fav ? "Remove from favourites" : "Add to favourites"}
-            </Button>
-          </Card.Body>
-        </Card>
-      </center>
+      <Card style={{ width: "75%" }}>
+        <Card.Body>
+          <Card.Img variant="top" src={film.coverImage} />
+          <Card.Title>
+            <FavStar id={filmId} type="film" />
+          </Card.Title>
+          <Card.Title>{film.title}</Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">
+            {FilmsHelper.getSubtitle(film)}
+          </Card.Subtitle>
+          <Card.Text>{film.opening_crawl}</Card.Text>
+          <Card.Text>
+            <b>Release date:</b> {film.release_date}
+          </Card.Text>
+          <Card.Text>
+            <b>Director:</b> {film.director}
+          </Card.Text>
+          <Card.Text>
+            <b>Producer:</b> {film.producer}
+          </Card.Text>
+          <Card.Text>
+            <b>Characters ({film.characters.length}):</b>
+          </Card.Text>
+          <CharacterList film={film} />
+          <br />
+        </Card.Body>
+      </Card>
     );
   }
 }

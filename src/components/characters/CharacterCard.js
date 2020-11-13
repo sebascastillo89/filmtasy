@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import FavBadge from "../FavBadge";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import NotFound from "../NotFound";
+import CharBreadcrumb from "./CharBreadcrumb";
+import FavStar from "../favs/FavStar";
 
 function CharacterCard({ characterId, characters }) {
   const character = characters.find((cobj) => cobj.id === characterId);
@@ -10,13 +11,14 @@ function CharacterCard({ characterId, characters }) {
   if (!character || !character.item) {
     return <NotFound />;
   } else {
-    const fav = false;
     return (
       <Card style={{ width: "50%" }}>
+        <CharBreadcrumb charName={character.item.name} />
         <Card.Body>
           <Card.Title>
-            {character.item.name} {fav ? <FavBadge /> : null}
+            <FavStar id={characterId} type="character" />
           </Card.Title>
+          <Card.Title>{character.item.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
             {character.item.gender}
           </Card.Subtitle>
@@ -35,18 +37,6 @@ function CharacterCard({ characterId, characters }) {
           <Card.Text>
             <b>Eye color:</b> {character.item.eye_color}
           </Card.Text>
-          <Button
-            variant="primary"
-            onClick={() => console.log("TODO link to films")}
-          >
-            Return to film
-          </Button>
-          <Button
-            variant={fav ? "dark" : "warning"}
-            onClick={() => console.log("FAV CHAR")}
-          >
-            {fav ? "Remove from favourites" : "Add to favourites"}
-          </Button>
         </Card.Body>
       </Card>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import FavBadge from "../FavBadge";
+import FavStar from "../favs/FavStar";
 
 function CharacterLinkedName({ characters, characterId, isLast }) {
   const character = characters.find((obj) => obj.id === parseInt(characterId));
@@ -13,7 +13,9 @@ function CharacterLinkedName({ characters, characterId, isLast }) {
       <>
         <Link to={link}>
           {character.item.name}
-          {character.isFavourite ? <FavBadge /> : null}
+          {"("}
+          <FavStar id={characterId} type="character" />
+          {")"}
           {isLast ? "." : ", "}
         </Link>
       </>

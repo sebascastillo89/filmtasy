@@ -9,36 +9,41 @@ import Film from "./pages/Film";
 import Character from "./pages/Character";
 
 function App() {
+  function clearStorage() {
+    console.log("clearStorage");
+    localStorage.clear();
+  }
   return (
     <div className="App">
-      <center>
-        <TitleBox />
-        <ErrorBox />
-        <Router>
-          <div>
-            <Link to="/">
-              <button>Home</button>
-            </Link>
-            <Link to="/films/1">
-              <button>Films</button>
-            </Link>
-            <Link to="/characters/1">
-              <button>Characters</button>
-            </Link>
-            <Switch>
-              <Route exact path="/">
-                <Films />
-              </Route>
-              <Route exact path="/films/:id">
-                <Film />
-              </Route>
-              <Route exact path="/characters/:id">
-                <Character />
-              </Route>
-            </Switch>
-          </div>
-        </Router>
-      </center>
+      <TitleBox />
+      <ErrorBox />
+      <Router>
+        <div>
+          <Link to="/">
+            <button>Home</button>
+          </Link>
+          <Link to="/films/1">
+            <button>Films</button>
+          </Link>
+          <Link to="/characters/1">
+            <button>Characters</button>
+          </Link>
+          <Switch>
+            <Route exact path="/">
+              <Films />
+            </Route>
+            <Route exact path="/films/:id">
+              <Film />
+            </Route>
+            <Route exact path="/characters/:id">
+              <Character />
+            </Route>
+            <Route exact path="/clearStorage">
+              <button onClick={() => clearStorage()}>BORRAR CACHE</button>
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
 }
