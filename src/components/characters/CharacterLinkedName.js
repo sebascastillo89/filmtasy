@@ -13,9 +13,7 @@ function CharacterLinkedName({ characters, characterId, isLast }) {
       <>
         <Link to={link}>
           {character.item.name}
-          {"("}
-          <FavStar id={characterId} type="character" />
-          {")"}
+          <FavStar id={characterId} type="character" readOnly />
           {isLast ? "." : ", "}
         </Link>
       </>

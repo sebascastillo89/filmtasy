@@ -3,7 +3,7 @@ import emptyStar from "./emptyStar.svg";
 import filledStar from "./filledStar.svg";
 import * as FavsHelper from "./FavsHelper";
 
-function FavStar({ id, type }) {
+function FavStar({ id, type, readOnly }) {
   const isFilm = type === "film";
   const [fav, setFav] = useState(
     isFilm ? FavsHelper.isFavFilm(id) : FavsHelper.isFavCharacter(id)
@@ -18,13 +18,21 @@ function FavStar({ id, type }) {
   }
 
   if (fav) {
-    return (
-      <img src={filledStar} alt="filledStar" onClick={(e) => onClickFav(e)} />
-    );
+    if (readOnly) {
+      return <img src={filledStar} alt="filledStar" />;
+    } else {
+      return (
+        <img src={filledStar} alt="filledStar" onClick={(e) => onClickFav(e)} />
+      );
+    }
   } else {
-    return (
-      <img src={emptyStar} alt="emptyStar" onClick={(e) => onClickFav(e)} />
-    );
+    if (!readOnly) {
+      return (
+        <img src={emptyStar} alt="emptyStar" onClick={(e) => onClickFav(e)} />
+      );
+    } else {
+      return null;
+    }
   }
 }
 
