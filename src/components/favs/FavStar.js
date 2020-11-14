@@ -19,16 +19,32 @@ function FavStar({ id, type, readOnly }) {
 
   if (fav) {
     if (readOnly) {
-      return <img src={filledStar} alt="filledStar" />;
+      return (
+        <img
+          style={{ verticalAlign: "top" }}
+          src={filledStar}
+          alt="filledStar"
+        />
+      );
     } else {
       return (
-        <img src={filledStar} alt="filledStar" onClick={(e) => onClickFav(e)} />
+        <img
+          src={filledStar}
+          style={{ verticalAlign: "top" }}
+          alt="filledStar"
+          onClick={(e) => onClickFav(e)}
+        />
       );
     }
   } else {
     if (!readOnly) {
       return (
-        <img src={emptyStar} alt="emptyStar" onClick={(e) => onClickFav(e)} />
+        <img
+          src={emptyStar}
+          style={{ verticalAlign: "top" }}
+          alt="emptyStar"
+          onClick={(e) => onClickFav(e)}
+        />
       );
     } else {
       return null;

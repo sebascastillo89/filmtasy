@@ -1,18 +1,16 @@
 import React from "react";
 import "./App.css";
 import ErrorBox from "./components/ErrorBox";
+import NavBar from "./components/NavBar";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Films from "./pages/Films";
 import Film from "./pages/Film";
 import Character from "./pages/Character";
-import NavBar from "./components/NavBar";
+import Favourites from "./pages/Favourites";
+import About from "./pages/About";
 
 function App() {
-  function clearStorage() {
-    console.log("clearStorage");
-    localStorage.clear();
-  }
   return (
     <div className="App">
       <NavBar />
@@ -29,8 +27,11 @@ function App() {
             <Route exact path="/characters/:id">
               <Character />
             </Route>
-            <Route exact path="/clearStorage">
-              <button onClick={() => clearStorage()}>BORRAR CACHE</button>
+            <Route exact path="/favourites">
+              <Favourites />
+            </Route>
+            <Route exact path="/about">
+              <About />
             </Route>
           </Switch>
         </div>

@@ -12,13 +12,12 @@ function CharacterCard({ characterId, characters }) {
     return <NotFound />;
   } else {
     return (
-      <Card style={{ width: "50%" }}>
+      <Card style={{ width: "100%" }}>
         <CharBreadcrumb charName={character.item.name} />
         <Card.Body>
           <Card.Title>
-            <FavStar id={characterId} type="character" />
+            {character.item.name} <FavStar id={characterId} type="character" />
           </Card.Title>
-          <Card.Title>{character.item.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
             {character.item.gender}
           </Card.Subtitle>
