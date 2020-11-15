@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import Spinner from "../Spinner";
 import { fetchCharacters } from "../../store/actions/index";

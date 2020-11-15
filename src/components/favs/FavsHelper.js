@@ -1,3 +1,4 @@
+import React from "react";
 const FAVS_FILMS = "filmtasy_favs_films";
 const FAVS_CHARS = "filmtasy_favs_characters";
 

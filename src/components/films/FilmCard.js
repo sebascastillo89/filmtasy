@@ -1,4 +1,4 @@
-import { React } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Card } from "react-bootstrap";
 import CharacterList from "../characters/CharacterList";

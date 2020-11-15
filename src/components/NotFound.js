@@ -1,3 +1,4 @@
+import React from "react";
 import yoda from "../yoda.jpg";
 
 function NotFound() {

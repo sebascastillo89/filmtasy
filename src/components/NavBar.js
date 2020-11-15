@@ -1,3 +1,4 @@
+import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import logo from "./images/logo.svg";
 export default function NavBar() {

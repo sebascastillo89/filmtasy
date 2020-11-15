@@ -1,3 +1,4 @@
+import React from "react";
 import { Spinner as BSSpinner } from "react-bootstrap";
 
 function Spinner() {

@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import FavStar from "../favs/FavStar";
 
 function CharacterLinkedName({ characters, characterId, isLast }) {
@@ -10,13 +9,11 @@ function CharacterLinkedName({ characters, characterId, isLast }) {
   } else {
     const link = "/characters/" + characterId;
     return (
-      <>
-        <Link to={link}>
-          {character.item.name}
-          <FavStar id={characterId} type="character" readOnly />
-          {isLast ? "." : ", "}
-        </Link>
-      </>
+      <a href={link}>
+        {character.item.name}
+        <FavStar id={characterId} type="character" readOnly />
+        {isLast ? "." : ", "}
+      </a>
     );
   }
 }

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import emptyStar from "./emptyStar.svg";
 import filledStar from "./filledStar.svg";
 import * as FavsHelper from "./FavsHelper";

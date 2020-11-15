@@ -12,7 +12,7 @@ export default function characters(state = [], action) {
       const charIndex = newChars.findIndex(
         (char) => char.id === action.payload.characterId
       );
-      if (charIndex != -1) {
+      if (charIndex !== -1) {
         newChars[charIndex] = {
           ...newChars[charIndex],
           isFetching: false,
@@ -31,7 +31,7 @@ export default function characters(state = [], action) {
         (char) => char.id === action.payload.characterId
       );
 
-      if (charIndex3 != -1) {
+      if (charIndex3 !== -1) {
         newChars3[charIndex3] = {
           ...newChars3[charIndex3],
           isFetching: false,

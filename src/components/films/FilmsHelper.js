@@ -1,3 +1,4 @@
+import React from "react";
 import * as CharacterHelper from "../characters/CharacterHelper";
 
 export function getIdFromUrl(filmUrl) {
