@@ -29,5 +29,7 @@ Filmtasy was bootstrapped with [Create React App](https://github.com/facebook/cr
 - [Redux-Thunk](https://github.com/reduxjs/redux-thunk) as middleware for basic Redux side effects logic
 - [React-Bootstrap](https://react-bootstrap.github.io/) as CSS Framework
 - [Axios](https://github.com/axios/axios) as promise based HTTP client
+- [Moxios](https://github.com/axios/moxios) Mock axios requests for testing
+- [redux-mock-store](https://github.com/reduxjs/redux-mock-store) A mock store for testing Redux async action creators and middleware
 
 ![May the force be with you.](https://www.clipartkey.com/mpngs/m/6-62632_clip-art-may-the-force-be-with-you.png)

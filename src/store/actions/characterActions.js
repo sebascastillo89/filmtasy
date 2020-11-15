@@ -31,9 +31,8 @@ export const fetchCharacterFailure = (error) => ({
   payload: { errorMessage: error },
 });
 
-export const skipFetchCharacter = (characterId) => ({
+export const skipFetchCharacter = () => ({
   type: "SKIP_FETCH_CHARACTER",
-  payload: characterId,
 });
 
 export const addCharacter = (id, json) => ({
@@ -49,42 +48,15 @@ export const fetchFilmCharactersSuccess = (filmId) => ({
 // THUNK ACTION FOR FETCH FILM CHARACTERS
 export function fetchCharacters(filmId) {
   return function (dispatch, getState) {
+    console.log("mocksebas 1");
     const film = getState().films.items.find(
       (film) => film.id === parseInt(filmId)
     );
-    film.characters.map((character) => {
-      return dispatch(fetchFilmCharacter(character), true);
+    console.log("mocksebas 2" + film);
+    console.log("mocksebas 3" + film.characters);
+    film.characters.map((characterId) => {
+      dispatch(fetchCharacter(characterId));
     });
-  };
-}
-
-export function fetchFilmCharacter(characterId) {
-  return function (dispatch, getState) {
-    const character = getState().characters.find(
-      (character) => character.id === parseInt(characterId)
-    );
-
-    if (!character) {
-      console.log("GET SINGLE CHARACTER");
-      dispatch(fetchFilmCharacterRequest(characterId));
-      axios.get(GET_CHARACTER_URI + characterId).then(
-        (json) => {
-          dispatch(fetchFilmCharacterSuccess(characterId, json.data));
-          dispatch(checkFilmCharacters());
-        },
-        (error) => {
-          //TODO call error reducer
-          dispatch(
-            fetchFilmCharacterFailure(
-              "Ups! There was an error loading character"
-            )
-          );
-          dispatch(checkFilmCharacters());
-        }
-      );
-    } else {
-      dispatch(checkFilmCharacters());
-    }
   };
 }
 
@@ -98,21 +70,24 @@ export function fetchCharacter(characterId) {
     );
 
     if (!character) {
-      console.log("GET SINGLE CHARACTER");
-      axios.get(GET_CHARACTER_URI + characterId).then(
+      console.log("GET SINGLE CHARACTER ");
+      return axios.get(GET_CHARACTER_URI + characterId).then(
         (json) => {
           dispatch(fetchCharacterSuccess(charId));
           dispatch(addCharacter(characterId, json.data));
+          dispatch(checkFilmCharacters());
         },
         (error) => {
           //TODO call error reducer
           dispatch(
             fetchCharacterFailure("Ups! There was an error loading character")
           );
+          dispatch(checkFilmCharacters());
         }
       );
     } else {
       dispatch(skipFetchCharacter(charId));
+      dispatch(checkFilmCharacters());
     }
   };
 }
