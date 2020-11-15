@@ -40,7 +40,6 @@ export function fetchFilm(filmId) {
       if (isCached || film) {
         dispatch(skipFetchFilm(filmId));
       } else {
-        console.log("GET SINGLE FILM");
         return axios.get(GET_FILMS_URI + filmId).then(
           (json) => {
             dispatch(fetchFilmSuccess());

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { addError } from "./errorActions";
+
 const GET_FILMS_URI = "https://swapi.dev/api/films/";
 
 export const fetchAllFilmsRequest = () => ({
@@ -25,15 +27,13 @@ export function fetchAllFilms() {
     if (getState().films.isCached) {
       dispatch(fetchAllFilmsSkip());
     } else {
-      //Enable this line to ensure api request are caching
-      console.log("GET ALL FILMS");
       return axios.get(GET_FILMS_URI).then(
         (json) => {
           dispatch(fetchAllFilmsSuccess(json.data.results));
         },
         (error) => {
-          //TODO llamar tambien al reducer de errores
           dispatch(fetchAllFilmsFailure());
+          dispatch(addError("errorFetchingFilms"));
         }
       );
     }

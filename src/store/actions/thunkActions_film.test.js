@@ -118,6 +118,10 @@ describe("Thunk actions to fetch films", () => {
         {
           type: "FETCH_ALL_FILMS_ERROR",
         },
+        {
+          type: "ADD_ERROR",
+          payload: { error: "errorFetchingFilms" },
+        },
       ];
       return store.dispatch(FilmsActions.fetchAllFilms()).then(() => {
         const actualAction = store.getActions();

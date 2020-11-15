@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import ErrorBox from "./components/ErrorBox";
+import ErrorBox from "./components/errors/ErrorBox";
 import NavBar from "./components/NavBar";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";

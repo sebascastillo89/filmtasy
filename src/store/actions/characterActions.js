@@ -48,12 +48,9 @@ export const fetchFilmCharactersSuccess = (filmId) => ({
 // THUNK ACTION FOR FETCH FILM CHARACTERS
 export function fetchCharacters(filmId) {
   return function (dispatch, getState) {
-    console.log("mocksebas 1");
     const film = getState().films.items.find(
       (film) => film.id === parseInt(filmId)
     );
-    console.log("mocksebas 2" + film);
-    console.log("mocksebas 3" + film.characters);
     film.characters.map((characterId) => {
       return dispatch(fetchCharacter(characterId));
     });
@@ -70,7 +67,6 @@ export function fetchCharacter(characterId) {
     );
 
     if (!character) {
-      console.log("GET SINGLE CHARACTER ");
       return axios.get(GET_CHARACTER_URI + characterId).then(
         (json) => {
           dispatch(fetchCharacterSuccess(charId));
