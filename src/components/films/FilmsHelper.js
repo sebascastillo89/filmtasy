@@ -13,6 +13,7 @@ export function mapJsonToFilms(response) {
 }
 
 export function mapJsonToFilm(film) {
+  // TODO Si no puede sacar id o characters añadir error y retornar nulo
   return {
     id: getIdFromUrl(film.url),
     title: film.title,

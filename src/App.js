@@ -3,7 +3,7 @@ import "./App.css";
 import ErrorBox from "./components/ErrorBox";
 import NavBar from "./components/NavBar";
 import { connect } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Films from "./pages/Films";
 import Film from "./pages/Film";
 import Character from "./pages/Character";

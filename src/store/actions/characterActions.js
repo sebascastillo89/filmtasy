@@ -55,7 +55,7 @@ export function fetchCharacters(filmId) {
     console.log("mocksebas 2" + film);
     console.log("mocksebas 3" + film.characters);
     film.characters.map((characterId) => {
-      dispatch(fetchCharacter(characterId));
+      return dispatch(fetchCharacter(characterId));
     });
   };
 }

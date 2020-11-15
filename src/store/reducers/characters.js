@@ -12,16 +12,17 @@ export default function characters(state = [], action) {
       const charIndex = newChars.findIndex(
         (char) => char.id === action.payload.characterId
       );
-
-      newChars[charIndex] = {
-        ...newChars[charIndex],
-        isFetching: false,
-        item: {
-          ...action.payload.character,
-          id: action.payload.characterId,
-          isFavourite: false,
-        },
-      };
+      if (charIndex != -1) {
+        newChars[charIndex] = {
+          ...newChars[charIndex],
+          isFetching: false,
+          item: {
+            ...action.payload.character,
+            id: action.payload.characterId,
+            isFavourite: false,
+          },
+        };
+      }
 
       return newChars;
     case FETCH_FILM_CHARACTER_FAILURE:
@@ -30,11 +31,13 @@ export default function characters(state = [], action) {
         (char) => char.id === action.payload.characterId
       );
 
-      newChars3[charIndex3] = {
-        ...newChars3[charIndex3],
-        isFetching: false,
-        item: null,
-      };
+      if (charIndex3 != -1) {
+        newChars3[charIndex3] = {
+          ...newChars3[charIndex3],
+          isFetching: false,
+          item: null,
+        };
+      }
 
       return newChars3;
     case ADD_CHARACTER:
