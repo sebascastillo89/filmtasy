@@ -3,21 +3,26 @@ import { connect } from "react-redux";
 import FilmSmallCard from "./FilmSmallCard";
 import { CardDeck } from "react-bootstrap";
 import * as FilmsHelper from "./FilmsHelper";
+import * as FavsHelper from "../favs/FavsHelper";
 
-function FilmsBoard({ films }) {
+function FilmsBoard({ onlyFav, films }) {
   if (!films.items || films.items.length === 0) {
     return <h3>There are no films</h3>;
   } else {
     const filmSmallCards = films.items.map((film) => {
-      return (
-        <FilmSmallCard
-          key={film.title}
-          title={film.title}
-          subtitle={FilmsHelper.getSubtitle(film)}
-          src={film.coverImage}
-          id={film.id}
-        ></FilmSmallCard>
-      );
+      if (!onlyFav || (onlyFav && FavsHelper.isFavFilm(film.id))) {
+        return (
+          <FilmSmallCard
+            key={film.title}
+            title={film.title}
+            subtitle={FilmsHelper.getSubtitle(film)}
+            src={film.coverImage}
+            id={film.id}
+          ></FilmSmallCard>
+        );
+      } else {
+        return null;
+      }
     });
     return (
       <div>
