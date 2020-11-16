@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import emptyStar from "./emptyStar.svg";
-import filledStar from "./filledStar.svg";
+import emptyStar from "../images/emptyStar.svg";
+import filledStar from "../images/filledStar.svg";
 import * as FavsHelper from "./FavsHelper";
 
 function FavStar({ id, type, readOnly }) {
+  //TODO Pending to refactor
   const isFilm = type === "film";
   const [fav, setFav] = useState(
     isFilm ? FavsHelper.isFavFilm(id) : FavsHelper.isFavCharacter(id)

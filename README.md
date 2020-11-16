@@ -32,4 +32,8 @@ Filmtasy was bootstrapped with [Create React App](https://github.com/facebook/cr
 - [Moxios](https://github.com/axios/moxios) Mock axios requests for testing
 - [redux-mock-store](https://github.com/reduxjs/redux-mock-store) A mock store for testing Redux async action creators and middleware
 
+### Testing
+
+I am using jest and enzyme to test Filmtasy. Provider, and MemoryRouter has been used to mock Redux store and useParams hook.
+
 ![May the force be with you.](https://www.clipartkey.com/mpngs/m/6-62632_clip-art-may-the-force-be-with-you.png)

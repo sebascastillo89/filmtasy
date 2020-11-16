@@ -2,6 +2,7 @@ import React from "react";
 import * as CharacterHelper from "../characters/CharacterHelper";
 
 export function getIdFromUrl(filmUrl) {
+  //TODO regex
   return parseInt(
     filmUrl.substring(filmUrl.indexOf("films/") + 6, filmUrl.lastIndexOf("/")) //TODO validar parse int
   );

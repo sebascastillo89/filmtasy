@@ -3,18 +3,18 @@ import { mount, configure } from "enzyme";
 import { Provider } from "react-redux";
 import Adapter from "enzyme-adapter-react-16";
 import { createStore, applyMiddleware } from "redux";
-import Films from "./Films";
+import Favourites from "./Favourites";
 import thunk from "redux-thunk";
 
 configure({ adapter: new Adapter() });
 
-describe("Films page", () => {
+describe("Favourites page", () => {
   function getFilmsWrapper(state) {
     const reducer = jest.fn().mockReturnValue(state);
     const store = createStore(reducer, applyMiddleware(thunk));
     return mount(
       <Provider store={store}>
-        <Films />
+        <Favourites />
       </Provider>
     );
   }
