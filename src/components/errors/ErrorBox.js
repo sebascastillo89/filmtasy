@@ -11,7 +11,6 @@ export const errorCatalog = {
 
 function ErrorBox({ errors, removeError }) {
   const alerts = errors.map((error, index) => {
-    console.log("ErrorBox: " + error);
     const errorMessage = errorCatalog[error] ?? error;
     return (
       <Alert variant="danger" onClose={() => removeError(index)} dismissible>

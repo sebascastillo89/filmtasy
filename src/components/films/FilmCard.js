@@ -7,8 +7,8 @@ import * as FilmsHelper from "./FilmsHelper";
 import FavStar from "../favs/FavStar";
 
 function FilmCard({ filmId, films }) {
-  const film = films.items.find((fobj) => fobj.id === filmId);
-
+  const film =
+    !films || !films.items || films.items.find((fobj) => fobj.id === filmId);
   if (!film) {
     return <NotFound />;
   } else {
@@ -16,28 +16,26 @@ function FilmCard({ filmId, films }) {
       <Card style={{ width: "100%" }}>
         <Card.Body>
           <Card.Img variant="top" src={film.coverImage} />
-          <p>
-            <Card.Title>
-              {film.title} <FavStar id={filmId} type="film" />
-            </Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              {FilmsHelper.getSubtitle(film)}
-            </Card.Subtitle>
-            <Card.Text>{film.opening_crawl}</Card.Text>
-            <Card.Text>
-              <b>Release date:</b> {film.release_date}
-            </Card.Text>
-            <Card.Text>
-              <b>Director:</b> {film.director}
-            </Card.Text>
-            <Card.Text>
-              <b>Producer:</b> {film.producer}
-            </Card.Text>
-            <Card.Text>
-              <b>Characters ({film.characters.length}):</b>
-            </Card.Text>
-            <CharacterList film={film} />
-          </p>
+          <Card.Title>
+            {film.title} <FavStar id={filmId} type="film" />
+          </Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">
+            {FilmsHelper.getSubtitle(film)}
+          </Card.Subtitle>
+          <Card.Text>{film.opening_crawl}</Card.Text>
+          <Card.Text>
+            <b>Release date:</b> {film.release_date}
+          </Card.Text>
+          <Card.Text>
+            <b>Director:</b> {film.director}
+          </Card.Text>
+          <Card.Text>
+            <b>Producer:</b> {film.producer}
+          </Card.Text>
+          <Card.Text>
+            <b>Characters ({film.characters?.length ?? 0}):</b>
+          </Card.Text>
+          <CharacterList film={film} />
         </Card.Body>
       </Card>
     );

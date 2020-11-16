@@ -38,7 +38,7 @@ describe("Film page", () => {
     expect(wrapper.exists("FilmCard")).toBe(false);
   });
 
-  it("Render spinner if is fetching", () => {
+  it("Render spinner if is different user", () => {
     const wrapper = getFilmWrapper({
       films: {
         isFetching: true,

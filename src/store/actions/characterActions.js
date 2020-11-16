@@ -48,10 +48,10 @@ export const fetchFilmCharactersSuccess = (filmId) => ({
 // THUNK ACTION FOR FETCH FILM CHARACTERS
 export function fetchCharacters(filmId) {
   return function (dispatch, getState) {
-    const film = getState().films.items.find(
+    const film = getState().films.items?.find(
       (film) => film.id === parseInt(filmId)
     );
-    film.characters.map((characterId) => {
+    film?.characters.map((characterId) => {
       return dispatch(fetchCharacter(characterId));
     });
   };
