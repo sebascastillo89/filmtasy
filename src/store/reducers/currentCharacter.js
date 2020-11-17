@@ -1,6 +1,7 @@
 const initialState = {
   id: null,
   isFetching: false,
+  isFailure: false,
 };
 
 export default function currentCharacter(state = initialState, action) {
@@ -15,21 +16,25 @@ export default function currentCharacter(state = initialState, action) {
         ...state,
         id: action.payload.characterId,
         isFetching: true,
+        isFailure: false,
       };
     case FETCH_CHARACTER_SUCCESS:
       return {
         ...state,
         isFetching: false,
+        isFailure: false,
       };
     case FETCH_CHARACTER_FAILURE:
       return {
         ...state,
         isFetching: false,
+        isFailure: true,
       };
     case SKIP_FETCH_CHARACTER:
       return {
         ...state,
         isFetching: false,
+        isFailure: false,
       };
     default:
       return state;

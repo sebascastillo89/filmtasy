@@ -24,7 +24,7 @@ describe("Character Card", () => {
     const wrapper = getCardWrapper({
       characters: [],
     });
-    expect(wrapper.exists("NotFound")).toBe(true);
+    expect(wrapper.isEmptyRender()).toBe(true);
     expect(wrapper.exists("Card")).toBe(false);
   });
 
@@ -48,7 +48,7 @@ describe("Character Card", () => {
       ],
       currentFilm: {},
     });
-    expect(wrapper.exists("NotFound")).toBe(false);
+    expect(wrapper.isEmptyRender()).toBe(false);
     expect(wrapper.exists("Card")).toBe(true);
   });
 });

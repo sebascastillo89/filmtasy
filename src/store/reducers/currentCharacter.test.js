@@ -6,11 +6,13 @@ describe("Current character reducers", () => {
       {
         id: null,
         isFetching: false,
+        isFailure: true,
       },
       { type: "FETCH_CHARACTER_REQUEST", payload: { characterId: 1 } }
     );
     expect(newState.id).toEqual(1);
     expect(newState.isFetching).toEqual(true);
+    expect(newState.isFailure).toEqual(false);
   });
 
   it("fetch character (SUCCESS)", () => {
@@ -18,11 +20,13 @@ describe("Current character reducers", () => {
       {
         id: 1,
         isFetching: true,
+        isFailure: true,
       },
       { type: "FETCH_CHARACTER_SUCCESS" }
     );
     expect(newState.id).toEqual(1);
     expect(newState.isFetching).toEqual(false);
+    expect(newState.isFailure).toEqual(false);
   });
 
   it("fetch character (ERROR)", () => {
@@ -30,11 +34,13 @@ describe("Current character reducers", () => {
       {
         id: 1,
         isFetching: true,
+        isFailure: false,
       },
       { type: "FETCH_CHARACTER_FAILURE" }
     );
     expect(newState.id).toEqual(1);
     expect(newState.isFetching).toEqual(false);
+    expect(newState.isFailure).toEqual(true);
   });
 
   it("fetch character (SKIP)", () => {
@@ -42,11 +48,13 @@ describe("Current character reducers", () => {
       {
         id: 1,
         isFetching: true,
+        isFailure: true,
       },
       { type: "SKIP_FETCH_CHARACTER" }
     );
     expect(newState.id).toEqual(1);
     expect(newState.isFetching).toEqual(false);
+    expect(newState.isFailure).toEqual(false);
   });
 
   it("default", () => {

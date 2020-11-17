@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Card } from "react-bootstrap";
-import NotFound from "../NotFound";
 import CharBreadcrumb from "./CharBreadcrumb";
 import FavStar from "../favs/FavStar";
 
@@ -9,7 +8,7 @@ function CharacterCard({ characterId, characters }) {
   const character = characters.find((cobj) => cobj.id === characterId);
 
   if (!character || !character.item) {
-    return <NotFound />;
+    return null;
   } else {
     return (
       <Card style={{ width: "100%" }}>

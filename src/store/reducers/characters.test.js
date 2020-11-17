@@ -32,7 +32,6 @@ describe("Characters reducers", () => {
         item: {
           name: "char2",
           id: 1,
-          isFavourite: false,
         },
       },
     ]);
@@ -67,7 +66,6 @@ describe("Characters reducers", () => {
         item: {
           name: "charName",
           id: 1,
-          isFavourite: false,
         },
       },
     ]);

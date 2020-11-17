@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { Card } from "react-bootstrap";
 import CharacterList from "../characters/CharacterList";
-import NotFound from "../NotFound";
 import * as FilmsHelper from "./FilmsHelper";
 import FavStar from "../favs/FavStar";
 
@@ -10,7 +9,7 @@ function FilmCard({ filmId, films }) {
   const film =
     !films || !films.items || films.items.find((fobj) => fobj.id === filmId);
   if (!film) {
-    return <NotFound />;
+    return null;
   } else {
     return (
       <Card style={{ width: "100%" }}>

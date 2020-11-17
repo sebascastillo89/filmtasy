@@ -19,7 +19,6 @@ export default function characters(state = [], action) {
           item: {
             ...action.payload.character,
             id: action.payload.characterId,
-            isFavourite: false,
           },
         };
       }
@@ -49,7 +48,6 @@ export default function characters(state = [], action) {
           item: {
             ...action.payload.character,
             id: action.payload.characterId,
-            isFavourite: false,
           },
         },
       ];

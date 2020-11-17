@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Spinner from "../components/Spinner";
 import CharacterCard from "../components/characters/CharacterCard";
 import { fetchCharacter } from "../store/actions/index";
+import NotFound from "../components/NotFound";
 
 function Character({ currentCharacter, getCharacter }) {
   let { id } = useParams();
@@ -11,10 +12,12 @@ function Character({ currentCharacter, getCharacter }) {
 
   useEffect(() => {
     getCharacter(characterId);
-  });
+  }, []);
 
   if (currentCharacter.id !== characterId || currentCharacter.isFetching) {
     return <Spinner />;
+  } else if (currentCharacter.isFailure) {
+    return <NotFound />;
   } else {
     return <CharacterCard characterId={characterId} />;
   }

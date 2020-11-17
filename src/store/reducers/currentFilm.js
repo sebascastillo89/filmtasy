@@ -2,6 +2,7 @@ const initialState = {
   id: null,
   isFetchingFilm: false,
   isFetchingCharacters: false,
+  isFailure: false,
 };
 
 export default function currentFilm(state = initialState, action) {
@@ -18,17 +19,20 @@ export default function currentFilm(state = initialState, action) {
         id: action.payload.filmId,
         isFetchingFilm: true,
         isFetchingCharacters: true,
+        isFailure: false,
       };
     case FETCH_FILM_OK:
       return {
         ...state,
         isFetchingFilm: false,
+        isFailure: false,
       };
     case FETCH_FILM_ERROR:
       return {
         ...state,
         isFetchingFilm: false,
         isFetchingCharacters: false,
+        isFailure: true,
       };
     case FETCH_FILM_SKIP:
       return {

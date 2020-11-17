@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Spinner from "../components/Spinner";
 import FilmCard from "../components/films/FilmCard";
 import { fetchFilm } from "../store/actions/index";
+import NotFound from "../components/NotFound";
 
 function Film({ currentFilm, getFilm }) {
   let { id } = useParams();
@@ -11,10 +12,12 @@ function Film({ currentFilm, getFilm }) {
 
   useEffect(() => {
     getFilm(filmId);
-  });
+  }, []);
 
   if (currentFilm.id !== filmId || currentFilm.isFetching) {
     return <Spinner />;
+  } else if (currentFilm.isFailure) {
+    return <NotFound />;
   } else {
     return <FilmCard filmId={filmId} />;
   }

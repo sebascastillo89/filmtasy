@@ -25,15 +25,16 @@ describe("Film page", () => {
     );
   }
 
-  it("Render spinner if is fetching", () => {
+  it("Render spinner", () => {
     const wrapper = getFilmWrapper({
       films: {
         isFetching: true,
         isCached: false,
         items: [],
       },
-      currentFilm: { id: 1, isFetching: true },
+      currentFilm: { id: 1, isFetching: true, isFailure: false },
     });
+    expect(wrapper.exists("NotFound")).toBe(false);
     expect(wrapper.exists("Spinner")).toBe(true);
     expect(wrapper.exists("FilmCard")).toBe(false);
   });
@@ -47,7 +48,22 @@ describe("Film page", () => {
       },
       currentFilm: { id: 2, isFetching: true },
     });
+
     expect(wrapper.exists("Spinner")).toBe(true);
+    expect(wrapper.exists("FilmCard")).toBe(false);
+  });
+
+  it("Render not found", () => {
+    const wrapper = getFilmWrapper({
+      films: {
+        isFetching: true,
+        isCached: false,
+        items: [],
+      },
+      currentFilm: { id: 1, isFetching: false, isFailure: true },
+    });
+    expect(wrapper.exists("NotFound")).toBe(true);
+    expect(wrapper.exists("Spinner")).toBe(false);
     expect(wrapper.exists("FilmCard")).toBe(false);
   });
 
@@ -58,8 +74,9 @@ describe("Film page", () => {
         isCached: false,
         items: [],
       },
-      currentFilm: { id: 1, isFetching: false },
+      currentFilm: { id: 1, isFetching: false, isFailure: false },
     });
+    expect(wrapper.exists("NotFound")).toBe(false);
     expect(wrapper.exists("Spinner")).toBe(false);
     expect(wrapper.exists("FilmCard")).toBe(true);
   });

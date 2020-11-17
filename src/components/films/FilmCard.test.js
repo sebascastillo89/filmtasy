@@ -34,7 +34,7 @@ describe("Film Card", () => {
         1
       );
 
-      expect(wrapper.exists("NotFound")).toBe(true);
+      expect(wrapper.isEmptyRender()).toBe(true);
       expect(wrapper.exists("Card")).toBe(false);
     });
 
@@ -51,7 +51,7 @@ describe("Film Card", () => {
         1
       );
 
-      expect(wrapper.exists("NotFound")).toBe(true);
+      expect(wrapper.isEmptyRender()).toBe(true);
       expect(wrapper.exists("Card")).toBe(false);
     });
   });

@@ -7,7 +7,7 @@ import FilmsBoard from "../components/films/FilmsBoard";
 function Favourites({ films, getFilms }) {
   useEffect(() => {
     getFilms();
-  });
+  }, []);
 
   if (films.isFetching) {
     return <Spinner />;

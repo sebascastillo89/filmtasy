@@ -24,7 +24,7 @@ describe("Character page", () => {
     );
   }
 
-  it("Render card if is fetching", () => {
+  it("Render spinner", () => {
     const wrapper = getCharacterWrapper({
       currentCharacter: {
         isFetching: true,
@@ -33,7 +33,23 @@ describe("Character page", () => {
       },
       characters: [],
     });
+    expect(wrapper.exists("NotFound")).toBe(false);
     expect(wrapper.exists("Spinner")).toBe(true);
+    expect(wrapper.exists("CharacterCard")).toBe(false);
+  });
+
+  it("Render NotFound", () => {
+    const wrapper = getCharacterWrapper({
+      currentCharacter: {
+        isFetching: false,
+        isFailure: true,
+        id: 1,
+        item: {},
+      },
+      characters: [],
+    });
+    expect(wrapper.exists("NotFound")).toBe(true);
+    expect(wrapper.exists("Spinner")).toBe(false);
     expect(wrapper.exists("CharacterCard")).toBe(false);
   });
 
