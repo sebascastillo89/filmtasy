@@ -7,7 +7,7 @@ import CharacterLinkedName from "./CharacterLinkedName";
 function CharacterList({ currentFilm, film, getCharacters }) {
   useEffect(() => {
     getCharacters(film.id);
-  }, [currentFilm]);
+  });
 
   const isCurrentFilm = currentFilm.id === parseInt(film.id);
 

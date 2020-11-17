@@ -11,9 +11,9 @@ function Film({ currentFilm, getFilm }) {
 
   useEffect(() => {
     getFilm(filmId);
-  }, []);
+  });
 
-  if (currentFilm.id != filmId || currentFilm.isFetching) {
+  if (currentFilm.id !== filmId || currentFilm.isFetching) {
     return <Spinner />;
   } else {
     return <FilmCard filmId={filmId} />;

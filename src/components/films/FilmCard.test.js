@@ -84,6 +84,7 @@ describe("Film Card", () => {
 
       expect(wrapper.exists("NotFound")).toBe(false);
       expect(wrapper.exists("Card")).toBe(true);
+      expect(wrapper.text().includes("(1)")).toBe(true);
     });
 
     it("Render films with no chars", () => {
@@ -114,6 +115,7 @@ describe("Film Card", () => {
 
       expect(wrapper.exists("NotFound")).toBe(false);
       expect(wrapper.exists("Card")).toBe(true);
+      expect(wrapper.text().includes("(0)")).toBe(true);
     });
   });
 });

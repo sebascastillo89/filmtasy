@@ -10,15 +10,24 @@ export const errorCatalog = {
 };
 
 function ErrorBox({ errors, removeError }) {
-  const alerts = errors.map((error, index) => {
-    const errorMessage = errorCatalog[error] ?? error;
-    return (
-      <Alert variant="danger" onClose={() => removeError(index)} dismissible>
-        {errorMessage}
-      </Alert>
-    );
-  });
-  return <div>{alerts}</div>;
+  if (!errors || errors.length === 0) {
+    return null;
+  } else {
+    const alerts = errors.map((error, index) => {
+      const errorMessage = errorCatalog[error] ?? error;
+      return (
+        <Alert
+          key={index}
+          variant="danger"
+          onClose={() => removeError(index)}
+          dismissible
+        >
+          {errorMessage}
+        </Alert>
+      );
+    });
+    return <div>{alerts}</div>;
+  }
 }
 
 // Redux

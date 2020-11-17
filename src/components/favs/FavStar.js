@@ -4,52 +4,33 @@ import filledStar from "../images/filledStar.svg";
 import * as FavsHelper from "./FavsHelper";
 
 function FavStar({ id, type, readOnly }) {
-  //TODO Pending to refactor
+  const filmId = parseInt(id); //TODO PARSE
   const isFilm = type === "film";
   const [fav, setFav] = useState(
-    isFilm ? FavsHelper.isFavFilm(id) : FavsHelper.isFavCharacter(id)
+    isFilm ? FavsHelper.isFavFilm(filmId) : FavsHelper.isFavCharacter(filmId)
   );
 
   function onClickFav(e) {
     e.preventDefault();
-    isFilm
-      ? FavsHelper.setFavFilm(id, !fav)
-      : FavsHelper.setFavCharacter(id, !fav);
-    setFav(!fav);
+    if (!readOnly) {
+      isFilm
+        ? FavsHelper.setFavFilm(filmId, !fav)
+        : FavsHelper.setFavCharacter(filmId, !fav);
+      setFav(!fav);
+    }
   }
 
-  if (fav) {
-    if (readOnly) {
-      return (
-        <img
-          style={{ verticalAlign: "top" }}
-          src={filledStar}
-          alt="filledStar"
-        />
-      );
-    } else {
-      return (
-        <img
-          src={filledStar}
-          style={{ verticalAlign: "top" }}
-          alt="filledStar"
-          onClick={(e) => onClickFav(e)}
-        />
-      );
-    }
+  if (readOnly && !fav) {
+    return null;
   } else {
-    if (!readOnly) {
-      return (
-        <img
-          src={emptyStar}
-          style={{ verticalAlign: "top" }}
-          alt="emptyStar"
-          onClick={(e) => onClickFav(e)}
-        />
-      );
-    } else {
-      return null;
-    }
+    return (
+      <img
+        style={{ verticalAlign: "top" }}
+        src={fav ? filledStar : emptyStar}
+        alt={fav ? "filledStar" : "emptyStar"}
+        onClick={(e) => onClickFav(e)}
+      />
+    );
   }
 }
 

@@ -11,9 +11,9 @@ function Character({ currentCharacter, getCharacter }) {
 
   useEffect(() => {
     getCharacter(characterId);
-  }, []);
+  });
 
-  if (currentCharacter.id != characterId || currentCharacter.isFetching) {
+  if (currentCharacter.id !== characterId || currentCharacter.isFetching) {
     return <Spinner />;
   } else {
     return <CharacterCard characterId={characterId} />;
