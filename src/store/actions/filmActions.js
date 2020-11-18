@@ -33,10 +33,10 @@ export function fetchFilm(filmId) {
       const id = parseInt(filmId);
       dispatch(fetchFilmRequest(id));
 
-      const isCached = getState().films.isCached;
-      const film = getState().films.items.find((obj) => obj.id === id);
-
-      if (isCached || film) {
+      const isCached =
+        getState().films.isCached ||
+        getState().films.items.find((obj) => obj.id === id);
+      if (isCached) {
         dispatch(skipFetchFilm(id));
       } else {
         return axios.get(GET_FILMS_URI + id).then(

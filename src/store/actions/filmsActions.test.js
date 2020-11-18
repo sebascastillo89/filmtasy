@@ -19,21 +19,6 @@ const initialState = {
   currentCharacter: { id: null, isFetching: false },
   characters: [],
 };
-const cachedState = {
-  films: {
-    isFetching: false,
-    isCached: true,
-    items: [],
-  },
-  currentFilm: {
-    id: null,
-    isFetchingFilm: false,
-    isFetchingCharacters: false,
-  },
-  currentCharacter: { id: null, isFetching: false },
-  characters: [],
-};
-
 const mockFilm = {
   id: 1,
   title: "Title Film 1",
@@ -198,6 +183,48 @@ describe("Films actions", () => {
           const actualAction = store.getActions();
           expect(actualAction).toEqual(expectedActions);
         });
+      });
+    });
+
+    describe("Fetching cached films", () => {
+      const cachedState = {
+        films: {
+          isFetching: false,
+          isCached: true,
+          items: [{ id: 5 }],
+        },
+        currentFilm: {
+          id: null,
+          isFetchingFilm: false,
+          isFetchingCharacters: false,
+        },
+        currentCharacter: { id: null, isFetching: false },
+        characters: [],
+      };
+
+      let store;
+      beforeEach(() => {
+        moxios.install();
+        store = mockStore(cachedState);
+      });
+      afterEach(() => {
+        moxios.uninstall();
+      });
+
+      it("fetchAllFilms", () => {
+        jest.setTimeout(10000);
+
+        const expectedActions = [
+          {
+            type: "FETCH_ALL_FILMS_REQUEST",
+          },
+          {
+            type: "FETCH_ALL_FILMS_SKIP",
+          },
+        ];
+        store.dispatch(Action.fetchAllFilms());
+        const actualAction = store.getActions();
+        expect(actualAction).toEqual(expectedActions);
       });
     });
   });

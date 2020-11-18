@@ -21,14 +21,12 @@ export const fetchCharacterSuccess = (characterId) => ({
   payload: { characterId: characterId },
 });
 
-export const fetchFilmCharacterFailure = (error) => ({
+export const fetchFilmCharacterFailure = () => ({
   type: "FETCH_FILM_CHARACTER_FAILURE",
-  payload: { errorMessage: error },
 });
 
-export const fetchCharacterFailure = (error) => ({
+export const fetchCharacterFailure = () => ({
   type: "FETCH_CHARACTER_FAILURE",
-  payload: { errorMessage: error },
 });
 
 export const skipFetchCharacter = () => ({
@@ -59,31 +57,33 @@ export function fetchCharacters(filmId) {
 
 export function fetchCharacter(characterId) {
   return function (dispatch, getState) {
-    const charId = parseInt(characterId);
-    dispatch(fetchCharacterRequest(charId));
-
-    const character = getState().characters.find(
-      (character) => character.id === parseInt(characterId)
-    );
-
-    if (!character) {
-      return axios.get(GET_CHARACTER_URI + characterId).then(
-        (json) => {
-          dispatch(fetchCharacterSuccess(charId));
-          dispatch(addCharacter(characterId, json.data));
-          dispatch(checkFilmCharacters());
-        },
-        (error) => {
-          //TODO call error reducer
-          dispatch(
-            fetchCharacterFailure("Ups! There was an error loading character")
-          );
-          dispatch(checkFilmCharacters());
-        }
-      );
+    if (!Number.isInteger(characterId)) {
+      dispatch(fetchCharacterFailure());
     } else {
-      dispatch(skipFetchCharacter(charId));
-      dispatch(checkFilmCharacters());
+      const charId = parseInt(characterId);
+      dispatch(fetchCharacterRequest(charId));
+
+      const character = getState().characters.find(
+        (character) => character.id === parseInt(characterId)
+      );
+
+      if (!character) {
+        return axios.get(GET_CHARACTER_URI + characterId).then(
+          (json) => {
+            dispatch(fetchCharacterSuccess(charId));
+            dispatch(addCharacter(characterId, json.data));
+            dispatch(checkFilmCharacters());
+          },
+          (error) => {
+            //TODO call error reducer
+            dispatch(fetchCharacterFailure());
+            dispatch(checkFilmCharacters());
+          }
+        );
+      } else {
+        dispatch(skipFetchCharacter(charId));
+        dispatch(checkFilmCharacters());
+      }
     }
   };
 }

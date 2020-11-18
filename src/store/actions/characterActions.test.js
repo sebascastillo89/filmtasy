@@ -1,8 +1,28 @@
 import * as Action from "./characterActions";
+import moxios from "moxios";
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
+
+const middleware = [thunk];
+const mockStore = configureMockStore(middleware);
+const initialState = {
+  films: {
+    isFetching: false,
+    isCached: false,
+    items: [],
+  },
+  currentFilm: {
+    id: null,
+    isFetchingFilm: false,
+    isFetchingCharacters: false,
+  },
+  currentCharacter: { id: null, isFetching: false },
+  characters: [{ id: 2 }],
+};
 
 describe("Characters actions", () => {
-  describe("Fetching film characters (REQUEST)", () => {
-    it("fetchFilmCharacterRequestRequest", () => {
+  describe("Fetching film characters", () => {
+    it("Request", () => {
       const action = Action.fetchFilmCharacterRequest(1);
       expect(action).toEqual({
         type: "FETCH_FILM_CHARACTER_REQUEST",
@@ -10,7 +30,7 @@ describe("Characters actions", () => {
       });
     });
 
-    it("fetchFilmCharacterRequest_nullRequest", () => {
+    it("Request (null case)", () => {
       const action = Action.fetchFilmCharacterRequest(null);
       expect(action).toEqual({
         type: "FETCH_FILM_CHARACTER_REQUEST",
@@ -18,7 +38,7 @@ describe("Characters actions", () => {
       });
     });
 
-    it("fetchFilmCharacterRequest_emptyRequest", () => {
+    it("Request (empty case)", () => {
       const action = Action.fetchFilmCharacterRequest();
       expect(action).toEqual({
         type: "FETCH_FILM_CHARACTER_REQUEST",
@@ -26,25 +46,7 @@ describe("Characters actions", () => {
       });
     });
 
-    it("fetchFilmCharacterRequest_invalidRequest", () => {
-      const action = Action.fetchFilmCharacterRequest("invalid");
-      expect(action).toEqual({
-        type: "FETCH_FILM_CHARACTER_REQUEST",
-        payload: { characterId: "invalid" },
-      });
-    });
-
-    it("fetchFilmCharactersSuccess", () => {
-      const action = Action.fetchFilmCharactersSuccess("filmId");
-      expect(action).toEqual({
-        type: "FETCH_FILM_CHARACTERS_SUCCESS",
-        payload: { filmId: "filmId" },
-      });
-    });
-  });
-
-  describe("Fetching film characters (SUCCESS)", () => {
-    it("fetchFilmCharacterSuccess", () => {
+    it("Success", () => {
       const action = Action.fetchFilmCharacterSuccess(1, 2);
       expect(action).toEqual({
         type: "FETCH_FILM_CHARACTER_SUCCESS",
@@ -52,7 +54,7 @@ describe("Characters actions", () => {
       });
     });
 
-    it("fetchFilmCharacterSuccessNulls", () => {
+    it("Success (null case)", () => {
       const action = Action.fetchFilmCharacterSuccess(null, null);
       expect(action).toEqual({
         type: "FETCH_FILM_CHARACTER_SUCCESS",
@@ -60,7 +62,7 @@ describe("Characters actions", () => {
       });
     });
 
-    it("fetchFilmCharacterSuccessEmpty", () => {
+    it("Success (empty case)", () => {
       const action = Action.fetchFilmCharacterSuccess();
       expect(action).toEqual({
         type: "FETCH_FILM_CHARACTER_SUCCESS",
@@ -68,7 +70,7 @@ describe("Characters actions", () => {
       });
     });
 
-    it("fetchFilmCharacterSuccessOneNull", () => {
+    it("Success (one null case)", () => {
       const action = Action.fetchFilmCharacterSuccess(null);
       expect(action).toEqual({
         type: "FETCH_FILM_CHARACTER_SUCCESS",
@@ -76,43 +78,24 @@ describe("Characters actions", () => {
       });
     });
 
-    it("fetchFilmCharacterSuccessOneArgs", () => {
-      const action = Action.fetchFilmCharacterSuccess(3);
-      expect(action).toEqual({
-        type: "FETCH_FILM_CHARACTER_SUCCESS",
-        payload: { characterId: 3, character: undefined },
-      });
-    });
-  });
-
-  describe("Fetching film characters (FAILURE)", () => {
-    it("fetchFilmCharacterFailure_emptyError", () => {
+    it("Failure", () => {
       const action = Action.fetchFilmCharacterFailure();
       expect(action).toEqual({
         type: "FETCH_FILM_CHARACTER_FAILURE",
-        payload: { errorMessage: undefined },
-      });
-    });
-
-    it("fetchFilmCharacterFailure_nullError", () => {
-      const action = Action.fetchFilmCharacterFailure(null);
-      expect(action).toEqual({
-        type: "FETCH_FILM_CHARACTER_FAILURE",
-        payload: { errorMessage: null },
-      });
-    });
-
-    it("fetchFilmCharacterFailure", () => {
-      const action = Action.fetchFilmCharacterFailure("a");
-      expect(action).toEqual({
-        type: "FETCH_FILM_CHARACTER_FAILURE",
-        payload: { errorMessage: "a" },
       });
     });
   });
 
-  describe("Fetching character (REQUEST)", () => {
-    it("fetchCharacterRequest_empty", () => {
+  describe("Fetching characters", () => {
+    it("Request", () => {
+      const action = Action.fetchCharacterRequest(1);
+      expect(action).toEqual({
+        type: "FETCH_CHARACTER_REQUEST",
+        payload: { characterId: 1 },
+      });
+    });
+
+    it("Request (empty case)", () => {
       const action = Action.fetchCharacterRequest();
       expect(action).toEqual({
         type: "FETCH_CHARACTER_REQUEST",
@@ -120,7 +103,7 @@ describe("Characters actions", () => {
       });
     });
 
-    it("fetchCharacterRequest_null", () => {
+    it("Request (null case)", () => {
       const action = Action.fetchCharacterRequest(null);
       expect(action).toEqual({
         type: "FETCH_CHARACTER_REQUEST",
@@ -128,17 +111,15 @@ describe("Characters actions", () => {
       });
     });
 
-    it("fetchCharacterRequest", () => {
-      const action = Action.fetchCharacterRequest(1);
+    it("Success", () => {
+      const action = Action.fetchCharacterSuccess(2);
       expect(action).toEqual({
-        type: "FETCH_CHARACTER_REQUEST",
-        payload: { characterId: 1 },
+        type: "FETCH_CHARACTER_SUCCESS",
+        payload: { characterId: 2 },
       });
     });
-  });
 
-  describe("Fetching character (SUCCESS)", () => {
-    it("fetchCharacterSuccess_empty", () => {
+    it("Success (empty case)", () => {
       const action = Action.fetchCharacterSuccess();
       expect(action).toEqual({
         type: "FETCH_CHARACTER_SUCCESS",
@@ -146,7 +127,7 @@ describe("Characters actions", () => {
       });
     });
 
-    it("fetchCharacterSuccess_null", () => {
+    it("Success (null case)", () => {
       const action = Action.fetchCharacterSuccess(null);
       expect(action).toEqual({
         type: "FETCH_CHARACTER_SUCCESS",
@@ -154,56 +135,197 @@ describe("Characters actions", () => {
       });
     });
 
-    it("fetchCharacterSuccess", () => {
-      const action = Action.fetchCharacterSuccess(2);
-      expect(action).toEqual({
-        type: "FETCH_CHARACTER_SUCCESS",
-        payload: { characterId: 2 },
-      });
-    });
-  });
-
-  describe("Fetching character (FAILURE)", () => {
-    it("fetchCharacterFailure_empty", () => {
+    it("Failure", () => {
       const action = Action.fetchCharacterFailure();
       expect(action).toEqual({
         type: "FETCH_CHARACTER_FAILURE",
-        payload: { errorMessage: undefined },
       });
     });
 
-    it("fetchCharacterFailure_null", () => {
-      const action = Action.fetchCharacterFailure(null);
-      expect(action).toEqual({
-        type: "FETCH_CHARACTER_FAILURE",
-        payload: { errorMessage: null },
-      });
-    });
-
-    it("fetchCharacterFailure", () => {
-      const action = Action.fetchCharacterFailure("error1");
-      expect(action).toEqual({
-        type: "FETCH_CHARACTER_FAILURE",
-        payload: { errorMessage: "error1" },
-      });
-    });
-  });
-
-  describe("Fetching character (SKIP)", () => {
-    it("skipFetchCharacter", () => {
+    it("Skip", () => {
       const action = Action.skipFetchCharacter();
       expect(action).toEqual({
         type: "SKIP_FETCH_CHARACTER",
       });
     });
-  });
 
-  describe("Adding character", () => {
-    it("addCharacter", () => {
+    it("Add character", () => {
       const action = Action.addCharacter(1, "filmId");
       expect(action).toEqual({
         type: "ADD_CHARACTER",
         payload: { characterId: 1, character: "filmId" },
+      });
+    });
+  });
+
+  describe("Thunk actions", () => {
+    describe("Thunk actions for fetch single film", () => {
+      let store;
+      beforeEach(() => {
+        moxios.install();
+        store = mockStore(initialState);
+      });
+      afterEach(() => {
+        moxios.uninstall();
+      });
+
+      it("Success", () => {
+        jest.setTimeout(10000);
+        moxios.wait(function () {
+          let request = moxios.requests.mostRecent();
+          request.respondWith({
+            status: 200,
+            response: { name: "MyName" },
+          });
+        });
+
+        const expectedActions = [
+          {
+            type: "FETCH_CHARACTER_REQUEST",
+            payload: { characterId: 1 },
+          },
+          {
+            type: "FETCH_CHARACTER_SUCCESS",
+            payload: { characterId: 1 },
+          },
+          {
+            type: "ADD_CHARACTER",
+            payload: { characterId: 1, character: { name: "MyName" } },
+          },
+        ];
+        return store.dispatch(Action.fetchCharacter(1)).then(() => {
+          const actualAction = store.getActions();
+          expect(actualAction).toEqual(expectedActions);
+        });
+      });
+
+      it("Skip (already fetched)", () => {
+        jest.setTimeout(10000);
+
+        const expectedActions = [
+          {
+            type: "FETCH_CHARACTER_REQUEST",
+            payload: { characterId: 2 },
+          },
+          {
+            type: "SKIP_FETCH_CHARACTER",
+          },
+        ];
+        store.dispatch(Action.fetchCharacter(2));
+        const actualAction = store.getActions();
+        expect(actualAction).toEqual(expectedActions);
+      });
+
+      it("Failure (API Error)", () => {
+        jest.setTimeout(10000);
+        moxios.wait(function () {
+          let request = moxios.requests.mostRecent();
+          request.respondWith({
+            status: 500,
+          });
+        });
+
+        const expectedActions = [
+          {
+            type: "FETCH_CHARACTER_REQUEST",
+            payload: { characterId: 1 },
+          },
+          {
+            type: "FETCH_CHARACTER_FAILURE",
+          },
+        ];
+        return store.dispatch(Action.fetchCharacter(1)).then(() => {
+          const actualAction = store.getActions();
+          expect(actualAction).toEqual(expectedActions);
+        });
+      });
+
+      it("Failure (invalid param)", () => {
+        jest.setTimeout(10000);
+
+        const expectedActions = [
+          {
+            type: "FETCH_CHARACTER_FAILURE",
+          },
+        ];
+        store.dispatch(Action.fetchCharacter("invalid"));
+        const actualAction = store.getActions();
+        expect(actualAction).toEqual(expectedActions);
+      });
+
+      describe("Thunk actions for check film characters", () => {
+        const fetchingCharsState = {
+          films: {
+            isFetching: false,
+            isCached: false,
+            items: [{ id: 8, characters: [2] }],
+          },
+          currentFilm: {
+            id: 8,
+            isFetchingFilm: false,
+            isFetchingCharacters: true,
+          },
+          currentCharacter: { id: null, isFetching: false },
+          characters: [{ id: 2 }],
+        };
+
+        let store;
+        beforeEach(() => {
+          moxios.install();
+          store = mockStore(fetchingCharsState);
+        });
+        afterEach(() => {
+          moxios.uninstall();
+        });
+
+        it("Success", () => {
+          jest.setTimeout(10000);
+
+          const expectedActions = [
+            {
+              type: "FETCH_FILM_CHARACTERS_SUCCESS",
+              payload: { filmId: 8 },
+            },
+          ];
+          store.dispatch(Action.checkFilmCharacters());
+          const actualAction = store.getActions();
+          expect(actualAction).toEqual(expectedActions);
+        });
+      });
+
+      describe("Thunk actions for check film characters", () => {
+        const fetchingCharsState = {
+          films: {
+            isFetching: false,
+            isCached: false,
+            items: [{ id: 8, characters: [2] }],
+          },
+          currentFilm: {
+            id: 8,
+            isFetchingFilm: false,
+            isFetchingCharacters: true,
+          },
+          currentCharacter: { id: null, isFetching: false },
+          characters: [{ id: 2, isFetching: true }],
+        };
+
+        let store;
+        beforeEach(() => {
+          moxios.install();
+          store = mockStore(fetchingCharsState);
+        });
+        afterEach(() => {
+          moxios.uninstall();
+        });
+
+        it("Success", () => {
+          jest.setTimeout(10000);
+
+          const expectedActions = [];
+          store.dispatch(Action.checkFilmCharacters());
+          const actualAction = store.getActions();
+          expect(actualAction).toEqual(expectedActions);
+        });
       });
     });
   });
