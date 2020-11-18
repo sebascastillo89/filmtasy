@@ -253,7 +253,7 @@ describe("Characters actions", () => {
         expect(actualAction).toEqual(expectedActions);
       });
 
-      describe("Thunk actions for check film characters", () => {
+      describe("Thunk actions for check film characters (Success)", () => {
         const fetchingCharsState = {
           films: {
             isFetching: false,
@@ -293,7 +293,7 @@ describe("Characters actions", () => {
         });
       });
 
-      describe("Thunk actions for check film characters", () => {
+      describe("Thunk actions for check film characters (skip)", () => {
         const fetchingCharsState = {
           films: {
             isFetching: false,
@@ -318,7 +318,7 @@ describe("Characters actions", () => {
           moxios.uninstall();
         });
 
-        it("Success", () => {
+        it("Skip", () => {
           jest.setTimeout(10000);
 
           const expectedActions = [];

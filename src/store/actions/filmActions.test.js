@@ -1,5 +1,4 @@
 import * as Action from "./filmActions";
-import * as FilmsAction from "./filmsActions";
 import moxios from "moxios";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";

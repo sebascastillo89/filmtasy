@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import FilmSmallCard from "./FilmSmallCard";
 import { CardDeck } from "react-bootstrap";
-import * as FilmsHelper from "./FilmsHelper";
+import * as FilmsHelper from "../helpers/FilmsHelper";
 import * as FavsHelper from "../favs/FavsHelper";
 
 function FilmsBoard({ onlyFav, films }) {

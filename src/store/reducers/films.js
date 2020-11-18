@@ -1,4 +1,4 @@
-import * as FilmsHelper from "../../components/films/FilmsHelper";
+import * as FilmsHelper from "../../components/helpers/FilmsHelper";
 
 const initialState = {
   isFetching: false,
