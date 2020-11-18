@@ -28,7 +28,6 @@ export const fetchFilmFailure = () => ({
 export function fetchFilm(filmId) {
   return function (dispatch, getState) {
     if (!Number.isInteger(filmId)) {
-      //TODO ERROR
       dispatch(fetchFilmFailure());
     } else {
       const id = parseInt(filmId);
@@ -38,9 +37,9 @@ export function fetchFilm(filmId) {
       const film = getState().films.items.find((obj) => obj.id === id);
 
       if (isCached || film) {
-        dispatch(skipFetchFilm(filmId));
+        dispatch(skipFetchFilm(id));
       } else {
-        return axios.get(GET_FILMS_URI + filmId).then(
+        return axios.get(GET_FILMS_URI + id).then(
           (json) => {
             dispatch(fetchFilmSuccess());
             dispatch(addFilm(json.data));

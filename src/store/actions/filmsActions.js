@@ -29,7 +29,7 @@ export function fetchAllFilms() {
     } else {
       return axios.get(GET_FILMS_URI).then(
         (json) => {
-          dispatch(fetchAllFilmsSuccess(json.data.results));
+          dispatch(fetchAllFilmsSuccess(json?.data?.results));
         },
         (error) => {
           dispatch(fetchAllFilmsFailure());
