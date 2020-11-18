@@ -12,7 +12,7 @@ export const fetchAllFilmsSkip = () => ({
 });
 
 export const fetchAllFilmsSuccess = (json) => ({
-  type: "FETCH_ALL_FILMS_OK",
+  type: "FETCH_ALL_FILMS_SUCCESS",
   payload: { films: json },
 });
 

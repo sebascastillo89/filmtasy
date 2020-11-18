@@ -6,7 +6,7 @@ import FilmCard from "../components/films/FilmCard";
 import { fetchFilm } from "../store/actions/index";
 import NotFound from "../components/NotFound";
 
-function Film({ currentFilm, getFilm }) {
+function CurrentFilm({ currentFilm, getFilm }) {
   let { id } = useParams();
   const filmId = parseInt(id);
 
@@ -36,4 +36,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Film);
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentFilm);

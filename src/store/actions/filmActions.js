@@ -7,7 +7,7 @@ export const fetchFilmRequest = (filmId) => ({
 });
 
 export const fetchFilmSuccess = () => ({
-  type: "FETCH_FILM_OK",
+  type: "FETCH_FILM_SUCCESS",
 });
 
 export const addFilm = (json) => ({

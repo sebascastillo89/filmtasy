@@ -6,7 +6,7 @@ import CharacterCard from "../components/characters/CharacterCard";
 import { fetchCharacter } from "../store/actions/index";
 import NotFound from "../components/NotFound";
 
-function Character({ currentCharacter, getCharacter }) {
+function CurrentCharacter({ currentCharacter, getCharacter }) {
   let { id } = useParams();
   const characterId = parseInt(id);
 
@@ -36,4 +36,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Character);
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentCharacter);

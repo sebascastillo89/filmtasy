@@ -18,7 +18,7 @@ describe("Films actions", () => {
   it("Fetch all films (SUCCESS)", () => {
     const action = Action.fetchAllFilmsSuccess(1);
     expect(action).toEqual({
-      type: "FETCH_ALL_FILMS_OK",
+      type: "FETCH_ALL_FILMS_SUCCESS",
       payload: { films: 1 },
     });
   });
@@ -26,7 +26,7 @@ describe("Films actions", () => {
   it("Fetch all films (SUCCESS NULL)", () => {
     const action = Action.fetchAllFilmsSuccess(null);
     expect(action).toEqual({
-      type: "FETCH_ALL_FILMS_OK",
+      type: "FETCH_ALL_FILMS_SUCCESS",
       payload: { films: null },
     });
   });
@@ -34,7 +34,7 @@ describe("Films actions", () => {
   it("Fetch all films (REQUEST EMPTY)", () => {
     const action = Action.fetchAllFilmsSuccess();
     expect(action).toEqual({
-      type: "FETCH_ALL_FILMS_OK",
+      type: "FETCH_ALL_FILMS_SUCCESS",
       payload: { films: undefined },
     });
   });

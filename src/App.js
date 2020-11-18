@@ -5,8 +5,8 @@ import NavBar from "./components/NavBar";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Films from "./pages/Films";
-import Film from "./pages/Film";
-import Character from "./pages/Character";
+import CurrentFilm from "./pages/CurrentFilm";
+import CurrentCharacter from "./pages/CurrentCharacter";
 import Favourites from "./pages/Favourites";
 import About from "./pages/About";
 
@@ -22,10 +22,10 @@ function App() {
               <Films />
             </Route>
             <Route exact path="/films/:id">
-              <Film />
+              <CurrentFilm />
             </Route>
             <Route exact path="/characters/:id">
-              <Character />
+              <CurrentCharacter />
             </Route>
             <Route exact path="/favourites">
               <Favourites />

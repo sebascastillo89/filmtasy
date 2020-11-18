@@ -31,7 +31,7 @@ describe("Single film actions", () => {
     it("fetchFilmSuccess", () => {
       const action = Action.fetchFilmSuccess();
       expect(action).toEqual({
-        type: "FETCH_FILM_OK",
+        type: "FETCH_FILM_SUCCESS",
       });
     });
   });

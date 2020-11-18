@@ -67,7 +67,7 @@ describe("Thunk actions to fetch films", () => {
           type: "FETCH_ALL_FILMS_REQUEST",
         },
         {
-          type: "FETCH_ALL_FILMS_OK",
+          type: "FETCH_ALL_FILMS_SUCCESS",
           payload: { films: [mockFilm] },
         },
       ];
@@ -92,7 +92,7 @@ describe("Thunk actions to fetch films", () => {
           type: "FETCH_ALL_FILMS_REQUEST",
         },
         {
-          type: "FETCH_ALL_FILMS_OK",
+          type: "FETCH_ALL_FILMS_SUCCESS",
           payload: { films: undefined },
         },
       ];
@@ -156,7 +156,7 @@ describe("Thunk actions to fetch films", () => {
           payload: { filmId: 4 },
         },
         {
-          type: "FETCH_FILM_OK",
+          type: "FETCH_FILM_SUCCESS",
         },
         {
           type: "ADD_FILM",
@@ -221,7 +221,7 @@ describe("Thunk actions to fetch films", () => {
           payload: { filmId: 4 },
         },
         {
-          type: "FETCH_FILM_OK",
+          type: "FETCH_FILM_SUCCESS",
         },
         {
           type: "ADD_FILM",

@@ -8,7 +8,7 @@ const initialState = {
 
 export default function films(state = initialState, action) {
   const FETCH_ALL_FILMS_REQUEST = "FETCH_ALL_FILMS_REQUEST";
-  const FETCH_ALL_FILMS_OK = "FETCH_ALL_FILMS_OK";
+  const FETCH_ALL_FILMS_SUCCESS = "FETCH_ALL_FILMS_SUCCESS";
   const FETCH_ALL_FILMS_ERROR = "FETCH_ALL_FILMS_ERROR";
   const FETCH_ALL_FILMS_SKIP = "FETCH_ALL_FILMS_SKIP";
   const ADD_FILM = "ADD_FILM";
@@ -19,13 +19,15 @@ export default function films(state = initialState, action) {
         ...state,
         isFetching: true,
       };
-    case FETCH_ALL_FILMS_OK:
+
+    case FETCH_ALL_FILMS_SUCCESS:
       return {
         ...state,
         isFetching: false,
         isCached: true,
         items: FilmsHelper.mapJsonToFilms(action.payload.films),
       };
+
     case FETCH_ALL_FILMS_ERROR:
       return {
         ...state,
@@ -33,16 +35,19 @@ export default function films(state = initialState, action) {
         isCached: false,
         items: [],
       };
+
     case FETCH_ALL_FILMS_SKIP:
       return {
         ...state,
         isFetching: false,
       };
+
     case ADD_FILM:
       return {
         ...state,
         items: [...state.items, FilmsHelper.mapJsonToFilm(action.payload.film)],
       };
+
     default:
       return state;
   }

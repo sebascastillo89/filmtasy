@@ -3,7 +3,7 @@ import { mount, configure } from "enzyme";
 import { Provider } from "react-redux";
 import Adapter from "enzyme-adapter-react-16";
 import { createStore, applyMiddleware } from "redux";
-import Film from "./Film";
+import CurrentFilm from "./CurrentFilm";
 import thunk from "redux-thunk";
 import { Route, MemoryRouter } from "react-router-dom";
 
@@ -18,7 +18,7 @@ describe("Film page", () => {
       <Provider store={store}>
         <MemoryRouter initialEntries={["films/1"]}>
           <Route path="films/:id">
-            <Film />
+            <CurrentFilm />
           </Route>
         </MemoryRouter>
       </Provider>

@@ -7,6 +7,7 @@ export default function characters(state = [], action) {
   switch (action.type) {
     case FETCH_FILM_CHARACTER_REQUEST:
       return [...state, { id: action.payload.characterId, isFetching: true }];
+
     case FETCH_FILM_CHARACTER_SUCCESS:
       const newChars = [...state];
       const charIndex = newChars.findIndex(
@@ -22,14 +23,13 @@ export default function characters(state = [], action) {
           },
         };
       }
-
       return newChars;
+
     case FETCH_FILM_CHARACTER_FAILURE:
       const newChars3 = [...state];
       const charIndex3 = newChars3.findIndex(
         (char) => char.id === action.payload.characterId
       );
-
       if (charIndex3 !== -1) {
         newChars3[charIndex3] = {
           ...newChars3[charIndex3],
@@ -37,8 +37,8 @@ export default function characters(state = [], action) {
           item: null,
         };
       }
-
       return newChars3;
+
     case ADD_CHARACTER:
       return [
         ...state,
@@ -51,6 +51,7 @@ export default function characters(state = [], action) {
           },
         },
       ];
+
     default:
       return state;
   }
