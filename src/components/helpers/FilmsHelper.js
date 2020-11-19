@@ -1,4 +1,4 @@
-import * as CharacterHelper from "../characters/CharacterHelper";
+import * as CharacterHelper from "./CharacterHelper";
 
 export function getIdFromUrl(filmUrl) {
   const filmPrefixIndex = filmUrl?.indexOf("films/") ?? -1;

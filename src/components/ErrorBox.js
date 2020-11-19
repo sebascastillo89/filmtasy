@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Alert } from "react-bootstrap";
-import { removeError } from "../../store/actions/index";
+import { removeError } from "../store/actions/index";
 
 export const errorCatalog = {
   errorFetchingFilms: "Error fetching films from API",

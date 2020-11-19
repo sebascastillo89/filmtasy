@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Card } from "react-bootstrap";
 import CharacterList from "../characters/CharacterList";
 import * as FilmsHelper from "../helpers/FilmsHelper";
-import FavStar from "../favs/FavStar";
+import FavStar from "../FavStar";
 
 function FilmCard({ filmId, films }) {
   const film =

@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import FavStar from "../favs/FavStar";
+import FavStar from "../FavStar";
 
 function FilmCard({ title, subtitle, src, id }) {
   return (

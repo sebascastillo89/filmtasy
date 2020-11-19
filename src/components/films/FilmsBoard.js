@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import FilmSmallCard from "./FilmSmallCard";
 import { CardDeck } from "react-bootstrap";
 import * as FilmsHelper from "../helpers/FilmsHelper";
-import * as FavsHelper from "../favs/FavsHelper";
+import * as FavsHelper from "../helpers/FavsHelper";
 
 function FilmsBoard({ onlyFav, films }) {
   if (!films.items || films.items.length === 0) {

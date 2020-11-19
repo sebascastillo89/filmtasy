@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import FavStar from "../favs/FavStar";
+import FavStar from "../FavStar";
 
 function CharacterLinkedName({ characters, characterId, isLast }) {
   const character = characters.find((obj) => obj.id === parseInt(characterId));

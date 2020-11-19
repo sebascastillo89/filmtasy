@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Card } from "react-bootstrap";
 import CharBreadcrumb from "./CharBreadcrumb";
-import FavStar from "../favs/FavStar";
+import FavStar from "../FavStar";
 
 function CharacterCard({ characterId, characters }) {
   const character = characters.find((cobj) => cobj.id === characterId);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import emptyStar from "../images/emptyStar.svg";
-import filledStar from "../images/filledStar.svg";
-import * as FavsHelper from "./FavsHelper";
+import emptyStar from "./images/emptyStar.svg";
+import filledStar from "./images/filledStar.svg";
+import * as FavsHelper from "./helpers/FavsHelper";
 
 function FavStar({ id, type, readOnly }) {
   const filmId = parseInt(id); //TODO PARSE
