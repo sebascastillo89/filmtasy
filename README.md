@@ -19,21 +19,52 @@ Once installed, in the project directory, you can run:
 - **yarn build**: Builds the app for production to the `build` folder.\
 - **yarn eject**: Once you `eject`, you can’t go back! This command will remove the single build dependency from your project.
 
-## What I've learned
+## Developer Guide
 
-Filmtasy was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and use following tools:
+### React
 
-- [Yarn](https://yarnpkg.com/) as package manager.
-- [React-Router-Dom](https://reactrouter.com/web/guides/quick-start) as client-side routing.
-- [Redux](https://redux.js.org/) as state container.
-- [Redux-Thunk](https://github.com/reduxjs/redux-thunk) as middleware for basic Redux side effects logic
-- [React-Bootstrap](https://react-bootstrap.github.io/) as CSS Framework
-- [Axios](https://github.com/axios/axios) as promise based HTTP client
-- [Moxios](https://github.com/axios/moxios) Mock axios requests for testing
-- [redux-mock-store](https://github.com/reduxjs/redux-mock-store) A mock store for testing Redux async action creators and middleware
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Actually runs with React v16.13.0 and uses [Yarn](https://yarnpkg.com/) as package manager.
+
+### React-Router-Dom
+
+Filmtasy uses [React-Router-Dom](https://reactrouter.com/web/guides/quick-start) as client-side routing, allowing to navigate between different components, changing the browser URL, modifying the browser history, and keeping the UI state in sync. We define five routes in our application:
+
+- / shows the list of films
+- /films/:id shows information about a single film (by id)
+- /characters/:id shows information about a single character (by id)
+- /favourites shows user's favourites films
+- /about shows information about project and a link to our repository
+
+### Redux
+
+We use [Redux](https://redux.js.org/) together with React as state container, which helped us reduce the coupling between components. We have splitted our logic (state, actions and reducers) into five slices: films, characters, currentCharacter, currentFilms and errors.
+
+Considering 6 Star Wars films has been released in the last 28 years, I guess SWAPI doesn't update often. For this reason, Filmtasy caches all information retrieved by SWAPI in redux state. Maybe it's not a good cache solution with large scale application, but its works fine with our little data storage.
+
+Therefore, once a film or character is fetched from the API, the data is cached in the store, preventing new requests to the API. However, the data is not persisted in any storage: if you refresh the page, Filmtasy retrieves the data again.
+
+### Local Storage
+
+Users can save films and characters as favorites. If user refresh page or close browser, we would like to keep their preferences. We save favorites selection in localstorage.
+
+### Axios and Redux-Thunk
+
+We use [Axios](https://github.com/axios/axios) as promise based HTTP client for fetching data from SWAPI.
+To write async logic that interacts with the store, we use [Redux-Thunk](https://github.com/reduxjs/redux-thunk), as middleware for basic Redux side effects logic.
+
+Using Axios combined with Redux-Thunk, we can display a spinner while the data is being retrieved and render our component (or not found page) once async logic is finished.
+
+### React Bootstrap
+
+Filmtasy uses [React-Bootstrap](https://react-bootstrap.github.io/) as CSS Framework
 
 ### Testing
 
-I am using jest and enzyme to test Filmtasy. Provider, and MemoryRouter has been used to mock Redux store and useParams hook.
+For testing, we import the following dependencies:
+
+- [jest](https://jestjs.io/) as main testing framework
+- [enzyme](https://enzymejs.github.io/enzyme/) as testing utility for testing components
+- [moxios](https://github.com/axios/moxios) enable mock axios requests for testing
+- [redux-mock-store](https://github.com/reduxjs/redux-mock-store) enable a mock store for testing Redux async action creators and middleware
 
 ![May the force be with you.](https://www.clipartkey.com/mpngs/m/6-62632_clip-art-may-the-force-be-with-you.png)
