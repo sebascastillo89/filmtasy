@@ -2,7 +2,7 @@
 
 **Filmtasy** is a SWAPI client for React. The [Star Wars API, or "SWAPI"](https://swapi.dev/) (Swah-pee) is the world's first quantified and programmatically-accessible data source for all the data from the Star Wars canon universe!
 
-(\*) **Learning area**: Filmtasy is my first React App. This project allow me to experience and learn a new framework and its a huge source of training and self-development
+(\*) **Learning area**: Filmtasy is my first React App. This project allow me to experience and learn a new framework and its a huge source of training and self-development. In this area, you have to deal with bugs and technical debt.
 
 ## Demo
 
