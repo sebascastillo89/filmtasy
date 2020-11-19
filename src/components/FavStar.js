@@ -4,7 +4,7 @@ import filledStar from "./images/filledStar.svg";
 import * as FavsHelper from "./helpers/FavsHelper";
 
 function FavStar({ id, type, readOnly }) {
-  const filmId = parseInt(id); //TODO PARSE
+  const filmId = parseInt(id);
   const isFilm = type === "film";
   const [fav, setFav] = useState(
     isFilm ? FavsHelper.isFavFilm(filmId) : FavsHelper.isFavCharacter(filmId)
@@ -20,7 +20,7 @@ function FavStar({ id, type, readOnly }) {
     }
   }
 
-  if (readOnly && !fav) {
+  if (isNaN(filmId) || (readOnly && !fav)) {
     return null;
   } else {
     return (

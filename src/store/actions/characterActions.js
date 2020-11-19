@@ -1,6 +1,7 @@
 import axios from "axios";
+import { addError } from "./errorActions";
 
-const GET_CHARACTER_URI = "https://swapi.dev/api/people/";
+const GET_CHARACTER_URI = "https://swapi.dev/api/peoplee/";
 
 export const fetchFilmCharacterRequest = (characterId) => ({
   type: "FETCH_FILM_CHARACTER_REQUEST",
@@ -33,9 +34,9 @@ export const skipFetchCharacter = () => ({
   type: "SKIP_FETCH_CHARACTER",
 });
 
-export const addCharacter = (id, json) => ({
+export const addCharacter = (id, success, json) => ({
   type: "ADD_CHARACTER",
-  payload: { characterId: id, character: json },
+  payload: { characterId: id, success: success, character: json },
 });
 
 export const fetchFilmCharactersSuccess = (filmId) => ({
@@ -67,16 +68,17 @@ export function fetchCharacter(characterId) {
         (character) => character.id === parseInt(characterId)
       );
 
-      if (!character) {
+      if (!character || character.isFailure) {
         return axios.get(GET_CHARACTER_URI + characterId).then(
           (json) => {
             dispatch(fetchCharacterSuccess(charId));
-            dispatch(addCharacter(characterId, json.data));
+            dispatch(addCharacter(characterId, true, json.data));
             dispatch(checkFilmCharacters());
           },
           (error) => {
-            //TODO call error reducer
+            dispatch(addError("errorFetchingCharacter"));
             dispatch(fetchCharacterFailure());
+            dispatch(addCharacter(characterId, false, null));
             dispatch(checkFilmCharacters());
           }
         );

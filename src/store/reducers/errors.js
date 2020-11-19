@@ -2,8 +2,9 @@ export default function errors(state = [], action) {
   const ADD_ERROR = "ADD_ERROR";
   const REMOVE_ERROR = "REMOVE_ERROR";
   switch (action.type) {
-    //TODO Solo añadir si no existe previamente (set?)
     case ADD_ERROR:
+      const newErrors = [...state];
+      if (newErrors.includes(action.payload.error)) return newErrors;
       return [...state, action.payload.error];
 
     case REMOVE_ERROR:

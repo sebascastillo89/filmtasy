@@ -4,18 +4,20 @@ export default function characters(state = [], action) {
   const FETCH_FILM_CHARACTER_FAILURE = "FETCH_FILM_CHARACTER_FAILURE";
   const ADD_CHARACTER = "ADD_CHARACTER";
 
+  let newState = [...state];
+  let index = -1;
+
   switch (action.type) {
     case FETCH_FILM_CHARACTER_REQUEST:
       return [...state, { id: action.payload.characterId, isFetching: true }];
 
     case FETCH_FILM_CHARACTER_SUCCESS:
-      const newChars = [...state];
-      const charIndex = newChars.findIndex(
+      index = newState.findIndex(
         (char) => char.id === action.payload.characterId
       );
-      if (charIndex !== -1) {
-        newChars[charIndex] = {
-          ...newChars[charIndex],
+      if (index !== -1) {
+        newState[index] = {
+          ...newState[index],
           isFetching: false,
           item: {
             ...action.payload.character,
@@ -23,28 +25,34 @@ export default function characters(state = [], action) {
           },
         };
       }
-      return newChars;
+      return newState;
 
     case FETCH_FILM_CHARACTER_FAILURE:
-      const newChars3 = [...state];
-      const charIndex3 = newChars3.findIndex(
+      index = newState.findIndex(
         (char) => char.id === action.payload.characterId
       );
-      if (charIndex3 !== -1) {
-        newChars3[charIndex3] = {
-          ...newChars3[charIndex3],
+      if (index !== -1) {
+        newState[index] = {
+          ...newState[index],
           isFetching: false,
           item: null,
         };
       }
-      return newChars3;
+      return newState;
 
     case ADD_CHARACTER:
+      index = newState.findIndex(
+        (char) => char.id === action.payload.characterId
+      );
+      if (index !== -1) {
+        newState.splice(index, 1);
+      }
       return [
-        ...state,
+        ...newState,
         {
           id: action.payload.characterId,
           isFetching: false,
+          isFailure: !action.payload.success,
           item: {
             ...action.payload.character,
             id: action.payload.characterId,

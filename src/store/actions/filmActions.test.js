@@ -202,6 +202,10 @@ describe("Thunk action", () => {
           payload: { filmId: 4 },
         },
         {
+          type: "ADD_ERROR",
+          payload: { error: "errorFetchingFilm" },
+        },
+        {
           type: "FETCH_FILM_ERROR",
         },
       ];

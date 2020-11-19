@@ -4,7 +4,7 @@ import FavStar from "../FavStar";
 
 function CharacterLinkedName({ characters, characterId, isLast }) {
   const character = characters.find((obj) => obj.id === parseInt(characterId));
-  if (!character || !character.item) {
+  if (!character || !character.item?.name) {
     return null;
   } else {
     const link = "/characters/" + characterId;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { addError } from "./errorActions";
 const GET_FILMS_URI = "https://swapi.dev/api/films/";
 
 export const fetchFilmRequest = (filmId) => ({
@@ -45,7 +46,7 @@ export function fetchFilm(filmId) {
             dispatch(addFilm(json.data));
           },
           (error) => {
-            //TODO call error reducer
+            dispatch(addError("errorFetchingFilm"));
             dispatch(fetchFilmFailure());
           }
         );

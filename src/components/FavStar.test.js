@@ -12,6 +12,11 @@ describe("FavStar", () => {
       expect(wrapper.find("img").at(0).props().alt).toBe("emptyStar");
     });
 
+    it("No render cause invalid id", () => {
+      const wrapper = shallow(<FavStar id="NaN" type="film" />);
+      expect(wrapper.isEmptyRender()).toBe(true);
+    });
+
     it("Set as fav", () => {
       localStorage.clear();
       const wrapper = shallow(<FavStar id="1" type="film" />);

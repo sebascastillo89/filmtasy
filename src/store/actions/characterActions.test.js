@@ -150,10 +150,10 @@ describe("Characters actions", () => {
     });
 
     it("Add character", () => {
-      const action = Action.addCharacter(1, "filmId");
+      const action = Action.addCharacter(1, true, "filmId");
       expect(action).toEqual({
         type: "ADD_CHARACTER",
-        payload: { characterId: 1, character: "filmId" },
+        payload: { characterId: 1, success: true, character: "filmId" },
       });
     });
   });
@@ -190,7 +190,11 @@ describe("Characters actions", () => {
           },
           {
             type: "ADD_CHARACTER",
-            payload: { characterId: 1, character: { name: "MyName" } },
+            payload: {
+              characterId: 1,
+              success: true,
+              character: { name: "MyName" },
+            },
           },
         ];
         return store.dispatch(Action.fetchCharacter(1)).then(() => {
@@ -231,7 +235,15 @@ describe("Characters actions", () => {
             payload: { characterId: 1 },
           },
           {
+            type: "ADD_ERROR",
+            payload: { error: "errorFetchingCharacter" },
+          },
+          {
             type: "FETCH_CHARACTER_FAILURE",
+          },
+          {
+            type: "ADD_CHARACTER",
+            payload: { character: null, characterId: 1, success: false },
           },
         ];
         return store.dispatch(Action.fetchCharacter(1)).then(() => {

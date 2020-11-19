@@ -63,13 +63,17 @@ describe("Characters reducers", () => {
     it("add character", () => {
       const newState = characters([{ id: 1, isFetching: true }], {
         type: "ADD_CHARACTER",
-        payload: { characterId: 1, character: { name: "charName" } },
+        payload: {
+          characterId: 1,
+          success: true,
+          character: { name: "charName" },
+        },
       });
       expect(newState).toEqual([
-        { id: 1, isFetching: true },
         {
           id: 1,
           isFetching: false,
+          isFailure: false,
           item: {
             name: "charName",
             id: 1,
