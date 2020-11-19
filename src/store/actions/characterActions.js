@@ -1,7 +1,7 @@
 import axios from "axios";
 import { addError } from "./errorActions";
 
-const GET_CHARACTER_URI = "https://swapi.dev/api/peoplee/";
+const GET_CHARACTER_URI = "https://swapi.dev/api/people/";
 
 export const fetchFilmCharacterRequest = (characterId) => ({
   type: "FETCH_FILM_CHARACTER_REQUEST",

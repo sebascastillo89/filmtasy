@@ -16,7 +16,6 @@ describe("Films reducers", () => {
   });
   describe("Success", () => {
     it("fetch all films (SUCCESS)", () => {
-      //TODO probar casos similares con url y characters incorrectos
       const newState = films(
         {
           isFetching: true,

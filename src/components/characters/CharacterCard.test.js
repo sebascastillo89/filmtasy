@@ -32,7 +32,7 @@ describe("Character Card", () => {
     const wrapper = getCardWrapper({
       characters: [
         {
-          id: "1", //TODO ESTE ID DEBERIA SER NUMERICO
+          id: 1,
           isFetching: false,
           item: {
             name: "MyName",

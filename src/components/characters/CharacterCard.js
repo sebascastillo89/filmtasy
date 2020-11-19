@@ -5,7 +5,10 @@ import CharBreadcrumb from "./CharBreadcrumb";
 import FavStar from "../FavStar";
 
 function CharacterCard({ characterId, characters }) {
-  const character = characters.find((cobj) => cobj.id === characterId);
+  const id = parseInt(characterId);
+  const character = !isNaN(id)
+    ? characters.find((cobj) => cobj.id === id)
+    : null;
 
   if (!character || !character.item) {
     return null;
@@ -15,7 +18,7 @@ function CharacterCard({ characterId, characters }) {
         <CharBreadcrumb charName={character.item.name} />
         <Card.Body>
           <Card.Title>
-            {character.item.name} <FavStar id={characterId} type="character" />
+            {character.item.name} <FavStar id={id} type="character" />
           </Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
             {character.item.gender}
