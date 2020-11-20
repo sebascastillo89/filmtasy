@@ -5,6 +5,7 @@ import Adapter from "enzyme-adapter-react-16";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import CharacterList from "./CharacterList";
+import { Route, MemoryRouter } from "react-router-dom";
 
 configure({ adapter: new Adapter() });
 
@@ -15,7 +16,11 @@ describe("Character List", () => {
 
     return mount(
       <Provider store={store}>
-        <CharacterList film={film} />
+        <MemoryRouter initialEntries={["films"]}>
+          <Route path="films">
+            <CharacterList film={film} />
+          </Route>
+        </MemoryRouter>
       </Provider>
     );
   }

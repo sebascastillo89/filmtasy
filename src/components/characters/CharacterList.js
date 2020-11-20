@@ -10,7 +10,6 @@ function CharacterList({ currentFilm, film, getCharacters }) {
   }, []);
 
   const isCurrentFilm = currentFilm.id === parseInt(film.id);
-
   if (!isCurrentFilm || currentFilm.isFetchingCharacters) {
     return <Spinner />;
   } else {

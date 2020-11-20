@@ -59,6 +59,7 @@ export function fetchCharacters(filmId) {
 export function fetchCharacter(characterId) {
   return function (dispatch, getState) {
     if (!Number.isInteger(characterId)) {
+      dispatch(addError("errorFetchingCharacter"));
       dispatch(fetchCharacterFailure());
     } else {
       const charId = parseInt(characterId);
@@ -69,6 +70,8 @@ export function fetchCharacter(characterId) {
       );
 
       if (!character || character.isFailure) {
+        // ENABLE THIS CONSOLE LOG TO ENSURE API IS CALLED ONLY ONCE
+        //console.log("GET_CHARACTER_URI " + characterId);
         return axios.get(GET_CHARACTER_URI + characterId).then(
           (json) => {
             dispatch(fetchCharacterSuccess(charId));
@@ -96,14 +99,12 @@ export function checkFilmCharacters() {
       const currentFilm = getState().films.items.find(
         (obj) => obj.id === getState().currentFilm.id
       );
-
       let stillFetching = false;
       for (const filmCharacter of currentFilm.characters) {
         const characterId = filmCharacter;
         const stateCharacter = getState().characters.find(
           (obj) => obj.id === characterId
         );
-
         if (!stateCharacter || stateCharacter.isFetching) {
           stillFetching = true;
           break;

@@ -3,16 +3,38 @@ import { connect } from "react-redux";
 import { fetchAllFilms } from "../store/actions/index";
 import Spinner from "../components/Spinner";
 import FilmsBoard from "../components/films/FilmsBoard";
+import { Button } from "react-bootstrap";
 
 function Favourites({ films, getFilms }) {
   useEffect(() => {
     getFilms();
   }, []);
 
+  function onClear(e) {
+    e.preventDefault();
+    localStorage.clear();
+    alert("Stored keys were cleaned");
+    getFilms();
+  }
+
   if (films.isFetching) {
     return <Spinner />;
   } else {
-    return <FilmsBoard onlyFav />;
+    return (
+      <>
+        <FilmsBoard onlyFav />
+        <div>
+          <Button
+            onClick={(e) => onClear(e)}
+            variant="secondary"
+            size="lg"
+            block
+          >
+            Clear cache
+          </Button>
+        </div>
+      </>
+    );
   }
 }
 

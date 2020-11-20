@@ -5,18 +5,9 @@ import Adapter from "enzyme-adapter-react-16";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import CharBreadcrumb from "./CharBreadcrumb";
+import { Route, MemoryRouter } from "react-router-dom";
 
 configure({ adapter: new Adapter() });
-
-const mockGoBack = jest.fn();
-
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useHistory: () => ({
-    push: jest.fn(),
-    goBack: mockGoBack,
-  }),
-}));
 
 function getWrapper(state, charname) {
   const reducer = jest.fn().mockReturnValue(state);
@@ -24,7 +15,11 @@ function getWrapper(state, charname) {
 
   return mount(
     <Provider store={store}>
-      <CharBreadcrumb charName={charname} />
+      <MemoryRouter initialEntries={["characters/1"]}>
+        <Route path="characters/:id">
+          <CharBreadcrumb charName={charname} />
+        </Route>
+      </MemoryRouter>
     </Provider>
   );
 }
@@ -52,17 +47,5 @@ describe("CharBreadcrumb", () => {
     );
     expect(wrapper.isEmptyRender()).toBe(false);
     expect(wrapper.exists("Breadcrumb")).toBe(true);
-  });
-
-  it("Click film (go back)", () => {
-    const wrapper = getWrapper(
-      {
-        currentFilm: { id: 1 },
-        films: { items: [{ id: 1, title: "MyTitle" }] },
-      },
-      "MyName"
-    );
-    wrapper.find("BreadcrumbItem").at(1).simulate("click");
-    expect(mockGoBack).toHaveBeenCalled();
   });
 });

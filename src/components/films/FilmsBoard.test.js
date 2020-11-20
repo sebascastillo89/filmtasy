@@ -5,6 +5,7 @@ import Adapter from "enzyme-adapter-react-16";
 import { createStore, applyMiddleware } from "redux";
 import FilmsBoard from "./FilmsBoard";
 import thunk from "redux-thunk";
+import { Route, MemoryRouter } from "react-router-dom";
 
 configure({ adapter: new Adapter() });
 
@@ -14,7 +15,11 @@ function getBoardWrapper(state) {
   const store = createStore(reducer, applyMiddleware(thunk));
   return mount(
     <Provider store={store}>
-      <FilmsBoard />
+      <MemoryRouter initialEntries={["films"]}>
+        <Route path="films">
+          <FilmsBoard />
+        </Route>
+      </MemoryRouter>
     </Provider>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import FavStar from "../FavStar";
+import { Link } from "react-router-dom";
 
 function FilmCard({ title, subtitle, src, id }) {
   return (
@@ -12,9 +13,7 @@ function FilmCard({ title, subtitle, src, id }) {
         <Card.Text>
           <FavStar id={id} type="film" />
         </Card.Text>
-        <Card.Link variant="bottom" href={"films/" + id}>
-          Show more
-        </Card.Link>
+        <Link to={"films/" + id}>Show more</Link>
       </Card.Body>
     </Card>
   );

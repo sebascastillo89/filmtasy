@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { Container } from "react-bootstrap";
 import ErrorBox from "./components/ErrorBox";
 import NavBar from "./components/NavBar";
 import { connect } from "react-redux";
@@ -12,31 +13,33 @@ import About from "./pages/About";
 
 function App() {
   return (
-    <div className="App">
-      <NavBar />
-      <ErrorBox />
-      <Router>
-        <div>
-          <Switch>
-            <Route exact path="/">
-              <Films />
-            </Route>
-            <Route exact path="/films/:id">
-              <CurrentFilm />
-            </Route>
-            <Route exact path="/characters/:id">
-              <CurrentCharacter />
-            </Route>
-            <Route exact path="/favourites">
-              <Favourites />
-            </Route>
-            <Route exact path="/about">
-              <About />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    </div>
+    <Container fluid>
+      <div className="App">
+        <Router>
+          <NavBar />
+          <ErrorBox />
+          <div>
+            <Switch>
+              <Route exact path="/">
+                <Films />
+              </Route>
+              <Route exact path="/films/:id">
+                <CurrentFilm />
+              </Route>
+              <Route exact path="/characters/:id">
+                <CurrentCharacter />
+              </Route>
+              <Route exact path="/favourites">
+                <Favourites />
+              </Route>
+              <Route exact path="/about">
+                <About />
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      </div>
+    </Container>
   );
 }
 

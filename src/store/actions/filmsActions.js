@@ -27,6 +27,8 @@ export function fetchAllFilms() {
     if (getState().films.isCached) {
       dispatch(fetchAllFilmsSkip());
     } else {
+      // ENABLE THIS CONSOLE LOG TO ENSURE API IS CALLED ONLY ONCE
+      //console.log("GET_FILMS_URI");
       return axios.get(GET_FILMS_URI).then(
         (json) => {
           dispatch(fetchAllFilmsSuccess(json?.data?.results));
