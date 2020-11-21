@@ -1,8 +1,7 @@
 import * as Action from "./characterActions";
 import moxios from "moxios";
-import configureMockStore from "redux-mock-store";
-import thunk from "redux-thunk";
 
+jest.setTimeout(10000);
 describe("Characters actions", () => {
   describe("Requesting a film character", () => {
     it("When id is specified, then the payload include the same characterId", () => {
@@ -153,36 +152,16 @@ describe("Characters actions", () => {
     });
   });
 
-  describe("Thunk actions", () => {
-    const middleware = [thunk];
-    const mockStore = configureMockStore(middleware);
-    const initialState = {
-      films: {
-        isFetching: false,
-        isCached: false,
-        items: [],
-      },
-      currentFilm: {
-        id: null,
-        isFetchingFilm: false,
-        isFetchingCharacters: false,
-      },
-      currentCharacter: { id: null, isFetching: false },
-      characters: [{ id: 2 }],
-    };
-
-    describe("Thunk actions for fetching a character", () => {
-      jest.setTimeout(10000);
-      let store;
+  describe("Thunk characters", () => {
+    describe("fetchCharacter", () => {
       beforeEach(() => {
         moxios.install();
-        store = mockStore(initialState);
       });
       afterEach(() => {
         moxios.uninstall();
       });
 
-      it("When no-cached id is specified, then call API with successfull response, and add new character", () => {
+      it("When API return 200OK, then dispatch data", async () => {
         moxios.wait(function () {
           let request = moxios.requests.mostRecent();
           request.respondWith({
@@ -190,170 +169,112 @@ describe("Characters actions", () => {
             response: { name: "MyName" },
           });
         });
-
-        const expectedActions = [
-          {
-            type: "FETCH_CHARACTER_REQUEST",
-            payload: { characterId: 1 },
+        const dispatch = jest.fn();
+        const getState = jest.fn().mockReturnValue({
+          characters: [{ id: 2 }],
+        });
+        await Action.fetchCharacter(1)(dispatch, getState);
+        expect(dispatch.mock.calls[0][0]).toEqual({
+          type: "FETCH_CHARACTER_REQUEST",
+          payload: { characterId: 1 },
+        });
+        expect(dispatch.mock.calls[1][0]).toEqual({
+          type: "FETCH_CHARACTER_SUCCESS",
+          payload: { characterId: 1 },
+        });
+        expect(dispatch.mock.calls[2][0]).toEqual({
+          type: "ADD_CHARACTER",
+          payload: {
+            characterId: 1,
+            success: true,
+            character: { name: "MyName" },
           },
-          {
-            type: "FETCH_CHARACTER_SUCCESS",
-            payload: { characterId: 1 },
-          },
-          {
-            type: "ADD_CHARACTER",
-            payload: {
-              characterId: 1,
-              success: true,
-              character: { name: "MyName" },
-            },
-          },
-        ];
-        return store.dispatch(Action.fetchCharacter(1)).then(() => {
-          const actualAction = store.getActions();
-          expect(actualAction).toEqual(expectedActions);
         });
       });
 
-      it("When cached id is specified, then skip this request", () => {
-        jest.setTimeout(10000);
-
-        const expectedActions = [
-          {
-            type: "FETCH_CHARACTER_REQUEST",
-            payload: { characterId: 2 },
-          },
-          {
-            type: "SKIP_FETCH_CHARACTER",
-          },
-        ];
-        store.dispatch(Action.fetchCharacter(2));
-        const actualAction = store.getActions();
-        expect(actualAction).toEqual(expectedActions);
-      });
-
-      it("When API returns error, then add error to store", () => {
-        jest.setTimeout(10000);
+      it("When API return 500Error, then dispatch errors", async () => {
         moxios.wait(function () {
           let request = moxios.requests.mostRecent();
-          request.respondWith({
+          request.reject({
             status: 500,
+            response: null,
           });
         });
-
-        const expectedActions = [
-          {
-            type: "FETCH_CHARACTER_REQUEST",
-            payload: { characterId: 1 },
+        const dispatch = jest.fn();
+        const getState = jest.fn().mockReturnValue({
+          characters: [{ id: 2 }],
+        });
+        await Action.fetchCharacter(1)(dispatch, getState);
+        expect(dispatch.mock.calls[0][0]).toEqual({
+          type: "FETCH_CHARACTER_REQUEST",
+          payload: { characterId: 1 },
+        });
+        expect(dispatch.mock.calls[1][0]).toEqual({
+          type: "FETCH_CHARACTER_FAILURE",
+        });
+        expect(dispatch.mock.calls[2][0]).toEqual({
+          type: "ADD_ERROR",
+          payload: { error: "errorFetchingCharacter" },
+        });
+        expect(dispatch.mock.calls[3][0]).toEqual({
+          type: "ADD_CHARACTER",
+          payload: {
+            characterId: 1,
+            success: false,
+            character: null,
           },
-          {
-            type: "ADD_ERROR",
-            payload: { error: "errorFetchingCharacter" },
-          },
-          {
-            type: "FETCH_CHARACTER_FAILURE",
-          },
-          {
-            type: "ADD_CHARACTER",
-            payload: { character: null, characterId: 1, success: false },
-          },
-        ];
-        return store.dispatch(Action.fetchCharacter(1)).then(() => {
-          const actualAction = store.getActions();
-          expect(actualAction).toEqual(expectedActions);
         });
       });
 
-      it("When invalid id is specified, then add error to store", () => {
-        jest.setTimeout(10000);
-
-        const expectedActions = [
-          {
-            type: "ADD_ERROR",
-            payload: { error: "errorFetchingCharacter" },
-          },
-          {
-            type: "FETCH_CHARACTER_FAILURE",
-          },
-        ];
-        store.dispatch(Action.fetchCharacter("invalid"));
-        const actualAction = store.getActions();
-        expect(actualAction).toEqual(expectedActions);
+      it("When character is cached, then skip fetch", async () => {
+        const dispatch = jest.fn();
+        const getState = jest.fn().mockReturnValue({
+          characters: [{ id: 2 }],
+        });
+        await Action.fetchCharacter(2)(dispatch, getState);
+        expect(dispatch.mock.calls[0][0]).toEqual({
+          type: "FETCH_CHARACTER_REQUEST",
+          payload: { characterId: 2 },
+        });
+        expect(dispatch.mock.calls[1][0]).toEqual({
+          type: "SKIP_FETCH_CHARACTER",
+        });
       });
     });
 
-    describe("Thunk actions for check film characters (all characters has been fetched)", () => {
-      jest.setTimeout(10000);
-      const allCharsFetchedState = {
-        films: {
-          isFetching: false,
-          isCached: false,
-          items: [{ id: 8, characters: [2] }],
-        },
-        currentFilm: {
-          id: 8,
-          isFetchingFilm: false,
-          isFetchingCharacters: true,
-        },
-        currentCharacter: { id: null, isFetching: false },
-        characters: [{ id: 2 }],
-      };
-
-      let store;
-      beforeEach(() => {
-        moxios.install();
-        store = mockStore(allCharsFetchedState);
-      });
-      afterEach(() => {
-        moxios.uninstall();
+    describe("checkFilmCharacters", () => {
+      it("When current film has no pending characters, then dispatch an action", async () => {
+        const dispatch = jest.fn();
+        const getState = jest.fn().mockReturnValue({
+          currentFilm: { id: 4, isFetchingCharacters: true },
+          films: { items: [{ id: 4, characters: [2] }] },
+          characters: [{ id: 2 }],
+        });
+        Action.checkFilmCharacters()(dispatch, getState);
+        expect(dispatch.mock.calls[0][0]).toEqual({
+          type: "FETCH_FILM_CHARACTERS_SUCCESS",
+          payload: { filmId: 4 },
+        });
       });
 
-      it("When all film characters are cached, then we dispatch this action", () => {
-        jest.setTimeout(10000);
-
-        const expectedActions = [
-          {
-            type: "FETCH_FILM_CHARACTERS_SUCCESS",
-            payload: { filmId: 8 },
-          },
-        ];
-        store.dispatch(Action.checkFilmCharacters());
-        const actualAction = store.getActions();
-        expect(actualAction).toEqual(expectedActions);
-      });
-    });
-
-    describe("Thunk actions for check film characters (characters are fetching yet)", () => {
-      jest.setTimeout(10000);
-      const fetchingCharsState = {
-        films: {
-          isFetching: false,
-          isCached: false,
-          items: [{ id: 8, characters: [2] }],
-        },
-        currentFilm: {
-          id: 8,
-          isFetchingFilm: false,
-          isFetchingCharacters: true,
-        },
-        currentCharacter: { id: null, isFetching: false },
-        characters: [{ id: 2, isFetching: true }],
-      };
-
-      let store;
-      beforeEach(() => {
-        moxios.install();
-        store = mockStore(fetchingCharsState);
-      });
-      afterEach(() => {
-        moxios.uninstall();
+      it("When current film is not fetching characters, then dispatch anything", async () => {
+        const dispatch = jest.fn();
+        const getState = jest.fn().mockReturnValue({
+          currentFilm: { isFetchingCharacters: false },
+        });
+        Action.checkFilmCharacters()(dispatch, getState);
+        expect(dispatch.mock.calls).toEqual([]);
       });
 
-      it("When all film characters are not cached yet, then we dont dispatch action", () => {
-        const expectedActions = [];
-        store.dispatch(Action.checkFilmCharacters());
-        const actualAction = store.getActions();
-        expect(actualAction).toEqual(expectedActions);
+      it("When current film is fetching characters but there are an character fetching, then dispatch anything", async () => {
+        const dispatch = jest.fn();
+        const getState = jest.fn().mockReturnValue({
+          currentFilm: { id: 4, isFetchingCharacters: true },
+          films: { items: [{ id: 4, characters: [2] }] },
+          characters: [{ id: 2, isFetching: true }],
+        });
+        Action.checkFilmCharacters()(dispatch, getState);
+        expect(dispatch.mock.calls).toEqual([]);
       });
     });
   });

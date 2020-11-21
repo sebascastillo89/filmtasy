@@ -11,6 +11,16 @@ describe("Error reducers", () => {
       expect(newState).toEqual(["errorTest"]);
     });
   });
+  describe("SKIP", () => {
+    it("Adding existing error", () => {
+      const newState = errors(["errorTest"], {
+        type: "ADD_ERROR",
+        payload: { error: "errorTest" },
+      });
+      expect(newState.length).toEqual(1);
+      expect(newState).toEqual(["errorTest"]);
+    });
+  });
   describe("REMOVE", () => {
     it("Removing error", () => {
       const newState = errors(["errorTest"], {
