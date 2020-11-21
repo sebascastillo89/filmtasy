@@ -14,6 +14,7 @@ function About() {
       </p>
 
       <Button
+        className="repo-link"
         href="https://github.com/sebascastillo89/filmtasy"
         target="_blank"
         variant="primary"

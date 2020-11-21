@@ -25,6 +25,7 @@ function Favourites({ films, getFilms }) {
         <FilmsBoard onlyFav />
         <div>
           <Button
+            className="clear-cache"
             onClick={(e) => onClear(e)}
             variant="secondary"
             size="lg"

@@ -21,7 +21,7 @@ function FilmCard({ filmId, films }) {
           <Card.Subtitle className="mb-2 text-muted">
             {FilmsHelper.getSubtitle(film)}
           </Card.Subtitle>
-          <Card.Text>{film.opening_crawl}</Card.Text>
+          <Card.Text className="card-crawl">{film.opening_crawl}</Card.Text>
           <Card.Text>
             <b>Release date:</b> {film.release_date}
           </Card.Text>

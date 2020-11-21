@@ -18,6 +18,7 @@ Once installed, in the project directory, you can run:
 - **yarn test**: Launches the test runner in the interactive watch mode
 - **yarn build**: Builds the app for production to the `build` folder.\
 - **yarn eject**: Once you `eject`, you can’t go back! This command will remove the single build dependency from your project.
+- **yarn run cypress open**: Launch the Cypress Test Runner.
 
 ## Developer Guide
 

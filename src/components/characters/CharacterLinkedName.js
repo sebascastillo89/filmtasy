@@ -10,7 +10,7 @@ function CharacterLinkedName({ characters, characterId, isLast }) {
   } else {
     const link = "/characters/" + characterId;
     return (
-      <Link to={link}>
+      <Link className="char-link-name" to={link}>
         {character.item.name}
         <FavStar id={characterId} type="character" readOnly />
         {isLast ? "." : ", "}

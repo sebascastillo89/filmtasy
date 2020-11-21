@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function FilmCard({ title, subtitle, src, id }) {
   return (
-    <Card className="text-center" style={{ width: "18rem" }}>
+    <Card className="filmSmallCard text-center" style={{ width: "18rem" }}>
       <Card.Img variant="top" src={src} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
@@ -13,7 +13,9 @@ function FilmCard({ title, subtitle, src, id }) {
         <Card.Text>
           <FavStar id={id} type="film" />
         </Card.Text>
-        <Link to={"films/" + id}>Show more</Link>
+        <Link className="showMore" to={"films/" + id}>
+          Show more
+        </Link>
       </Card.Body>
     </Card>
   );

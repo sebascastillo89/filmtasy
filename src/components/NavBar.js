@@ -8,7 +8,7 @@ export default function NavBar() {
     <>
       <Navbar expand="sm" bg="dark" variant="dark">
         <LinkContainer to="/">
-          <Navbar.Brand>
+          <Navbar.Brand className="filmtasyLogo">
             <img
               src={logo}
               width="30"
@@ -21,13 +21,13 @@ export default function NavBar() {
         </LinkContainer>
         <Nav className="mr-auto">
           <LinkContainer to="/">
-            <Nav.Link>Films</Nav.Link>
+            <Nav.Link className="filmsLink">Films</Nav.Link>
           </LinkContainer>
           <LinkContainer to="/favourites">
-            <Nav.Link>Favourites</Nav.Link>
+            <Nav.Link className="favLink">Favourites</Nav.Link>
           </LinkContainer>
           <LinkContainer to="/about">
-            <Nav.Link>About</Nav.Link>
+            <Nav.Link className="aboutLink">About</Nav.Link>
           </LinkContainer>
         </Nav>
       </Navbar>

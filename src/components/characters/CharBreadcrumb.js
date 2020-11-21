@@ -10,10 +10,10 @@ function CharBreadcrumb({ films, charName, selectedFilm }) {
     const film = films.items.find((fobj) => fobj.id === selectedFilm);
     return (
       <Breadcrumb>
-        <LinkContainer to="/">
+        <LinkContainer className="link-to-home" to="/">
           <Breadcrumb.Item>Home</Breadcrumb.Item>
         </LinkContainer>
-        <LinkContainer to={"/films/" + selectedFilm}>
+        <LinkContainer className="link-to-film" to={"/films/" + selectedFilm}>
           <Breadcrumb.Item>{film.title}</Breadcrumb.Item>
         </LinkContainer>
         <Breadcrumb.Item active>{charName}</Breadcrumb.Item>

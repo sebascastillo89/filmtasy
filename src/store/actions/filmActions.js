@@ -28,9 +28,8 @@ export const fetchFilmFailure = () => ({
 // THUNK ACTION FOR FETCH A SINGLE FILM
 export const fetchFilm = (filmId) => async (dispatch, getState) => {
   const id = parseInt(filmId);
-  dispatch(fetchFilmRequest(id));
-
   const isAlreadyCurrent = getState().currentFilm.id === id;
+  dispatch(fetchFilmRequest(id));
   const isCached =
     getState().films.isCached ||
     getState().films.items.find((obj) => obj.id === id);

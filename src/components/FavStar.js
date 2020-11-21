@@ -25,6 +25,7 @@ function FavStar({ id, type, readOnly }) {
   } else {
     return (
       <img
+        className={fav ? "filled-star" : "empty-star"}
         style={{ verticalAlign: "top" }}
         src={fav ? filledStar : emptyStar}
         alt={fav ? "filledStar" : "emptyStar"}
