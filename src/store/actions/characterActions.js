@@ -81,7 +81,6 @@ export const fetchCharacter = (characterId) => async (dispatch, getState) => {
 };
 
 export const checkFilmCharacters = () => (dispatch, getState) => {
-  console.log("sebas checkFilmCharacters");
   if (getState().currentFilm.isFetchingCharacters) {
     const currentFilm = getState().films.items.find(
       (obj) => obj.id === getState().currentFilm.id

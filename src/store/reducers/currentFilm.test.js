@@ -66,7 +66,7 @@ describe("Current film reducers", () => {
       );
       expect(newState.id).toEqual(1);
       expect(newState.isFetchingFilm).toEqual(false);
-      expect(newState.isFetchingCharacters).toEqual(true);
+      expect(newState.isFetchingCharacters).toEqual(false);
       expect(newState.isFailure).toEqual(false);
     });
   });
