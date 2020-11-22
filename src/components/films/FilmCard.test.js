@@ -1,12 +1,9 @@
 import React from "react";
-import { mount, configure } from "enzyme";
+import { mount } from "enzyme";
 import { Provider } from "react-redux";
-import Adapter from "enzyme-adapter-react-16";
 import { createStore, applyMiddleware } from "redux";
 import FilmCard from "./FilmCard";
 import thunk from "redux-thunk";
-
-configure({ adapter: new Adapter() });
 
 function getFilmCardWrapper(state, filmId) {
   const reducer = jest.fn().mockReturnValue(state);

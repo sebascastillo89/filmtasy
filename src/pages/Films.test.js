@@ -1,45 +1,27 @@
 import React from "react";
-import { mount, configure } from "enzyme";
+import { mount } from "enzyme";
 import { Provider } from "react-redux";
-import Adapter from "enzyme-adapter-react-16";
 import { createStore, applyMiddleware } from "redux";
 import Films from "./Films";
 import thunk from "redux-thunk";
 
-configure({ adapter: new Adapter() });
-
 describe("Films page", () => {
-  function getFilmsWrapper(state) {
-    const reducer = jest.fn().mockReturnValue(state);
+  const initialState = {
+    films: {
+      isFetching: false,
+      isCached: false,
+      items: [],
+    },
+  };
+
+  it("When render component, then render FilmsBoard", () => {
+    const reducer = jest.fn().mockReturnValue(initialState);
     const store = createStore(reducer, applyMiddleware(thunk));
-    return mount(
+    const wrapper = mount(
       <Provider store={store}>
         <Films />
       </Provider>
     );
-  }
-
-  it("Render spinner if is fetching", () => {
-    const wrapper = getFilmsWrapper({
-      films: {
-        isFetching: true,
-        isCached: false,
-        items: [],
-      },
-    });
-    expect(wrapper.exists("Spinner")).toBe(true);
-    expect(wrapper.exists("FilmsBoard")).toBe(false);
-  });
-
-  it("Render board if is not fetching", () => {
-    const wrapper = getFilmsWrapper({
-      films: {
-        isFetching: false,
-        isCached: false,
-        items: [],
-      },
-    });
-    expect(wrapper.exists("Spinner")).toBe(false);
     expect(wrapper.exists("FilmsBoard")).toBe(true);
   });
 });

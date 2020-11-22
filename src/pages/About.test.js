@@ -1,9 +1,6 @@
 import React from "react";
-import { shallow, configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import { shallow } from "enzyme";
 import About from "./About";
-
-configure({ adapter: new Adapter() });
 
 describe("About page", () => {
   it("Render my name", () => {

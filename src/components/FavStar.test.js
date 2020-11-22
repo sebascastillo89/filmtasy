@@ -1,9 +1,6 @@
 import React from "react";
-import { shallow, configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import { shallow } from "enzyme";
 import FavStar from "./FavStar";
-
-configure({ adapter: new Adapter() });
 
 describe("FavStar", () => {
   describe("Non fav film", () => {

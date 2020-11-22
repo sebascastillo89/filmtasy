@@ -57,6 +57,11 @@ To write async logic that interacts with the store, we use [Redux-Thunk](https:/
 
 Using Axios combined with Redux-Thunk, we can display a spinner while the data is being retrieved and render our component (or not found page) once async logic is finished.
 
+### i18n
+
+Filmtasy is available in Spanish and English, using [i18next](https://www.i18next.com/) as internationalization-framework.
+You can change language in our navigation bar.
+
 ### React Bootstrap
 
 Filmtasy uses [React-Bootstrap](https://react-bootstrap.github.io/) as CSS Framework
@@ -78,7 +83,6 @@ As a side-project, Filmtasy is currently ongoing and we are dealing with technic
 
 - Random error in unit testing. Sometimes runs OK, sometimes it appears as a UnhandledPromiseRejectionWarning, sometimes fail. This bug is driving me crazy!
 - SWAPI does not provide images, so we have covers and characters pictures in local json. We could implement a wrapper API to SWAPI
-- TO-DO: i18n
 - TO-DO: Docker
 
 ![May the force be with you.](https://www.clipartkey.com/mpngs/m/6-62632_clip-art-may-the-force-be-with-you.png)

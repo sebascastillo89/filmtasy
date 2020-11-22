@@ -1,13 +1,10 @@
 import React from "react";
-import { mount, configure } from "enzyme";
+import { mount } from "enzyme";
 import { Provider } from "react-redux";
-import Adapter from "enzyme-adapter-react-16";
 import { createStore, applyMiddleware } from "redux";
 import CurrentCharacter from "./CurrentCharacter";
 import thunk from "redux-thunk";
 import { Route, MemoryRouter } from "react-router-dom";
-
-configure({ adapter: new Adapter() });
 
 describe("Character page", () => {
   function getCharacterWrapper(state) {

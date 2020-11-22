@@ -1,27 +1,15 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchAllFilms } from "../store/actions/index";
-import Spinner from "../components/Spinner";
 import FilmsBoard from "../components/films/FilmsBoard";
 
-function Films({ films, getFilms }) {
+function Films({ getFilms }) {
   useEffect(() => {
     getFilms();
-  }, []); // eslint-disable-line
+  }); // eslint-disable-line
 
-  if (films.isFetching) {
-    return <Spinner />;
-  } else {
-    return <FilmsBoard />;
-  }
+  return <FilmsBoard />;
 }
-
-// Redux
-const mapStateToProps = (state) => {
-  return {
-    films: state.films,
-  };
-};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -29,4 +17,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Films);
+export default connect(null, mapDispatchToProps)(Films);

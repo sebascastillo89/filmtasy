@@ -2,12 +2,19 @@ import React from "react";
 import { connect } from "react-redux";
 import FilmSmallCard from "./FilmSmallCard";
 import { CardDeck } from "react-bootstrap";
+import Spinner from "../Spinner";
 import * as FilmsHelper from "../helpers/FilmsHelper";
 import * as FavsHelper from "../helpers/FavsHelper";
+import { useTranslation } from "react-i18next";
 
 function FilmsBoard({ onlyFav, films }) {
-  if (!films.items || films.items.length === 0) {
-    return <h3>There are no films</h3>;
+  const { t } = useTranslation();
+  const { items } = films;
+
+  if (films.isFetching) {
+    return <Spinner />;
+  } else if (!items || items.length === 0) {
+    return null;
   } else {
     const filmSmallCards = films.items.map((film) => {
       if (!onlyFav || (onlyFav && FavsHelper.isFavFilm(film.id))) {
@@ -26,7 +33,7 @@ function FilmsBoard({ onlyFav, films }) {
     });
     return (
       <div>
-        <p>Click in a film to retrieve more information:</p>
+        <p>{t("FilmBoardDesc")}</p>
         <CardDeck>{filmSmallCards}</CardDeck>
       </div>
     );
