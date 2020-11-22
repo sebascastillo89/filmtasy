@@ -8,8 +8,6 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b88d6c1b-4cfe-4ee7-a907-3b6efb964d2b/deploy-status)](https://app.netlify.com/sites/practical-mcnulty-40c0fb/deploys)
 If you want to see the demo of this proyect deployed, you can visit: [Filmtasy running on Netlify](https://practical-mcnulty-40c0fb.netlify.app/)
-
-[![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/sebascastillo89/filmtasy)
 Filmtasy is also deployed in AWS: [Filmtasy running on AWS Amplify](https://master.d3n7qst2iwya5v.amplifyapp.com/)
 
 ## How to run
