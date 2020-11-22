@@ -1,17 +1,15 @@
 import React from "react";
 import { Jumbotron, Button } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 function About() {
+  const { t } = useTranslation();
+
   return (
     <Jumbotron>
       <h1>Think outside the box!</h1>
-      <p className="about-text">
-        Hi! My name is Sebastián Castillo. I am a software developer and
-        Filmtasy is a personal side project to learn React.
-      </p>
-      <p className="about-repo">
-        Visit the Github public repository to learn more about this project.
-      </p>
+      <p className="about-text">{t("Hello")}</p>
+      <p className="about-repo">{t("VisitGithub")}</p>
 
       <Button
         className="repo-link"

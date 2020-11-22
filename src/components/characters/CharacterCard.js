@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 import { Card } from "react-bootstrap";
 import CharBreadcrumb from "./CharBreadcrumb";
 import FavStar from "../FavStar";
+import { useTranslation } from "react-i18next";
 
 function CharacterCard({ characterId, characters }) {
+  const { t } = useTranslation();
   const id = parseInt(characterId);
   const character = !isNaN(id)
     ? characters.find((cobj) => cobj.id === id)
@@ -24,19 +26,19 @@ function CharacterCard({ characterId, characters }) {
             {character.item.gender}
           </Card.Subtitle>
           <Card.Text>
-            <b>Height:</b> {character.item.height}
+            <b>{t("Height")}</b> {character.item.height}
           </Card.Text>
           <Card.Text>
-            <b>Mass:</b> {character.item.mass}
+            <b>{t("Mass")}</b> {character.item.mass}
           </Card.Text>
           <Card.Text>
-            <b>Hair color:</b> {character.item.hair_color}
+            <b>{t("HairColor")}</b> {character.item.hair_color}
           </Card.Text>
           <Card.Text>
-            <b>Skin color:</b> {character.item.skin_color}
+            <b>{t("SkinColor")}</b> {character.item.skin_color}
           </Card.Text>
           <Card.Text>
-            <b>Eye color:</b> {character.item.eye_color}
+            <b>{t("EyeColor")}</b> {character.item.eye_color}
           </Card.Text>
         </Card.Body>
       </Card>

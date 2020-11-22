@@ -3,40 +3,44 @@ import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import Favourites from "./Favourites";
+import * as FavsHelper from "../components/helpers/FavsHelper";
 import thunk from "redux-thunk";
 
 describe("Favourites page", () => {
-  function getFilmsWrapper(state) {
-    const reducer = jest.fn().mockReturnValue(state);
+  const initialState = {
+    films: {
+      isFetching: false,
+      isCached: false,
+      items: [],
+    },
+  };
+
+  it("When render component, then render FilmsBoard", () => {
+    const reducer = jest.fn().mockReturnValue(initialState);
     const store = createStore(reducer, applyMiddleware(thunk));
-    return mount(
+    const wrapper = mount(
       <Provider store={store}>
         <Favourites />
       </Provider>
     );
-  }
-
-  it("Render spinner if is fetching", () => {
-    const wrapper = getFilmsWrapper({
-      films: {
-        isFetching: true,
-        isCached: false,
-        items: [],
-      },
-    });
-    expect(wrapper.exists("Spinner")).toBe(true);
-    expect(wrapper.exists("FilmsBoard")).toBe(false);
+    expect(wrapper.exists("FilmsBoard")).toBe(true);
   });
 
-  it("Render board if is not fetching", () => {
-    const wrapper = getFilmsWrapper({
-      films: {
-        isFetching: false,
-        isCached: false,
-        items: [],
-      },
+  it("When clicks on button, then call clear cache helper", () => {
+    window.alert = jest.fn();
+    const spy = jest.spyOn(FavsHelper, "clearCache").mockImplementation();
+    const reducer = jest.fn().mockReturnValue(initialState);
+    const store = createStore(reducer, applyMiddleware(thunk));
+    const wrapper = mount(
+      <Provider store={store}>
+        <Favourites />
+      </Provider>
+    );
+
+    wrapper.find("button").simulate("click", {
+      preventDefault: () => {},
+      alert: (msg) => {},
     });
-    expect(wrapper.exists("Spinner")).toBe(false);
-    expect(wrapper.exists("FilmsBoard")).toBe(true);
+    expect(spy).toHaveBeenCalled();
   });
 });

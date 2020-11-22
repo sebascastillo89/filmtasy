@@ -15,6 +15,10 @@ export function isFavFilm(id) {
   return favs != null && favs.includes(id);
 }
 
+export function clearCache() {
+  localStorage.clear();
+}
+
 export function setFavCharacter(id, isFav) {
   const favs = getArrayFromStorage(FAVS_CHARS);
   let newFavs = [...favs];

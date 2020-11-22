@@ -3,5 +3,18 @@
   "Favourites": "Favoritos",
   "About": "Sobre nosotros",
   "FilmBoardDesc": "Seleccione una película para obtener más información:",
-  "ShowMore": "Ver más"
+  "ShowMore": "Ver más",
+  "ReleaseDate": "Fecha de lanzamiento:",
+  "Director": "Director:",
+  "Producer": "Productor:",
+  "Characters": "Reparto",
+  "CacheRemoved": "Se han eliminado sus preferencias",
+  "ClearCache": "Borrar preferencias",
+  "Hello": "Hey! Mi nombre es Sebastián Castillo. Soy desarrollador de software y Filmtasy es un side project personal para aprender un poco de React",
+  "VisitGithub": "Para saber más sobre estre proyecto, visita el repositorio en Github.",
+  "Height": "Altura:",
+  "Mass": "Peso:",
+  "HairColor": "Color de pelo:",
+  "SkinColor": "Color de piel:",
+  "EyeColor": "Color de ojos:"
 }

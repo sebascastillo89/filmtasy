@@ -4,8 +4,10 @@ import { Card } from "react-bootstrap";
 import CharacterList from "../characters/CharacterList";
 import * as FilmsHelper from "../helpers/FilmsHelper";
 import FavStar from "../FavStar";
+import { useTranslation } from "react-i18next";
 
 function FilmCard({ filmId, films }) {
+  const { t } = useTranslation();
   const film =
     !films || !films.items || films.items.find((fobj) => fobj.id === filmId);
   if (!film) {
@@ -23,16 +25,18 @@ function FilmCard({ filmId, films }) {
           </Card.Subtitle>
           <Card.Text className="card-crawl">{film.opening_crawl}</Card.Text>
           <Card.Text>
-            <b>Release date:</b> {film.release_date}
+            <b>{t("ReleaseDate")}</b> {film.release_date}
           </Card.Text>
           <Card.Text>
-            <b>Director:</b> {film.director}
+            <b>{t("Director")}</b> {film.director}
           </Card.Text>
           <Card.Text>
-            <b>Producer:</b> {film.producer}
+            <b>{t("Producer")}</b> {film.producer}
           </Card.Text>
           <Card.Text>
-            <b>Characters ({film.characters?.length ?? 0}):</b>
+            <b>
+              {t("Characters")} ({film.characters?.length ?? 0}):
+            </b>
           </Card.Text>
           <CharacterList film={film} />
         </Card.Body>

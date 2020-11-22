@@ -1,50 +1,42 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchAllFilms } from "../store/actions/index";
-import Spinner from "../components/Spinner";
 import FilmsBoard from "../components/films/FilmsBoard";
+import * as FavsHelper from "../components/helpers/FavsHelper";
 import { Button } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
-function Favourites({ films, getFilms }) {
+function Favourites({ getFilms }) {
+  const { t } = useTranslation();
+
   useEffect(() => {
     getFilms();
   }, []); // eslint-disable-line
 
   function onClear(e) {
     e.preventDefault();
-    localStorage.clear();
-    alert("Stored keys were cleaned");
+    FavsHelper.clearCache();
+    alert(t("CacheRemoved"));
     getFilms();
   }
 
-  if (films.isFetching) {
-    return <Spinner />;
-  } else {
-    return (
-      <>
-        <FilmsBoard onlyFav />
-        <div>
-          <Button
-            className="clear-cache"
-            onClick={(e) => onClear(e)}
-            variant="secondary"
-            size="lg"
-            block
-          >
-            Clear cache
-          </Button>
-        </div>
-      </>
-    );
-  }
+  return (
+    <>
+      <FilmsBoard onlyFav />
+      <div>
+        <Button
+          className="clear-cache"
+          onClick={(e) => onClear(e)}
+          variant="secondary"
+          size="lg"
+          block
+        >
+          {t("ClearCache")}
+        </Button>
+      </div>
+    </>
+  );
 }
-
-// Redux
-const mapStateToProps = (state) => {
-  return {
-    films: state.films,
-  };
-};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -52,4 +44,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Favourites);
+export default connect(null, mapDispatchToProps)(Favourites);
