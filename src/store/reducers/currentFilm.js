@@ -38,7 +38,6 @@ export default function currentFilm(state = initialState, action) {
       return {
         ...state,
         isFetchingFilm: false,
-        isFetchingCharacters: false,
       };
     case FETCH_FILM_CHARACTERS_SUCCESS:
       return {

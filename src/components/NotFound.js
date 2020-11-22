@@ -1,5 +1,5 @@
 import React from "react";
-import yoda from "../yoda.jpg";
+import yoda from "./images/yoda.jpg";
 
 function NotFound() {
   return (

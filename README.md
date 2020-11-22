@@ -16,6 +16,7 @@ Once installed, in the project directory, you can run:
 
 - **yarn start**: Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 - **yarn test**: Launches the test runner in the interactive watch mode
+- **yarn test --coverage -watchAll**: Launches the test runner and print coverage report.
 - **yarn build**: Builds the app for production to the `build` folder.\
 - **yarn eject**: Once you `eject`, you can’t go back! This command will remove the single build dependency from your project.
 - **yarn run cypress open**: Launch the Cypress Test Runner.
@@ -65,7 +66,17 @@ For testing, we import the following dependencies:
 
 - [jest](https://jestjs.io/) as main testing framework
 - [enzyme](https://enzymejs.github.io/enzyme/) as testing utility for testing components
-- [moxios](https://github.com/axios/moxios) enable mock axios requests for testing
-- [redux-mock-store](https://github.com/reduxjs/redux-mock-store) enable a mock store for testing Redux async action creators and middleware
+- [cypress](https://www.cypress.io/) as tool for end2end testing.
+
+Over 90% filmtasy code are coverage by unit testing. Run **yarn test --coverage -watchAll** for review the report
+There are 32 E2E test to ensure the application flow behaves as expected. Run **yarn run cypress open** for Launch Cypress Suite.
+
+## Technical Debt
+
+As a side-project, Filmtasy is currently ongoing and we are dealing with technical debt:
+
+- Random error in unit testing. Sometimes runs OK, sometimes it appears as a UnhandledPromiseRejectionWarning, sometimes fail. This bug is driving me crazy!
+- SWAPI does not provide images, so we have covers and characters pictures in local json. We could implement a wrapper API to SWAPI
+- TO-DO: i18n
 
 ![May the force be with you.](https://www.clipartkey.com/mpngs/m/6-62632_clip-art-may-the-force-be-with-you.png)

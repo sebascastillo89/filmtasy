@@ -1,10 +1,9 @@
 import React from "react";
 import "./App.css";
 import { Container } from "react-bootstrap";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ErrorBox from "./components/ErrorBox";
 import NavBar from "./components/NavBar";
-import { connect } from "react-redux";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Films from "./pages/Films";
 import CurrentFilm from "./pages/CurrentFilm";
 import CurrentCharacter from "./pages/CurrentCharacter";
@@ -43,8 +42,4 @@ function App() {
   );
 }
 
-// Redux
-const mapStateToProps = (state) => {
-  return state;
-};
-export default connect(mapStateToProps)(App);
+export default App;

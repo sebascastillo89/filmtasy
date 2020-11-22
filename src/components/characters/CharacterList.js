@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import Spinner from "../Spinner";
-import { fetchCharacters } from "../../store/actions/index";
+import { fetchCharacter } from "../../store/actions/index";
 import CharacterLinkedName from "./CharacterLinkedName";
 
-function CharacterList({ currentFilm, film, getCharacters }) {
+function CharacterList({ currentFilm, film, getCharacter }) {
   useEffect(() => {
-    getCharacters(film.id);
+    film.characters?.forEach((characterId) => {
+      getCharacter(characterId);
+    });
   }, []); // eslint-disable-line
 
   const isCurrentFilm = currentFilm.id === parseInt(film.id);
@@ -34,7 +36,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getCharacters: (filmId) => dispatch(fetchCharacters(filmId)),
+    getCharacter: (characterId) => dispatch(fetchCharacter(characterId)),
   };
 };
 

@@ -95,14 +95,7 @@ describe("Single film actions", () => {
           films: { isCached: false, items: [] },
         });
         Action.fetchFilm(1)(dispatch, getState);
-        expect(dispatch.mock.calls[0][0]).toEqual({
-          type: "FETCH_FILM_REQUEST",
-          payload: { filmId: 1 },
-        });
-        expect(dispatch.mock.calls[1][0]).toEqual({
-          type: "FETCH_FILM_SKIP",
-          payload: { filmId: 1 },
-        });
+        expect(dispatch.mock.calls).toEqual([]);
       });
 
       it("When films are cached, then skip request", () => {

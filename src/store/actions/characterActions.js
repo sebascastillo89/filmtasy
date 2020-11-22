@@ -44,16 +44,7 @@ export const fetchFilmCharactersSuccess = (filmId) => ({
   payload: { filmId: filmId },
 });
 
-// THUNK ACTION FOR FETCH FILM CHARACTERS
-export const fetchCharacters = (filmId) => (dispatch, getState) => {
-  const film = getState().films.items?.find(
-    (film) => film.id === parseInt(filmId)
-  );
-  film?.characters.map((characterId) => {
-    return dispatch(fetchCharacter(characterId));
-  });
-};
-
+// THUNK ACTION FOR FETCH SINGLE CHARACTER
 export const fetchCharacter = (characterId) => (dispatch, getState) => {
   const charId = parseInt(characterId);
   dispatch(fetchCharacterRequest(charId));

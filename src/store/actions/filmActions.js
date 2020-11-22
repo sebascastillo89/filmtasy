@@ -29,23 +29,25 @@ export const fetchFilmFailure = () => ({
 export const fetchFilm = (filmId) => (dispatch, getState) => {
   const id = parseInt(filmId);
   const isAlreadyCurrent = getState().currentFilm.id === id;
-  dispatch(fetchFilmRequest(id));
-  const isCached =
-    getState().films.isCached ||
-    getState().films.items.find((obj) => obj.id === id);
-  if (isAlreadyCurrent || isCached) {
-    dispatch(skipFetchFilm(id));
-  } else {
-    return axios
-      .get(GET_FILMS_URI + id)
-      .then(function (response) {
-        const { data } = response;
-        dispatch(fetchFilmSuccess());
-        dispatch(addFilm(data));
-      })
-      .catch(function (error) {
-        dispatch(errorActions.addError("errorFetchingFilm"));
-        dispatch(fetchFilmFailure());
-      });
+  if (!isAlreadyCurrent) {
+    dispatch(fetchFilmRequest(id));
+    const isCached =
+      getState().films.isCached ||
+      getState().films.items.find((obj) => obj.id === id);
+    if (isAlreadyCurrent || isCached) {
+      dispatch(skipFetchFilm(id));
+    } else {
+      return axios
+        .get(GET_FILMS_URI + id)
+        .then(function (response) {
+          const { data } = response;
+          dispatch(fetchFilmSuccess());
+          dispatch(addFilm(data));
+        })
+        .catch(function (error) {
+          dispatch(errorActions.addError("errorFetchingFilm"));
+          dispatch(fetchFilmFailure());
+        });
+    }
   }
 };
