@@ -1,3 +1,5 @@
+import * as CharacterHelper from "../../components/helpers/CharacterHelper";
+
 export default function characters(state = [], action) {
   const FETCH_FILM_CHARACTER_REQUEST = "FETCH_FILM_CHARACTER_REQUEST";
   const FETCH_FILM_CHARACTER_SUCCESS = "FETCH_FILM_CHARACTER_SUCCESS";
@@ -56,6 +58,7 @@ export default function characters(state = [], action) {
           item: {
             ...action.payload.character,
             id: action.payload.characterId,
+            image: CharacterHelper.getCharImage(action.payload.characterId),
           },
         },
       ];

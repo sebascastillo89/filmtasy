@@ -1,3 +1,5 @@
+import charImages from "./charImages.json";
+
 export function getIdFromUrl(characterUrl) {
   const charPrefixIndex = characterUrl?.indexOf("people/") ?? -1;
   const charSuffixIndex = characterUrl?.lastIndexOf("/") ?? -1;
@@ -9,4 +11,8 @@ export function getIdFromUrl(characterUrl) {
     }
   }
   return null;
+}
+
+export function getCharImage(charId) {
+  return charImages[charId.toString()] ?? charImages["default"];
 }

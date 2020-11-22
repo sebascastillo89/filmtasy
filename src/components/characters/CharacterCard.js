@@ -19,6 +19,7 @@ function CharacterCard({ characterId, characters }) {
       <Card style={{ width: "100%" }}>
         <CharBreadcrumb charName={character.item.name} />
         <Card.Body>
+          <Card.Img variant="top" src={character.item.image} />
           <Card.Title>
             {character.item.name} <FavStar id={id} type="character" />
           </Card.Title>
