@@ -9,6 +9,9 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b88d6c1b-4cfe-4ee7-a907-3b6efb964d2b/deploy-status)](https://app.netlify.com/sites/practical-mcnulty-40c0fb/deploys)
 If you want to see the demo of this proyect deployed, you can visit: [Filmtasy running on Netlify](https://practical-mcnulty-40c0fb.netlify.app/)
 
+[![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/sebascastillo89/filmtasy)
+Filmtasy is also deployed in AWS: [Filmtasy running on AWS Amplify](https://master.d3n7qst2iwya5v.amplifyapp.com/)
+
 ## How to run
 
 Filmtasy use [Yarn](https://yarnpkg.com/) as package manager. Read the [Installation Guide](https://yarnpkg.com/en/docs/install) on our website for detailed instructions on how to install Yarn.
@@ -78,5 +81,6 @@ As a side-project, Filmtasy is currently ongoing and we are dealing with technic
 - Random error in unit testing. Sometimes runs OK, sometimes it appears as a UnhandledPromiseRejectionWarning, sometimes fail. This bug is driving me crazy!
 - SWAPI does not provide images, so we have covers and characters pictures in local json. We could implement a wrapper API to SWAPI
 - TO-DO: i18n
+- TO-DO: Docker
 
 ![May the force be with you.](https://www.clipartkey.com/mpngs/m/6-62632_clip-art-may-the-force-be-with-you.png)
