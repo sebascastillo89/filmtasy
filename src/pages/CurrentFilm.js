@@ -12,7 +12,7 @@ function CurrentFilm({ currentFilm, getFilm }) {
 
   useEffect(() => {
     getFilm(filmId);
-  }, []);
+  }, []); // eslint-disable-line
 
   if (currentFilm.id !== filmId || currentFilm.isFetching) {
     return <Spinner />;

@@ -12,7 +12,7 @@ function CurrentCharacter({ currentCharacter, getCharacter }) {
 
   useEffect(() => {
     getCharacter(characterId);
-  }, []);
+  }, []); // eslint-disable-line
 
   if (currentCharacter.id !== characterId || currentCharacter.isFetching) {
     return <Spinner />;

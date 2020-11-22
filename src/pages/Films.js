@@ -7,7 +7,7 @@ import FilmsBoard from "../components/films/FilmsBoard";
 function Films({ films, getFilms }) {
   useEffect(() => {
     getFilms();
-  }, []);
+  }, []); // eslint-disable-line
 
   if (films.isFetching) {
     return <Spinner />;

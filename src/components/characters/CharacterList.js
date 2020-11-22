@@ -7,7 +7,7 @@ import CharacterLinkedName from "./CharacterLinkedName";
 function CharacterList({ currentFilm, film, getCharacters }) {
   useEffect(() => {
     getCharacters(film.id);
-  }, []);
+  }, []); // eslint-disable-line
 
   const isCurrentFilm = currentFilm.id === parseInt(film.id);
   if (!isCurrentFilm || currentFilm.isFetchingCharacters) {

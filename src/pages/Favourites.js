@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 function Favourites({ films, getFilms }) {
   useEffect(() => {
     getFilms();
-  }, []);
+  }, []); // eslint-disable-line
 
   function onClear(e) {
     e.preventDefault();
