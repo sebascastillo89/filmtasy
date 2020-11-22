@@ -38,7 +38,11 @@ export const fetchFilm = (filmId) => (dispatch, getState) => {
       dispatch(skipFetchFilm(id));
     } else {
       return axios
-        .get(GET_FILMS_URI + id)
+        .get(GET_FILMS_URI + id + "/", null, {
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+        })
         .then(function (response) {
           const { data } = response;
           dispatch(fetchFilmSuccess());

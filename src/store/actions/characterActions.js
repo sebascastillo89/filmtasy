@@ -55,7 +55,11 @@ export const fetchCharacter = (characterId) => (dispatch, getState) => {
 
   if (!character || character.isFailure) {
     return axios
-      .get(GET_CHARACTER_URI + charId)
+      .get(GET_CHARACTER_URI + charId + "/", null, {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+      })
       .then(function (response) {
         const { data } = response;
         dispatch(fetchCharacterSuccess(charId));
