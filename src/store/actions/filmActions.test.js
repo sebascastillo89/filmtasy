@@ -1,5 +1,9 @@
 import * as Action from "./filmActions";
-import moxios from "moxios";
+
+import axios from "axios";
+
+jest.setTimeout(10000);
+jest.mock("axios");
 
 describe("Single film actions", () => {
   describe("Requesting a film", () => {
@@ -84,20 +88,13 @@ describe("Single film actions", () => {
 
   describe("Thunk action", () => {
     describe("fetchFilm", () => {
-      beforeEach(() => {
-        moxios.install();
-      });
-      afterEach(() => {
-        moxios.uninstall();
-      });
-
-      it("When films are already current film, then skip request", async () => {
+      it("When films are already current film, then skip request", () => {
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           currentFilm: { id: 1 },
           films: { isCached: false, items: [] },
         });
-        await Action.fetchFilm(1)(dispatch, getState);
+        Action.fetchFilm(1)(dispatch, getState);
         expect(dispatch.mock.calls[0][0]).toEqual({
           type: "FETCH_FILM_REQUEST",
           payload: { filmId: 1 },
@@ -108,13 +105,13 @@ describe("Single film actions", () => {
         });
       });
 
-      it("When films are cached, then skip request", async () => {
+      it("When films are cached, then skip request", () => {
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           currentFilm: { id: 2 },
           films: { isCached: true, items: [] },
         });
-        await Action.fetchFilm(1)(dispatch, getState);
+        Action.fetchFilm(1)(dispatch, getState);
         expect(dispatch.mock.calls[0][0]).toEqual({
           type: "FETCH_FILM_REQUEST",
           payload: { filmId: 1 },
@@ -125,13 +122,13 @@ describe("Single film actions", () => {
         });
       });
 
-      it("When current film are cached, then skip request", async () => {
+      it("When current film are cached, then skip request", () => {
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           currentFilm: { id: 2 },
           films: { isCached: false, items: [{ id: 1 }] },
         });
-        await Action.fetchFilm(1)(dispatch, getState);
+        Action.fetchFilm(1)(dispatch, getState);
         expect(dispatch.mock.calls[0][0]).toEqual({
           type: "FETCH_FILM_REQUEST",
           payload: { filmId: 1 },
@@ -142,60 +139,67 @@ describe("Single film actions", () => {
         });
       });
 
-      it("When API returns 200OK, then add film", async () => {
-        moxios.wait(function () {
-          let request = moxios.requests.mostRecent();
-          request.respondWith({
+      it("When API returns 200OK, then add film", () => {
+        axios.get.mockImplementationOnce(() =>
+          Promise.resolve({
             status: 200,
-            response: { title: "MyTitle" },
-          });
-        });
+            data: { title: "MyTitle" },
+          })
+        );
 
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           currentFilm: { id: 2 },
           films: { isCached: false, items: [] },
         });
-        await Action.fetchFilm(1)(dispatch, getState);
-        expect(dispatch.mock.calls[0][0]).toEqual({
-          type: "FETCH_FILM_REQUEST",
-          payload: { filmId: 1 },
-        });
-        expect(dispatch.mock.calls[1][0]).toEqual({
-          type: "FETCH_FILM_SUCCESS",
-        });
-        expect(dispatch.mock.calls[2][0]).toEqual({
-          type: "ADD_FILM",
-          payload: { film: { title: "MyTitle" } },
-        });
+        return Action.fetchFilm(1)(dispatch, getState)
+          .then(function () {
+            expect(dispatch.mock.calls[0][0]).toEqual({
+              type: "FETCH_FILM_REQUEST",
+              payload: { filmId: 1 },
+            });
+            expect(dispatch.mock.calls[1][0]).toEqual({
+              type: "FETCH_FILM_SUCCESS",
+            });
+            expect(dispatch.mock.calls[2][0]).toEqual({
+              type: "ADD_FILM",
+              payload: { film: { title: "MyTitle" } },
+            });
+          })
+          .catch(function (err) {
+            expect(true).toEqual(false);
+          });
       });
 
-      it("When API returns 500ERR, then add film", async () => {
-        moxios.wait(function () {
-          let request = moxios.requests.mostRecent();
-          request.reject({
+      it("When API returns 500ERR, then add film", () => {
+        axios.get.mockImplementationOnce(() =>
+          Promise.reject({
             status: 500,
-            response: null,
-          });
-        });
+          })
+        );
 
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           currentFilm: { id: 2 },
           films: { isCached: false, items: [] },
         });
-        await Action.fetchFilm(1)(dispatch, getState);
-        expect(dispatch.mock.calls[0][0]).toEqual({
-          type: "FETCH_FILM_REQUEST",
-          payload: { filmId: 1 },
-        });
-        expect(dispatch.mock.calls[1][0]).toEqual({
-          type: "ADD_ERROR",
-          payload: { error: "errorFetchingFilm" },
-        });
-        expect(dispatch.mock.calls[2][0]).toEqual({
-          type: "FETCH_FILM_ERROR",
-        });
+        return Action.fetchFilm(1)(dispatch, getState)
+          .then(function () {
+            expect(dispatch.mock.calls[0][0]).toEqual({
+              type: "FETCH_FILM_REQUEST",
+              payload: { filmId: 1 },
+            });
+            expect(dispatch.mock.calls[1][0]).toEqual({
+              type: "ADD_ERROR",
+              payload: { error: "errorFetchingFilm" },
+            });
+            expect(dispatch.mock.calls[2][0]).toEqual({
+              type: "FETCH_FILM_ERROR",
+            });
+          })
+          .catch(function (err) {
+            expect(true).toEqual(false);
+          });
       });
     });
   });

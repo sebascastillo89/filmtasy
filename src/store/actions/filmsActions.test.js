@@ -1,7 +1,8 @@
 import * as Action from "./filmsActions";
-import moxios from "moxios";
+import axios from "axios";
 
 jest.setTimeout(10000);
+jest.mock("axios");
 
 describe("Films actions", () => {
   describe("Requesting films", () => {
@@ -59,19 +60,13 @@ describe("Films actions", () => {
 
   describe("Thunk action", () => {
     describe("fetchAllFilms", () => {
-      beforeEach(() => {
-        moxios.install();
-      });
-      afterEach(() => {
-        moxios.uninstall();
-      });
-
-      it("When films are already cached, then dispatch anything", async () => {
+      it("When films are already cached, then dispatch anything", () => {
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           films: { isCached: true },
+          currentFilm: {},
         });
-        await Action.fetchAllFilms()(dispatch, getState);
+        Action.fetchAllFilms()(dispatch, getState);
         expect(dispatch.mock.calls[0][0]).toEqual({
           type: "FETCH_ALL_FILMS_REQUEST",
         });
@@ -80,52 +75,63 @@ describe("Films actions", () => {
         });
       });
 
-      it("When API return 200OK, then dispatch data", async () => {
-        moxios.wait(function () {
-          let request = moxios.requests.mostRecent();
-          request.respondWith({
+      it("When API return 200OK, then dispatch data", () => {
+        axios.get.mockImplementationOnce(() =>
+          Promise.resolve({
             status: 200,
-            response: { results: [{ title: "MyTitle" }] },
-          });
-        });
+            data: { results: [{ title: "MyTitle" }] },
+          })
+        );
+
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           films: [{ isCached: false }],
+          currentFilm: {},
         });
-        await Action.fetchAllFilms()(dispatch, getState);
-        expect(dispatch.mock.calls[0][0]).toEqual({
-          type: "FETCH_ALL_FILMS_REQUEST",
-        });
-        expect(dispatch.mock.calls[1][0]).toEqual({
-          type: "FETCH_ALL_FILMS_SUCCESS",
-          payload: { films: [{ title: "MyTitle" }] },
-        });
+
+        return Action.fetchAllFilms()(dispatch, getState)
+          .then(function () {
+            expect(dispatch.mock.calls[0][0]).toEqual({
+              type: "FETCH_ALL_FILMS_REQUEST",
+            });
+            expect(dispatch.mock.calls[1][0]).toEqual({
+              type: "FETCH_ALL_FILMS_SUCCESS",
+              payload: { films: [{ title: "MyTitle" }] },
+            });
+          })
+          .catch(function (err) {
+            expect(true).toEqual(false);
+          });
       });
 
-      it("When API return 500Err, then dispatch error", async () => {
-        moxios.wait(function () {
-          let request = moxios.requests.mostRecent();
-          request.reject({
+      it("When API return 500Err, then dispatch error", () => {
+        axios.get.mockImplementationOnce(() =>
+          Promise.reject({
             status: 500,
-            response: { name: "MyName" },
-          });
-        });
+          })
+        );
+
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           films: [{ isCached: false }],
           currentFilm: { id: 14 },
         });
-        await Action.fetchAllFilms()(dispatch, getState);
-        expect(dispatch.mock.calls[0][0]).toEqual({
-          type: "FETCH_ALL_FILMS_REQUEST",
-        });
-        expect(dispatch.mock.calls[1][0]).toEqual({
-          type: "FETCH_ALL_FILMS_ERROR",
-        });
-        expect(dispatch.mock.calls[2][0]).toEqual({
-          type: "ADD_ERROR",
-          payload: { error: "errorFetchingFilms" },
-        });
+        return Action.fetchAllFilms()(dispatch, getState)
+          .then(function () {
+            expect(dispatch.mock.calls[0][0]).toEqual({
+              type: "FETCH_ALL_FILMS_REQUEST",
+            });
+            expect(dispatch.mock.calls[1][0]).toEqual({
+              type: "FETCH_ALL_FILMS_ERROR",
+            });
+            expect(dispatch.mock.calls[2][0]).toEqual({
+              type: "ADD_ERROR",
+              payload: { error: "errorFetchingFilms" },
+            });
+          })
+          .catch(function (err) {
+            expect(true).toEqual(false);
+          });
       });
     });
   });

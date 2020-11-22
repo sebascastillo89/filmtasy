@@ -26,7 +26,7 @@ export const fetchFilmFailure = () => ({
 });
 
 // THUNK ACTION FOR FETCH A SINGLE FILM
-export const fetchFilm = (filmId) => async (dispatch, getState) => {
+export const fetchFilm = (filmId) => (dispatch, getState) => {
   const id = parseInt(filmId);
   const isAlreadyCurrent = getState().currentFilm.id === id;
   dispatch(fetchFilmRequest(id));
@@ -36,15 +36,16 @@ export const fetchFilm = (filmId) => async (dispatch, getState) => {
   if (isAlreadyCurrent || isCached) {
     dispatch(skipFetchFilm(id));
   } else {
-    // ENABLE THIS CONSOLE LOG TO ENSURE API IS CALLED ONLY ONCE
-    //console.log("GET_FILMS_URI " + id);
-    try {
-      const { data } = await axios.get(GET_FILMS_URI + id);
-      dispatch(fetchFilmSuccess());
-      dispatch(addFilm(data));
-    } catch (error) {
-      dispatch(errorActions.addError("errorFetchingFilm"));
-      dispatch(fetchFilmFailure());
-    }
+    return axios
+      .get(GET_FILMS_URI + id)
+      .then(function (response) {
+        const { data } = response;
+        dispatch(fetchFilmSuccess());
+        dispatch(addFilm(data));
+      })
+      .catch(function (error) {
+        dispatch(errorActions.addError("errorFetchingFilm"));
+        dispatch(fetchFilmFailure());
+      });
   }
 };

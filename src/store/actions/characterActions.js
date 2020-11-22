@@ -45,16 +45,16 @@ export const fetchFilmCharactersSuccess = (filmId) => ({
 });
 
 // THUNK ACTION FOR FETCH FILM CHARACTERS
-export const fetchCharacters = (filmId) => async (dispatch, getState) => {
+export const fetchCharacters = (filmId) => (dispatch, getState) => {
   const film = getState().films.items?.find(
     (film) => film.id === parseInt(filmId)
   );
-  await film?.characters.map(async (characterId) => {
-    await dispatch(fetchCharacter(characterId));
+  film?.characters.map((characterId) => {
+    return dispatch(fetchCharacter(characterId));
   });
 };
 
-export const fetchCharacter = (characterId) => async (dispatch, getState) => {
+export const fetchCharacter = (characterId) => (dispatch, getState) => {
   const charId = parseInt(characterId);
   dispatch(fetchCharacterRequest(charId));
 
@@ -63,21 +63,24 @@ export const fetchCharacter = (characterId) => async (dispatch, getState) => {
   );
 
   if (!character || character.isFailure) {
-    // ENABLE THIS CONSOLE LOG TO ENSURE API IS CALLED ONLY ONCE
-    //console.log("GET_CHARACTER_URI " + characterId);
-    try {
-      const { data } = await axios.get(GET_CHARACTER_URI + charId);
-      dispatch(fetchCharacterSuccess(charId));
-      dispatch(addCharacter(charId, true, data));
-    } catch (error) {
-      dispatch(fetchCharacterFailure());
-      dispatch(errorActions.addError("errorFetchingCharacter"));
-      dispatch(addCharacter(charId, false, null));
-    }
+    return axios
+      .get(GET_CHARACTER_URI + charId)
+      .then(function (response) {
+        const { data } = response;
+        dispatch(fetchCharacterSuccess(charId));
+        dispatch(addCharacter(charId, true, data));
+        dispatch(checkFilmCharacters());
+      })
+      .catch(function (error) {
+        dispatch(fetchCharacterFailure());
+        dispatch(errorActions.addError("errorFetchingCharacter"));
+        dispatch(addCharacter(charId, false, null));
+        dispatch(checkFilmCharacters());
+      });
   } else {
     dispatch(skipFetchCharacter(charId));
+    dispatch(checkFilmCharacters());
   }
-  dispatch(checkFilmCharacters());
 };
 
 export const checkFilmCharacters = () => (dispatch, getState) => {

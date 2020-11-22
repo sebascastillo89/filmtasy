@@ -1,7 +1,9 @@
 import * as Action from "./characterActions";
-import moxios from "moxios";
+import axios from "axios";
 
 jest.setTimeout(10000);
+jest.mock("axios");
+
 describe("Characters actions", () => {
   describe("Requesting a film character", () => {
     it("When id is specified, then the payload include the same characterId", () => {
@@ -154,84 +156,89 @@ describe("Characters actions", () => {
 
   describe("Thunk characters", () => {
     describe("fetchCharacter", () => {
-      beforeEach(() => {
-        moxios.install();
-      });
-      afterEach(() => {
-        moxios.uninstall();
-      });
-
-      it("When API return 200OK, then dispatch data", async () => {
-        moxios.wait(function () {
-          let request = moxios.requests.mostRecent();
-          request.respondWith({
+      it("When API return 200OK, then dispatch data", () => {
+        axios.get.mockImplementationOnce(() =>
+          Promise.resolve({
             status: 200,
-            response: { name: "MyName" },
-          });
-        });
+            data: { name: "MyName" },
+          })
+        );
+
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           characters: [{ id: 2 }],
+          currentFilm: {},
         });
-        await Action.fetchCharacter(1)(dispatch, getState);
-        expect(dispatch.mock.calls[0][0]).toEqual({
-          type: "FETCH_CHARACTER_REQUEST",
-          payload: { characterId: 1 },
-        });
-        expect(dispatch.mock.calls[1][0]).toEqual({
-          type: "FETCH_CHARACTER_SUCCESS",
-          payload: { characterId: 1 },
-        });
-        expect(dispatch.mock.calls[2][0]).toEqual({
-          type: "ADD_CHARACTER",
-          payload: {
-            characterId: 1,
-            success: true,
-            character: { name: "MyName" },
-          },
-        });
+        return Action.fetchCharacter(1)(dispatch, getState)
+          .then(function () {
+            expect(dispatch.mock.calls[0][0]).toEqual({
+              type: "FETCH_CHARACTER_REQUEST",
+              payload: { characterId: 1 },
+            });
+            expect(dispatch.mock.calls[1][0]).toEqual({
+              type: "FETCH_CHARACTER_SUCCESS",
+              payload: { characterId: 1 },
+            });
+            expect(dispatch.mock.calls[2][0]).toEqual({
+              type: "ADD_CHARACTER",
+              payload: {
+                characterId: 1,
+                success: true,
+                character: { name: "MyName" },
+              },
+            });
+          })
+          .catch(function (err) {
+            expect(true).toEqual(false);
+          });
       });
 
-      it("When API return 500Error, then dispatch errors", async () => {
-        moxios.wait(function () {
-          let request = moxios.requests.mostRecent();
-          request.reject({
+      it("When API return 500Error, then dispatch errors", () => {
+        axios.get.mockImplementationOnce(() =>
+          Promise.reject({
             status: 500,
-            response: null,
-          });
-        });
+          })
+        );
+
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
-          characters: [{ id: 2 }],
+          characters: [],
+          currentFilm: {},
         });
-        await Action.fetchCharacter(1)(dispatch, getState);
-        expect(dispatch.mock.calls[0][0]).toEqual({
-          type: "FETCH_CHARACTER_REQUEST",
-          payload: { characterId: 1 },
-        });
-        expect(dispatch.mock.calls[1][0]).toEqual({
-          type: "FETCH_CHARACTER_FAILURE",
-        });
-        expect(dispatch.mock.calls[2][0]).toEqual({
-          type: "ADD_ERROR",
-          payload: { error: "errorFetchingCharacter" },
-        });
-        expect(dispatch.mock.calls[3][0]).toEqual({
-          type: "ADD_CHARACTER",
-          payload: {
-            characterId: 1,
-            success: false,
-            character: null,
-          },
-        });
+        return Action.fetchCharacter(1)(dispatch, getState)
+          .then(function () {
+            expect(dispatch.mock.calls[0][0]).toEqual({
+              type: "FETCH_CHARACTER_REQUEST",
+              payload: { characterId: 1 },
+            });
+            expect(dispatch.mock.calls[1][0]).toEqual({
+              type: "FETCH_CHARACTER_FAILURE",
+            });
+            expect(dispatch.mock.calls[2][0]).toEqual({
+              type: "ADD_ERROR",
+              payload: { error: "errorFetchingCharacter" },
+            });
+            expect(dispatch.mock.calls[3][0]).toEqual({
+              type: "ADD_CHARACTER",
+              payload: {
+                characterId: 1,
+                success: false,
+                character: null,
+              },
+            });
+          })
+          .catch(function (err) {
+            expect(true).toEqual(false);
+          });
       });
 
-      it("When character is cached, then skip fetch", async () => {
+      it("When character is cached, then skip fetch", () => {
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           characters: [{ id: 2 }],
+          currentFilm: {},
         });
-        await Action.fetchCharacter(2)(dispatch, getState);
+        Action.fetchCharacter(2)(dispatch, getState);
         expect(dispatch.mock.calls[0][0]).toEqual({
           type: "FETCH_CHARACTER_REQUEST",
           payload: { characterId: 2 },
@@ -243,7 +250,7 @@ describe("Characters actions", () => {
     });
 
     describe("checkFilmCharacters", () => {
-      it("When current film has no pending characters, then dispatch an action", async () => {
+      it("When current film has no pending characters, then dispatch an action", () => {
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           currentFilm: { id: 4, isFetchingCharacters: true },
@@ -257,7 +264,7 @@ describe("Characters actions", () => {
         });
       });
 
-      it("When current film is not fetching characters, then dispatch anything", async () => {
+      it("When current film is not fetching characters, then dispatch anything", () => {
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           currentFilm: { isFetchingCharacters: false },
@@ -266,7 +273,7 @@ describe("Characters actions", () => {
         expect(dispatch.mock.calls).toEqual([]);
       });
 
-      it("When current film is fetching characters but there are an character fetching, then dispatch anything", async () => {
+      it("When current film is fetching characters but there are an character fetching, then dispatch anything", () => {
         const dispatch = jest.fn();
         const getState = jest.fn().mockReturnValue({
           currentFilm: { id: 4, isFetchingCharacters: true },
