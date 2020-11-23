@@ -81,9 +81,8 @@ In addition, this repo include 32 E2E test to ensure the application flow behave
 
 As a side-project, Filmtasy is currently ongoing and we are dealing with technical debt:
 
-- Random error in unit testing. Sometimes runs OK, sometimes it appears as a UnhandledPromiseRejectionWarning, sometimes fail. This bug is driving me crazy!
 - SWAPI does not provide images, so we get this images from local json. I implemented a Lambda + API Gateway function in AWS that gets the URL of the image filtered by filmId or characterId. However, it is not yet integrated into Filmtasy. Click here to [test this feature](https://bbwg66udlg.execute-api.eu-west-1.amazonaws.com/test/covers?filmId=1)
-- TO-DO: Docker
-- TO-DO: Error tracking
+- There are no error tracking. What happened in Filmtasy, stays in Filmtasy
+- In next steps, I would like to deploy Filmtasy as Docker Container
 
 ![May the force be with you.](https://www.clipartkey.com/mpngs/m/6-62632_clip-art-may-the-force-be-with-you.png)
