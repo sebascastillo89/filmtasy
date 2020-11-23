@@ -32,11 +32,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Filmtasy uses [React-Router-Dom](https://reactrouter.com/web/guides/quick-start) as client-side routing, allowing to navigate between different components, changing the browser URL, modifying the browser history, and keeping the UI state in sync. We define five routes in our application:
 
-- / shows the list of films
-- /films/:id shows information about a single film (by id)
-- /characters/:id shows information about a single character (by id)
-- /favourites shows user's favourites films
-- /about shows information about project and a link to our repository
+- `/` shows the list of films
+- `/films/:id` shows information about a single film (by id)
+- `/characters/:id` shows information about a single character (by id)
+- `/favourites` shows user's favourites films
+- `/about` shows information about project and a link to our repository
 
 ### Redux
 
@@ -74,8 +74,8 @@ For testing, we import the following dependencies:
 - [enzyme](https://enzymejs.github.io/enzyme/) as testing utility for testing components
 - [cypress](https://www.cypress.io/) as tool for end2end testing.
 
-Over 90% filmtasy code are coverage by unit testing. Run **yarn test --coverage -watchAll** for review the report
-There are 32 E2E test to ensure the application flow behaves as expected. Run **yarn run cypress open** for Launch Cypress Suite.
+Over 95% filmtasy code are coverage by unit testing. Run **yarn test --coverage -watchAll** for review the report.
+In addition, this repo include 32 E2E test to ensure the application flow behaves as expect. Run **yarn run cypress open** for Launch Cypress Suite.
 
 ## Technical Debt
 
