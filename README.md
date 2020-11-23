@@ -60,7 +60,7 @@ Using Axios combined with Redux-Thunk, we can display a spinner while the data i
 ### i18n
 
 Filmtasy is available in Spanish and English, using [i18next](https://www.i18next.com/) as internationalization-framework.
-You can change language in our navigation bar.
+You can change language in the navigation bar.
 
 ### React Bootstrap
 
@@ -82,7 +82,8 @@ There are 32 E2E test to ensure the application flow behaves as expected. Run **
 As a side-project, Filmtasy is currently ongoing and we are dealing with technical debt:
 
 - Random error in unit testing. Sometimes runs OK, sometimes it appears as a UnhandledPromiseRejectionWarning, sometimes fail. This bug is driving me crazy!
-- SWAPI does not provide images, so we have covers and characters pictures in local json. We could implement a wrapper API to SWAPI
+- SWAPI does not provide images, so we get this images from local json. I implemented a Lambda + API Gateway function in AWS that gets the URL of the image filtered by filmId or characterId. However, it is not yet integrated into Filmtasy. Click here to [test this feature](https://bbwg66udlg.execute-api.eu-west-1.amazonaws.com/test/covers?filmId=1)
 - TO-DO: Docker
+- TO-DO: Error tracking
 
 ![May the force be with you.](https://www.clipartkey.com/mpngs/m/6-62632_clip-art-may-the-force-be-with-you.png)

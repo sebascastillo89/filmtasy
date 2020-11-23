@@ -77,6 +77,8 @@ describe("Characters reducers", () => {
           item: {
             name: "charName",
             id: 1,
+            image:
+              "https://lumiere-a.akamaihd.net/v1/images/screen_shot_2015-07-24_at_1_84da9ffb.jpeg?width=600",
           },
         },
       ]);

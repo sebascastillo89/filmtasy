@@ -32,10 +32,14 @@ function FilmsBoard({ onlyFav, films }) {
       }
     });
     return (
-      <div>
+      <>
         <p>{t("FilmBoardDesc")}</p>
-        <CardDeck>{filmSmallCards}</CardDeck>
-      </div>
+        <center>
+          <CardDeck style={{ justifyContent: "center" }}>
+            {filmSmallCards}
+          </CardDeck>
+        </center>
+      </>
     );
   }
 }

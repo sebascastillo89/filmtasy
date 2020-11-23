@@ -15,8 +15,7 @@ function FilmCard({ filmId, films }) {
   } else {
     return (
       <Card style={{ width: "100%" }}>
-        <Card.Body>
-          <Card.Img variant="top" src={film.coverImage} />
+        <Card.Body className="justify">
           <Card.Title>
             {film.title} <FavStar id={filmId} type="film" />
           </Card.Title>
@@ -33,13 +32,12 @@ function FilmCard({ filmId, films }) {
           <Card.Text>
             <b>{t("Producer")}</b> {film.producer}
           </Card.Text>
-          <Card.Text>
-            <b>
-              {t("Characters")} ({film.characters?.length ?? 0}):
-            </b>
-          </Card.Text>
+          <b>
+            {t("Characters")} ({film.characters?.length ?? 0}):{" "}
+          </b>
           <CharacterList film={film} />
         </Card.Body>
+        <Card.Img variant="bottom" src={film.coverImage} />
       </Card>
     );
   }

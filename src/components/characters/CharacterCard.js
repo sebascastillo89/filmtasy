@@ -16,10 +16,9 @@ function CharacterCard({ characterId, characters }) {
     return null;
   } else {
     return (
-      <Card style={{ width: "100%" }}>
+      <Card>
         <CharBreadcrumb charName={character.item.name} />
         <Card.Body>
-          <Card.Img variant="top" src={character.item.image} />
           <Card.Title>
             {character.item.name} <FavStar id={id} type="character" />
           </Card.Title>
@@ -42,6 +41,7 @@ function CharacterCard({ characterId, characters }) {
             <b>{t("EyeColor")}</b> {character.item.eye_color}
           </Card.Text>
         </Card.Body>
+        <Card.Img variant="bottom" src={character.item.image} />
       </Card>
     );
   }
