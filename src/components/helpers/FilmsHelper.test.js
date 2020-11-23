@@ -2,11 +2,17 @@ import * as Helper from "./FilmsHelper";
 
 describe("Films Helper", () => {
   describe("getIdFromUrl", () => {
-    it("Valid url", () => {
+    it("When valid url is specified, then return id", () => {
       const result = Helper.getIdFromUrl("api/films/6/");
       expect(result).toBe(6);
     });
-    it("Invalid url", () => {
+
+    it("When url contains invalid id is specified, then return null", () => {
+      const result = Helper.getIdFromUrl("api/films/NaN/");
+      expect(result).toBe(null);
+    });
+
+    it("When invalid url is specified, then return null", () => {
       const result = Helper.getIdFromUrl("api/invalidUri/6");
       expect(result).toBe(null);
     });
@@ -24,18 +30,41 @@ describe("Films Helper", () => {
       characters: null,
     };
 
-    it("success", () => {
+    it("When valid json is specified, then return a film", () => {
       const result = Helper.mapJsonToFilm(json);
       expect(result.id).toBe(6);
       expect(result.characters).toBe(undefined);
     });
-    it("Invalid url", () => {
+
+    it("When valid json is specified and include characters, then return a film", () => {
+      const result = Helper.mapJsonToFilm({
+        ...json,
+        characters: ["/people/1/"],
+      });
+      expect(result.id).toBe(6);
+      expect(result.characters.length).toBe(1);
+      expect(result.characters[0]).toBe(1);
+    });
+
+    it("When json contains invalid url, then returns null", () => {
       const result = Helper.mapJsonToFilm({ ...json, url: "invalid" });
       expect(result).toBe(null);
     });
-    it("null", () => {
+
+    it("When json is not specified, then returns null list", () => {
       const result = Helper.mapJsonToFilm();
       expect(result).toBe(null);
+    });
+
+    it("When json is not specified, then returns empty film list", () => {
+      const result = Helper.mapJsonToFilms();
+      expect(result.length).toBe(0);
+    });
+
+    it("When valid json is specified, then return a array of film", () => {
+      const result = Helper.mapJsonToFilms([json]);
+      expect(result.length).toBe(1);
+      expect(result[0].id).toBe(6);
     });
   });
 

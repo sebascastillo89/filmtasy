@@ -2,7 +2,7 @@ import errors from "./errors";
 
 describe("Error reducers", () => {
   describe("ADD", () => {
-    it("Adding error", () => {
+    it("When add new error, then include it in errors state", () => {
       const newState = errors([], {
         type: "ADD_ERROR",
         payload: { error: "errorTest" },
@@ -12,7 +12,7 @@ describe("Error reducers", () => {
     });
   });
   describe("SKIP", () => {
-    it("Adding existing error", () => {
+    it("When add existing error, then include anything", () => {
       const newState = errors(["errorTest"], {
         type: "ADD_ERROR",
         payload: { error: "errorTest" },
@@ -22,7 +22,7 @@ describe("Error reducers", () => {
     });
   });
   describe("REMOVE", () => {
-    it("Removing error", () => {
+    it("When remove existing error, then splice current error state", () => {
       const newState = errors(["errorTest"], {
         type: "REMOVE_ERROR",
         payload: { index: 0 },
@@ -32,7 +32,7 @@ describe("Error reducers", () => {
     });
   });
   describe("DEFAULT", () => {
-    it("default", () => {
+    it("When default action dispatched, then return the same state", () => {
       const newState = errors(["errorTest"], {
         type: "DEFAULT",
       });

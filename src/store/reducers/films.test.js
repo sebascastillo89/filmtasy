@@ -1,8 +1,8 @@
 import films from "./films";
 
 describe("Films reducers", () => {
-  describe("Request", () => {
-    it("fetch all films (REQUEST)", () => {
+  describe("REQUEST", () => {
+    it("When fetch films, then update films state", () => {
       const newState = films(
         {
           isFetching: false,
@@ -14,8 +14,8 @@ describe("Films reducers", () => {
       expect(newState.isFetching).toEqual(true);
     });
   });
-  describe("Success", () => {
-    it("fetch all films (SUCCESS)", () => {
+  describe("SUCCESS", () => {
+    it("When fetch films successfully, then update films state and add the new film", () => {
       const newState = films(
         {
           isFetching: true,
@@ -40,8 +40,8 @@ describe("Films reducers", () => {
       expect(newState.items.length).toEqual(1);
     });
   });
-  describe("Error", () => {
-    it("fetch all films (ERROR)", () => {
+  describe("FAILURE", () => {
+    it("When fetch films with errors, then update films state", () => {
       const newState = films(
         {
           isFetching: true,
@@ -54,8 +54,8 @@ describe("Films reducers", () => {
       expect(newState.items.length).toEqual(0);
     });
   });
-  describe("Skip", () => {
-    it("fetch all films (SKIP)", () => {
+  describe("SKIP", () => {
+    it("When skip films request, then update films state", () => {
       const newState = films(
         {
           isFetching: true,
@@ -68,8 +68,8 @@ describe("Films reducers", () => {
       expect(newState.items.length).toEqual(1);
     });
   });
-  describe("Add", () => {
-    it("Add film", () => {
+  describe("ADD", () => {
+    it("When add new film, then update films state", () => {
       const newState = films(
         {
           isFetching: true,
@@ -90,8 +90,8 @@ describe("Films reducers", () => {
       expect(newState.items.length).toEqual(2);
     });
   });
-  describe("Default", () => {
-    it("Default", () => {
+  describe("DEFAULT", () => {
+    it("When default action is dispatched, then return the same error", () => {
       const newState = films(
         {
           isFetching: true,

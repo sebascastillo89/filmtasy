@@ -6,24 +6,25 @@ import thunk from "redux-thunk";
 import CharBreadcrumb from "./CharBreadcrumb";
 import { Route, MemoryRouter } from "react-router-dom";
 
-function getWrapper(state, charname) {
-  const reducer = jest.fn().mockReturnValue(state);
-  const store = createStore(reducer, applyMiddleware(thunk));
-
-  return mount(
-    <Provider store={store}>
-      <MemoryRouter initialEntries={["characters/1"]}>
-        <Route path="characters/:id">
-          <CharBreadcrumb charName={charname} />
-        </Route>
-      </MemoryRouter>
-    </Provider>
-  );
-}
-
 describe("CharBreadcrumb", () => {
-  it("No render name cause no film is selected", () => {
-    const wrapper = getWrapper(
+  let wrapper;
+  function mountWrapper(state, charname) {
+    const reducer = jest.fn().mockReturnValue(state);
+    const store = createStore(reducer, applyMiddleware(thunk));
+
+    wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["characters/1"]}>
+          <Route path="characters/:id">
+            <CharBreadcrumb charName={charname} />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    );
+  }
+
+  it("When current film is not selected, then is empty render", () => {
+    mountWrapper(
       {
         currentFilm: {},
         films: { items: [] },
@@ -31,11 +32,10 @@ describe("CharBreadcrumb", () => {
       "MyName"
     );
     expect(wrapper.isEmptyRender()).toBe(true);
-    expect(wrapper.exists("Breadcrumb")).toBe(false);
   });
 
-  it("Render breadcrumb", () => {
-    const wrapper = getWrapper(
+  it("When current film is selected, then render Breadcrumb", () => {
+    mountWrapper(
       {
         currentFilm: { id: 1 },
         films: { items: [{ id: 1, title: "MyTitle" }] },

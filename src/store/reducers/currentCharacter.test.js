@@ -1,8 +1,8 @@
 import currentCharacter from "./currentCharacter";
 
 describe("Current character reducers", () => {
-  describe("Request", () => {
-    it("fetch character (REQUEST)", () => {
+  describe("REQUEST", () => {
+    it("Whem fetch request, then update currentCharacter state", () => {
       const newState = currentCharacter(
         {
           id: null,
@@ -17,8 +17,8 @@ describe("Current character reducers", () => {
     });
   });
 
-  describe("Success", () => {
-    it("fetch character (SUCCESS)", () => {
+  describe("SUCCESS", () => {
+    it("When fecth successfully, then update currentCharacter state", () => {
       const newState = currentCharacter(
         {
           id: 1,
@@ -33,8 +33,8 @@ describe("Current character reducers", () => {
     });
   });
 
-  describe("Error", () => {
-    it("fetch character (ERROR)", () => {
+  describe("FAILURE", () => {
+    it("When fecth with errors, then update currentCharacter state", () => {
       const newState = currentCharacter(
         {
           id: 1,
@@ -49,8 +49,8 @@ describe("Current character reducers", () => {
     });
   });
 
-  describe("Skip", () => {
-    it("fetch character (SKIP)", () => {
+  describe("SKIP", () => {
+    it("When fecth is skipped, then update currentCharacter state", () => {
       const newState = currentCharacter(
         {
           id: 1,
@@ -66,8 +66,8 @@ describe("Current character reducers", () => {
   });
 });
 
-describe("Default case", () => {
-  it("default", () => {
+describe("DEFAULT", () => {
+  it("When default action dispatched, then update currentCharacter state", () => {
     const newState = currentCharacter(
       {
         id: 1,

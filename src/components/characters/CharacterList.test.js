@@ -7,11 +7,12 @@ import CharacterList from "./CharacterList";
 import { Route, MemoryRouter } from "react-router-dom";
 
 describe("Character List", () => {
-  function getListWrapper(state, film) {
+  let wrapper;
+  function mountWrapper(state, film) {
     const reducer = jest.fn().mockReturnValue(state);
     const store = createStore(reducer, applyMiddleware(thunk));
 
-    return mount(
+    wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={["films"]}>
           <Route path="films">
@@ -22,8 +23,8 @@ describe("Character List", () => {
     );
   }
 
-  it("Render spinner cause different char selected", () => {
-    const wrapper = getListWrapper(
+  it("When is not the current film, then render Spinner", () => {
+    mountWrapper(
       {
         currentFilm: { id: 1 },
         characters: [{ id: 1, item: { id: 1, name: "MyName" } }],
@@ -35,8 +36,8 @@ describe("Character List", () => {
     expect(wrapper.exists("CharacterLinkedName")).toBe(false);
   });
 
-  it("Render spinner cause is fetching chars", () => {
-    const wrapper = getListWrapper(
+  it("When is fetching characters, then render SPinner", () => {
+    mountWrapper(
       {
         currentFilm: { id: 1, isFetchingCharacters: true },
         characters: [{ id: 1, item: { id: 1, name: "MyName" } }],
@@ -48,8 +49,8 @@ describe("Character List", () => {
     expect(wrapper.exists("CharacterLinkedName")).toBe(false);
   });
 
-  it("Render character name", () => {
-    const wrapper = getListWrapper(
+  it("When character is fetched, then render the linked name", () => {
+    mountWrapper(
       {
         currentFilm: { id: 1, isFetchingCharacters: false },
         characters: [{ id: 1, item: { id: 1, name: "MyName" } }],

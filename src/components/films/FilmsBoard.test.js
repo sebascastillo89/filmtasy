@@ -6,24 +6,24 @@ import FilmsBoard from "./FilmsBoard";
 import thunk from "redux-thunk";
 import { Route, MemoryRouter } from "react-router-dom";
 
-function getBoardWrapper(state) {
-  const reducer = jest.fn().mockReturnValue(state);
-  const store = createStore(reducer, applyMiddleware(thunk));
-  return mount(
-    <Provider store={store}>
-      <MemoryRouter initialEntries={["films"]}>
-        <Route path="films">
-          <FilmsBoard />
-        </Route>
-      </MemoryRouter>
-    </Provider>
-  );
-}
-
 describe("FilmBoard", () => {
+  let wrapper;
+  function mountWrapper(state) {
+    const reducer = jest.fn().mockReturnValue(state);
+    const store = createStore(reducer, applyMiddleware(thunk));
+    wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["films"]}>
+          <Route path="films">
+            <FilmsBoard />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    );
+  }
   describe("Films are fetching", () => {
-    it("When films are fetching, then shows spinner", () => {
-      const wrapper = getBoardWrapper({
+    it("When films are fetching, then render Spinner", () => {
+      mountWrapper({
         films: {
           isFetching: true,
           isCached: false,
@@ -35,44 +35,42 @@ describe("FilmBoard", () => {
     });
   });
   describe("There are no films", () => {
-    it("When there are no films, then no render (empty case)", () => {
-      const wrapper = getBoardWrapper({
+    it("When there are no films (empty case), then is empty render", () => {
+      mountWrapper({
         films: {
           isFetching: false,
           isCached: false,
           items: [],
         },
       });
-
       expect(wrapper.isEmptyRender()).toBe(true);
     });
 
-    it("When there are no films, then no render (null case)", () => {
-      const wrapper = getBoardWrapper({
+    it("When there are no films (null case), then is empty render", () => {
+      mountWrapper({
         films: {
           isFetching: false,
           isCached: false,
-          items: [],
+          items: null,
         },
       });
-
       expect(wrapper.isEmptyRender()).toBe(true);
     });
 
-    it("When there are no films, then no render (undefined case)", () => {
-      const wrapper = getBoardWrapper({
+    it("When there are no films (undefined case), then is empty render", () => {
+      mountWrapper({
         films: {
           isFetching: false,
           isCached: false,
         },
       });
-
       expect(wrapper.isEmptyRender()).toBe(true);
     });
   });
+
   describe("There are films", () => {
     it("When films are fetched, then render CardDeck", () => {
-      const wrapper = getBoardWrapper({
+      mountWrapper({
         films: {
           isFetching: false,
           isCached: false,
@@ -93,6 +91,7 @@ describe("FilmBoard", () => {
       expect(wrapper.exists("CardDeck")).toBe(true);
     });
   });
+
   describe("Show only favourites", () => {
     it("When receive onlyFav param, then render CardDeck", () => {
       const reducer = jest.fn().mockReturnValue({

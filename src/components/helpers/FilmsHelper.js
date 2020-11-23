@@ -7,9 +7,9 @@ export function getIdFromUrl(filmUrl) {
 
   if (filmPrefixIndex >= 0 && filmSuffixIndex) {
     const filmId = filmUrl.substring(filmPrefixIndex + 6, filmSuffixIndex);
-    if (!Number.isInteger(filmId)) {
-      return parseInt(filmId);
-    }
+    const filmInt = parseInt(filmId);
+
+    return isNaN(filmInt) ? null : filmInt;
   }
   return null;
 }

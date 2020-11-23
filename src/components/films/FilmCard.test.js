@@ -5,21 +5,36 @@ import { createStore, applyMiddleware } from "redux";
 import FilmCard from "./FilmCard";
 import thunk from "redux-thunk";
 
-function getFilmCardWrapper(state, filmId) {
-  const reducer = jest.fn().mockReturnValue(state);
-
-  const store = createStore(reducer, applyMiddleware(thunk));
-  return mount(
-    <Provider store={store}>
-      <FilmCard filmId={filmId} />
-    </Provider>
-  );
-}
-
 describe("Film Card", () => {
+  let wrapper;
+  function mountComponent(state, filmId) {
+    const reducer = jest.fn().mockReturnValue(state);
+    const store = createStore(reducer, applyMiddleware(thunk));
+    wrapper = mount(
+      <Provider store={store}>
+        <FilmCard filmId={filmId} />
+      </Provider>
+    );
+  }
+
   describe("There are no films", () => {
-    it("Empty case", () => {
-      const wrapper = getFilmCardWrapper(
+    it("When items does not contains current film, then is empty render", () => {
+      mountComponent(
+        {
+          films: {
+            isFetching: false,
+            isCached: false,
+            items: [{ id: 2 }],
+          },
+          currentFilm: { id: 1 },
+        },
+        1
+      );
+      expect(wrapper.isEmptyRender()).toBe(true);
+    });
+
+    it("When items are empty, then is empty render", () => {
+      mountComponent(
         {
           films: {
             isFetching: false,
@@ -32,60 +47,12 @@ describe("Film Card", () => {
       );
 
       expect(wrapper.isEmptyRender()).toBe(true);
-      expect(wrapper.exists("Card")).toBe(false);
-    });
-
-    it("Non exists case", () => {
-      const wrapper = getFilmCardWrapper(
-        {
-          films: {
-            isFetching: false,
-            isCached: false,
-            items: [{ id: 2 }],
-          },
-          currentFilm: { id: 1 },
-        },
-        1
-      );
-
-      expect(wrapper.isEmptyRender()).toBe(true);
-      expect(wrapper.exists("Card")).toBe(false);
     });
   });
+
   describe("There are films", () => {
-    it("Render films and chars", () => {
-      const wrapper = getFilmCardWrapper(
-        {
-          films: {
-            isFetching: false,
-            isCached: false,
-            items: [
-              {
-                id: 1,
-                title: "title",
-                episode_id: 4,
-                opening_crawl: "crawl",
-                director: "director",
-                producer: "producer",
-                release_date: "1977-05-25",
-                characters: [{ id: 1 }],
-                url: "http://swapi.dev/api/films/1/",
-              },
-            ],
-          },
-          currentFilm: { id: 1, isFetching: false },
-          characters: [{ id: 1 }],
-        },
-        1
-      );
-
-      expect(wrapper.exists("NotFound")).toBe(false);
-      expect(wrapper.exists("Card")).toBe(true);
-      expect(wrapper.text().includes("(1)")).toBe(true);
-    });
-
-    it("Render films with no chars", () => {
-      const wrapper = getFilmCardWrapper(
+    it("When items contains current film, then render Card", () => {
+      mountComponent(
         {
           films: {
             isFetching: false,
@@ -105,7 +72,37 @@ describe("Film Card", () => {
             ],
           },
           currentFilm: { id: 1, isFetching: false },
-          characters: [],
+          characters: [{ id: 1 }],
+        },
+        1
+      );
+
+      expect(wrapper.exists("NotFound")).toBe(false);
+      expect(wrapper.exists("Card")).toBe(true);
+    });
+
+    it("When current film does not contains character, then render empty char list", () => {
+      mountComponent(
+        {
+          films: {
+            isFetching: false,
+            isCached: false,
+            items: [
+              {
+                id: 1,
+                title: "title",
+                episode_id: 4,
+                opening_crawl: "crawl",
+                director: "director",
+                producer: "producer",
+                release_date: "1977-05-25",
+                characters: null,
+                url: "http://swapi.dev/api/films/1/",
+              },
+            ],
+          },
+          currentFilm: { id: 1, isFetching: false },
+          characters: [{ id: 1 }],
         },
         1
       );

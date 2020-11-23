@@ -7,11 +7,11 @@ import CharacterLinkedName from "./CharacterLinkedName";
 import { Route, MemoryRouter } from "react-router-dom";
 
 describe("Character Card", () => {
-  function getWrapper(state) {
+  let wrapper;
+  function mountWrapper(state) {
     const reducer = jest.fn().mockReturnValue(state);
     const store = createStore(reducer, applyMiddleware(thunk));
-
-    return mount(
+    wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={["films/1"]}>
           <Route path="films/:id">
@@ -22,16 +22,16 @@ describe("Character Card", () => {
     );
   }
 
-  it("Not found case", () => {
-    const wrapper = getWrapper({
+  it("When characters does not exists, then is empty render", () => {
+    mountWrapper({
       characters: [],
     });
     expect(wrapper.isEmptyRender()).toBe(true);
     expect(wrapper.exists("a")).toBe(false);
   });
 
-  it("Render link", () => {
-    const wrapper = getWrapper({
+  it("When characters exists, then render a link name", () => {
+    mountWrapper({
       characters: [{ id: 1, item: { name: "MyName" } }],
     });
     expect(wrapper.isEmptyRender()).toBe(false);

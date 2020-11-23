@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 import FilmSmallCard from "./FilmSmallCard";
 
 describe("Film small card", () => {
-  it("Render link", () => {
+  it("When mount component, then show film data", () => {
     const wrapper = shallow(
       <FilmSmallCard title="MyTitle" subtitle="MySubtitle" src="" id="1" />
     );

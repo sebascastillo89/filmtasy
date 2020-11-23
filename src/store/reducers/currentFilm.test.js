@@ -1,8 +1,8 @@
 import currentFilm from "./currentFilm";
 
 describe("Current film reducers", () => {
-  describe("Request", () => {
-    it("fetch film (REQUEST)", () => {
+  describe("REQUEST", () => {
+    it("When fetch request, then update currentFilm state", () => {
       const newState = currentFilm(
         {
           id: null,
@@ -19,8 +19,8 @@ describe("Current film reducers", () => {
     });
   });
 
-  describe("Success", () => {
-    it("fetch film (SUCCESS)", () => {
+  describe("SUCCESS", () => {
+    it("When fetch successfully, then update currentFilm state", () => {
       const newState = currentFilm(
         {
           id: 1,
@@ -36,8 +36,8 @@ describe("Current film reducers", () => {
       expect(newState.isFailure).toEqual(false);
     });
   });
-  describe("Error", () => {
-    it("fetch film (ERROR)", () => {
+  describe("FAILURE", () => {
+    it("When fetch with errors, then update currentFilm state", () => {
       const newState = currentFilm(
         {
           id: 1,
@@ -53,8 +53,9 @@ describe("Current film reducers", () => {
       expect(newState.isFailure).toEqual(true);
     });
   });
-  describe("Skip", () => {
-    it("fetch film (SKIP)", () => {
+
+  describe("SKIP", () => {
+    it("When fetch is skipped, then update currentFilm state", () => {
       const newState = currentFilm(
         {
           id: 1,
@@ -71,7 +72,7 @@ describe("Current film reducers", () => {
   });
 
   describe("Fetching film characters", () => {
-    it("fetch film characters", () => {
+    it("When film characters fetched successfully, then update currentFilm state", () => {
       const newState = currentFilm(
         {
           id: 1,
@@ -88,8 +89,8 @@ describe("Current film reducers", () => {
     });
   });
 
-  describe("Default", () => {
-    it("default", () => {
+  describe("DEFAULT", () => {
+    it("When default state dispatched, the return the same state", () => {
       const newState = currentFilm(
         {
           id: 1,

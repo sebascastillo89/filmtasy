@@ -6,9 +6,9 @@ export function getIdFromUrl(characterUrl) {
 
   if (charPrefixIndex >= 0 && charSuffixIndex) {
     const charId = characterUrl.substring(charPrefixIndex + 7, charSuffixIndex);
-    if (!Number.isInteger(charId)) {
-      return parseInt(charId);
-    }
+    const charInt = parseInt(charId);
+
+    return isNaN(charInt) ? null : charInt;
   }
   return null;
 }

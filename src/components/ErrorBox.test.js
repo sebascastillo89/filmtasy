@@ -6,39 +6,49 @@ import thunk from "redux-thunk";
 import ErrorBox from "./ErrorBox";
 
 describe("ErrorBox", () => {
+  let wrapper;
+  let store;
   function getErrorWrapper(state) {
     const reducer = jest.fn().mockReturnValue(state);
-    const store = createStore(reducer, applyMiddleware(thunk));
-
-    return mount(
+    store = createStore(reducer, applyMiddleware(thunk));
+    store.dispatch = jest.fn();
+    wrapper = mount(
       <Provider store={store}>
         <ErrorBox />
       </Provider>
     );
   }
-
-  it("No render because there is no errors", () => {
-    const wrapper = getErrorWrapper({});
+  it("When there are no errors, then is empty render (null case)", () => {
+    getErrorWrapper({});
     expect(wrapper.isEmptyRender()).toBe(true);
     expect(wrapper.exists("Alert")).toBe(false);
   });
 
-  it("No render because there errors is empty", () => {
-    const wrapper = getErrorWrapper({
+  it("When there are no errors, then is empty render (empty case)", () => {
+    getErrorWrapper({
       errors: [],
     });
     expect(wrapper.isEmptyRender()).toBe(true);
     expect(wrapper.exists("Alert")).toBe(false);
   });
 
-  it("Render errors", () => {
-    const wrapper = getErrorWrapper({
+  it("When there are errors, then render Alert", () => {
+    getErrorWrapper({
       errors: ["errorTest"],
     });
     expect(wrapper.isEmptyRender()).toBe(false);
     expect(wrapper.exists("Alert")).toBe(true);
   });
 
-  //TODO Technical-doubt:
-  //I must find the way to simulate onClose event and assert action is dispatched
+  it("When click on close alert, then dispatch an action", () => {
+    getErrorWrapper({
+      errors: ["errorTest"],
+    });
+    wrapper.find("button").simulate("click");
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith({
+      type: "REMOVE_ERROR",
+      payload: { index: 0 },
+    });
+  });
 });

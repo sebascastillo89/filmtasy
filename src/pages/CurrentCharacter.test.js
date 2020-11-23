@@ -7,10 +7,13 @@ import thunk from "redux-thunk";
 import { Route, MemoryRouter } from "react-router-dom";
 
 describe("Character page", () => {
-  function getCharacterWrapper(state) {
+  let wrapper;
+  let store;
+  function mountWrapper(state) {
     const reducer = jest.fn().mockReturnValue(state);
-    const store = createStore(reducer, applyMiddleware(thunk));
-    return mount(
+    store = createStore(reducer, applyMiddleware(thunk));
+    store.dispatch = jest.fn();
+    wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={["characters/1"]}>
           <Route path="characters/:id">
@@ -21,8 +24,8 @@ describe("Character page", () => {
     );
   }
 
-  it("Render spinner", () => {
-    const wrapper = getCharacterWrapper({
+  it("When character is fetching, then render Spinner", () => {
+    mountWrapper({
       currentCharacter: {
         isFetching: true,
         id: 1,
@@ -35,8 +38,8 @@ describe("Character page", () => {
     expect(wrapper.exists("CharacterCard")).toBe(false);
   });
 
-  it("Render NotFound", () => {
-    const wrapper = getCharacterWrapper({
+  it("When character is failure, then render NotFound Page", () => {
+    mountWrapper({
       currentCharacter: {
         isFetching: false,
         isFailure: true,
@@ -50,8 +53,8 @@ describe("Character page", () => {
     expect(wrapper.exists("CharacterCard")).toBe(false);
   });
 
-  it("Render card if is different character", () => {
-    const wrapper = getCharacterWrapper({
+  it("When character is not the currentCharacter, then render Spinner", () => {
+    mountWrapper({
       currentCharacter: {
         isFetching: true,
         id: 2,
@@ -63,8 +66,8 @@ describe("Character page", () => {
     expect(wrapper.exists("CharacterCard")).toBe(false);
   });
 
-  it("Render card if is not fetching", () => {
-    const wrapper = getCharacterWrapper({
+  it("When data is fetched, then render Card", () => {
+    mountWrapper({
       currentCharacter: {
         isFetching: false,
         id: 1,
@@ -74,5 +77,17 @@ describe("Character page", () => {
     });
     expect(wrapper.exists("Spinner")).toBe(false);
     expect(wrapper.exists("CharacterCard")).toBe(true);
+  });
+
+  it("When render component, then dispatch an action", () => {
+    mountWrapper({
+      currentCharacter: {
+        isFetching: false,
+        id: 1,
+        item: {},
+      },
+      characters: [],
+    });
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
   });
 });

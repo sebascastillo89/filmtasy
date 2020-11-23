@@ -7,11 +7,13 @@ import thunk from "redux-thunk";
 import { Route, MemoryRouter } from "react-router-dom";
 
 describe("Film page", () => {
-  function getFilmWrapper(state) {
+  let wrapper;
+  let store;
+  function mountWrapper(state) {
     const reducer = jest.fn().mockReturnValue(state);
-    const store = createStore(reducer, applyMiddleware(thunk));
-
-    return mount(
+    store = createStore(reducer, applyMiddleware(thunk));
+    store.dispatch = jest.fn();
+    wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={["films/1"]}>
           <Route path="films/:id">
@@ -22,8 +24,8 @@ describe("Film page", () => {
     );
   }
 
-  it("Render spinner", () => {
-    const wrapper = getFilmWrapper({
+  it("When current film is fetching, then render Spinner", () => {
+    mountWrapper({
       films: {
         isFetching: true,
         isCached: false,
@@ -36,8 +38,8 @@ describe("Film page", () => {
     expect(wrapper.exists("FilmCard")).toBe(false);
   });
 
-  it("Render spinner if is different user", () => {
-    const wrapper = getFilmWrapper({
+  it("When film is not the currentFilm, then render Spinner", () => {
+    mountWrapper({
       films: {
         isFetching: true,
         isCached: false,
@@ -50,8 +52,8 @@ describe("Film page", () => {
     expect(wrapper.exists("FilmCard")).toBe(false);
   });
 
-  it("Render not found", () => {
-    const wrapper = getFilmWrapper({
+  it("When current film is failure, then render NotFound", () => {
+    mountWrapper({
       films: {
         isFetching: true,
         isCached: false,
@@ -64,8 +66,8 @@ describe("Film page", () => {
     expect(wrapper.exists("FilmCard")).toBe(false);
   });
 
-  it("Render card if is not fetching", () => {
-    const wrapper = getFilmWrapper({
+  it("When current film is cached, then render Card", () => {
+    mountWrapper({
       films: {
         isFetching: true,
         isCached: false,
@@ -76,5 +78,17 @@ describe("Film page", () => {
     expect(wrapper.exists("NotFound")).toBe(false);
     expect(wrapper.exists("Spinner")).toBe(false);
     expect(wrapper.exists("FilmCard")).toBe(true);
+  });
+
+  it("When render component, then dispatch an action", () => {
+    mountWrapper({
+      films: {
+        isFetching: true,
+        isCached: false,
+        items: [],
+      },
+      currentFilm: { id: 1, isFetching: false, isFailure: false },
+    });
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
   });
 });
